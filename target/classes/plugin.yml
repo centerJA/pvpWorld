@@ -1,0 +1,4 @@
+name: pvpWorld
+version: '1.0-SNAPSHOT'
+main: mark.tofu.pvpworld.PvpWorld
+api-version: '1.16'

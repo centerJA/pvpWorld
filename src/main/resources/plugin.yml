@@ -1,0 +1,4 @@
+name: pvpWorld
+version: '${project.version}'
+main: mark.tofu.pvpworld.PvpWorld
+api-version: '1.16'
