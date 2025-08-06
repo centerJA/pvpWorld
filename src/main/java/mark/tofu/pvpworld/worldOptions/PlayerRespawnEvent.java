@@ -28,6 +28,8 @@ public class PlayerRespawnEvent implements Listener {
     @EventHandler
     public void onPlayerRespawnEvent(org.bukkit.event.player.PlayerRespawnEvent e) {
         Player player = e.getPlayer();
+        World world = player.getWorld();
+        if (this.world != world) return;
         player.setLevel(0);
         player.getInventory().clear();
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
