@@ -1,20 +1,19 @@
-package mark.tofu.pvpworld.worldOptions;
+package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class PlayerRespawnEvent implements Listener {
+public class PlayerDeathEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public PlayerRespawnEvent(PvpWorld plugin) {
+    public PlayerDeathEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -26,18 +25,13 @@ public class PlayerRespawnEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRespawnEvent(org.bukkit.event.player.PlayerRespawnEvent e) {
-        Player player = e.getPlayer();
+    public void onPlayerDeathEvent(org.bukkit.event.entity.PlayerDeathEvent e) {
+        Player player = e.getEntity();
+        String playerName = player.getName();
         World world = player.getWorld();
         if (this.world != world) return;
-        player.setLevel(0);
-        player.getInventory().clear();
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                player.setGameMode(GameMode.SURVIVAL);
-                player.teleport(Config.lobby);
-            }
-        }, 2L);
+        if (Config.doNotReciveDamageList.contains(playerName)) {
+            e.getDrops().clear();
+        } else return;
     }
 }

@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.worldOptions;
+package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
-
-import java.util.ArrayList;
 
 public class PlayerChangeWorldEvent implements Listener {
     PvpWorld plugin;

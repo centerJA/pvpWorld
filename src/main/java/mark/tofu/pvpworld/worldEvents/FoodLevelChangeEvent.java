@@ -1,19 +1,19 @@
-package mark.tofu.pvpworld.worldOptions;
+package mark.tofu.pvpworld.worldEvents;
 
-import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class EntityDamageEvent implements Listener {
+public class FoodLevelChangeEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public EntityDamageEvent(PvpWorld plugin) {
+    public FoodLevelChangeEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -24,13 +24,14 @@ public class EntityDamageEvent implements Listener {
         }, 10L);
     }
 
+
     @EventHandler
-    public void onEntityDamageEvent(org.bukkit.event.entity.EntityDamageEvent e) {
+    public void onFoodLevelChangeEvent(org.bukkit.event.entity.FoodLevelChangeEvent e) {
         Entity entity = e.getEntity();
-        World world = entity.getWorld();
-        if (this.world != world) return;
-        for (String PlayerName: Config.doNotReciveDamageList) {
-            e.setCancelled(true);
+        if (entity instanceof Player) {
+            Player player = ((Player) entity).getPlayer();
+            if (player == null) return;
+            player.setFoodLevel(20);
         }
     }
 }
