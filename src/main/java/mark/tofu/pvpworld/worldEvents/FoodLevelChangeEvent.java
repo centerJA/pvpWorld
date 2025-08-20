@@ -28,10 +28,18 @@ public class FoodLevelChangeEvent implements Listener {
     @EventHandler
     public void onFoodLevelChangeEvent(org.bukkit.event.entity.FoodLevelChangeEvent e) {
         Entity entity = e.getEntity();
-        if (entity instanceof Player) {
-            Player player = ((Player) entity).getPlayer();
-            if (player == null) return;
-            player.setFoodLevel(20);
+        Player player = (Player) entity;
+        if (player == null) {
+            Bukkit.getLogger().info("test11111111111111");
         }
+        World world = player.getWorld();
+        if (this.world != world) return;
+        player.sendMessage("tes22222t");
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                e.setCancelled(true);
+            }
+        },1L);
     }
 }
