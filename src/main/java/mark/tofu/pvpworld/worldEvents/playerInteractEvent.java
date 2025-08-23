@@ -7,20 +7,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class PlayerInteractEvent implements Listener {
+public class playerInteractEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public PlayerInteractEvent(PvpWorld plugin) {
+    public playerInteractEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -32,7 +35,7 @@ public class PlayerInteractEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteractEvent(org.bukkit.event.player.PlayerInteractEvent e) throws IOException {
+    public void onPlayerInteractEvent(PlayerInteractEvent e) throws IOException {
         Player player = e.getPlayer();
         World world = player.getWorld();
         if (this.world != world) return;
@@ -62,6 +65,16 @@ public class PlayerInteractEvent implements Listener {
                         player.sendMessage("問題が発生しました");
                     }
                     AthleticUtils.startAthleticAction(player, plugin);
+                }
+            }
+        } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = e.getClickedBlock();
+            if (block != null && block.getType() == Material.OAK_WALL_SIGN) {
+                Sign sign = (Sign) block.getState();
+                if (sign == null) return;
+                String[] lines = new String[4];
+                for (int i = 0; i < 4; i++) {
+                    lines[i] = sign.getLine(i);
                 }
             }
         }

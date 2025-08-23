@@ -10,12 +10,14 @@ public final class PvpWorld extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        new PlayerChangeWorldEvent(this);
-        new PlayerDeathEvent(this);
-        new PlayerRespawnEvent(this);
-        new EntityDamageEvent(this);
-        new BlockBreakEvent(this);
-        new PlayerInteractEvent(this);
+        new playerChangeWorldEvent(this);
+        new playerDeathEvent(this);
+        new playerRespawnEvent(this);
+        new entityDamageEvent(this);
+        new blockBreakEvent(this);
+        new playerInteractEvent(this);
+        new foodLevelChangeEvent(this);
+        new onPlayerQuitEvent(this);
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
         Bukkit.getLogger().info("pvpWorld enabled!");

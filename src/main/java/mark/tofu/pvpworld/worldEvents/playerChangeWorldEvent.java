@@ -11,13 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-public class PlayerChangeWorldEvent implements Listener {
+public class playerChangeWorldEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
 //    public static ArrayList<String> worldAllPlayerList;
-    public PlayerChangeWorldEvent(PvpWorld plugin) {
+    public playerChangeWorldEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getLogger().info("pvpWorld plugin loaded");
@@ -36,24 +36,23 @@ public class PlayerChangeWorldEvent implements Listener {
         String playerName = player.getName();
         World world = player.getWorld();
         if (this.world != world) { //他のワールドに移動した時
-            if(Config.worldAllPlayerList.contains(playerName)) {
-                Config.worldAllPlayerList.remove(playerName);
-            }
-            if (Config.doNotReciveDamageList.contains(playerName)) {
-                Config.doNotReciveDamageList.remove(playerName);
-            }
-        } else { //自分のサーバーに来た時
+            Config.worldAllPlayerList.remove(playerName);
+            Config.doNotReciveDamageList.remove(playerName);
+            Config.SpeedRunOnHoldList.remove(playerName);
+        } else {
+            player.sendMessage("test");//自分のサーバーに来た時
             if (!Config.worldAllPlayerList.contains(playerName)) {
                 Config.worldAllPlayerList.add(playerName);
                 if (!Config.doNotReciveDamageList.contains(playerName)) {
                     Config.doNotReciveDamageList.add(playerName);
                 }
+                player.sendMessage("test111");
                 player.teleport(Config.lobby);
                 player.setGameMode(GameMode.SURVIVAL);
                 player.setFoodLevel(20);
                 player.setHealth(20);
                 player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
-
+                player.sendMessage("test222");
             }
         }
         if (playerName.equals("InfInc") || playerName.equals("markcs11")) {

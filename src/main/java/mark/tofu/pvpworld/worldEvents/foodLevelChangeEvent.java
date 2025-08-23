@@ -1,19 +1,20 @@
 package mark.tofu.pvpworld.worldEvents;
 
-import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 
-public class PlayerDeathEvent implements Listener {
+public class foodLevelChangeEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public PlayerDeathEvent(PvpWorld plugin) {
+    public foodLevelChangeEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -24,14 +25,22 @@ public class PlayerDeathEvent implements Listener {
         }, 10L);
     }
 
+
     @EventHandler
-    public void onPlayerDeathEvent(org.bukkit.event.entity.PlayerDeathEvent e) {
-        Player player = e.getEntity();
-        String playerName = player.getName();
+    public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+        Entity entity = e.getEntity();
+        Player player = (Player) entity;
+        if (player == null) {
+            Bukkit.getLogger().info("エラーが発生しました");
+            return;
+        }
         World world = player.getWorld();
         if (this.world != world) return;
-        if (Config.doNotReciveDamageList.contains(playerName)) {
-            e.getDrops().clear();
-        } else return;
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                e.setCancelled(true);
+            }
+        },1L);
     }
 }
