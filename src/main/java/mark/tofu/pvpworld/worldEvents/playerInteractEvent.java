@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.worldEvents;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.AthleticUtils;
+import mark.tofu.pvpworld.utils.SpeedRunAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -69,13 +70,23 @@ public class playerInteractEvent implements Listener {
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = e.getClickedBlock();
-            if (block != null && block.getType() == Material.OAK_WALL_SIGN) {
+            if (block != null) return;
+            if (block.getType() == Material.OAK_WALL_SIGN) {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 String[] lines = new String[4];
                 for (int i = 0; i < 4; i++) {
                     lines[i] = sign.getLine(i);
                 }
+
+                if (Objects.equals(lines[0], "SpeedRunTest")) {
+                    SpeedRunAction.openGameListInventory(Player player);
+                }
+            } else if (block.getType() == Material.PAPER) {
+                String displayName = block.getType().name();
+                if (displayName.equals("SpeedRunシングルプレイ")) {
+
+                } else if ()
             }
         }
     }

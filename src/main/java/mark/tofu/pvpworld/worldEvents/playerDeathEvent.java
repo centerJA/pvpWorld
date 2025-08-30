@@ -31,7 +31,7 @@ public class playerDeathEvent implements Listener {
         String playerName = player.getName();
         World world = player.getWorld();
         if (this.world != world) return;
-        if (Config.doNotReciveDamageList.contains(playerName)) {
+        if (Config.doNotReceiveDamageList.contains(playerName)) {
             e.getDrops().clear();
         } else return;
     }

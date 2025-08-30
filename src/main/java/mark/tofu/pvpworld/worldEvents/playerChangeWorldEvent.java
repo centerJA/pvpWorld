@@ -11,12 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
+import java.io.IOException;
+
 public class playerChangeWorldEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-//    public static ArrayList<String> worldAllPlayerList;
     public playerChangeWorldEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -27,36 +28,32 @@ public class playerChangeWorldEvent implements Listener {
                 world = Bukkit.getWorld("pvpWorld");
             }
         }, 10L);
-//        worldAllPlayerList = new ArrayList<>();
     }
 
     @EventHandler
-    public void onPlayerChangeWorldEvent(PlayerChangedWorldEvent e) {
+    public void onPlayerChangeWorldEvent(PlayerChangedWorldEvent e) throws IOException {
         Player player = e.getPlayer();
         String playerName = player.getName();
         World world = player.getWorld();
-        if (this.world != world) { //他のワールドに移動した時
+        if (this.world != world) {//他のワールドに移動した時
             Config.worldAllPlayerList.remove(playerName);
-            Config.doNotReciveDamageList.remove(playerName);
+            Config.doNotReceiveDamageList.remove(playerName);
             Config.SpeedRunOnHoldList.remove(playerName);
-        } else {
-            player.sendMessage("test");//自分のサーバーに来た時
-            if (!Config.worldAllPlayerList.contains(playerName)) {
-                Config.worldAllPlayerList.add(playerName);
-                if (!Config.doNotReciveDamageList.contains(playerName)) {
-                    Config.doNotReciveDamageList.add(playerName);
-                }
-                player.sendMessage("test111");
-                player.teleport(Config.lobby);
-                player.setGameMode(GameMode.SURVIVAL);
-                player.setFoodLevel(20);
-                player.setHealth(20);
-                player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
-                player.sendMessage("test222");
+        } else { //自分のサーバーに来た時
+          if (!Config.worldAllPlayerList.contains(playerName)) {
+              Config.worldAllPlayerList.add(playerName);
+          }
+          if (!Config.doNotReceiveDamageList.contains(playerName)) {
+              Config.doNotReceiveDamageList.add(playerName);
+          }
+            if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
+                player.sendMessage(String.valueOf(Config.worldAllPlayerList));
             }
-        }
-        if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
-            player.sendMessage(String.valueOf(Config.worldAllPlayerList));
+            player.teleport(Config.lobby);
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setFoodLevel(20);
+            player.setHealth(20);
+            player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
         }
     }
 }

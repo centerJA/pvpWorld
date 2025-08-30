@@ -30,7 +30,7 @@ public class entityDamageEvent implements Listener {
         Entity entity = e.getEntity();
         World world = entity.getWorld();
         if (this.world != world) return;
-        for (String PlayerName: Config.doNotReciveDamageList) {
+        for (String PlayerName: Config.doNotReceiveDamageList) {
             e.setCancelled(true);
         }
     }

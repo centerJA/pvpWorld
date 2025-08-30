@@ -32,7 +32,7 @@ public class onPlayerQuitEvent implements Listener {
         World world = player.getWorld();
         if (this.world != world) return;
         Config.worldAllPlayerList.remove(playerName);
-        Config.doNotReciveDamageList.remove(playerName);
+        Config.doNotReceiveDamageList.remove(playerName);
         Config.SpeedRunOnHoldList.remove(playerName);
     }
 }
