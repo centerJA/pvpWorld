@@ -69,8 +69,9 @@ public class playerInteractEvent implements Listener {
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (Config.adminBuildModeList.contains(player.getName())) return;
             Block block = e.getClickedBlock();
-            if (block != null) return;
+            if (block == null) return;
             if (block.getType() == Material.OAK_WALL_SIGN) {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
@@ -80,13 +81,11 @@ public class playerInteractEvent implements Listener {
                 }
 
                 if (Objects.equals(lines[0], "SpeedRunTest")) {
-                    SpeedRunAction.openGameListInventory(Player player);
+                    player.sendMessage("testtttttt");
+                    SpeedRunAction.openGameListInventory(player);
                 }
-            } else if (block.getType() == Material.PAPER) {
-                String displayName = block.getType().name();
-                if (displayName.equals("SpeedRunシングルプレイ")) {
+            } else if (block.getType() == Material.STONE) {
 
-                } else if ()
             }
         }
     }

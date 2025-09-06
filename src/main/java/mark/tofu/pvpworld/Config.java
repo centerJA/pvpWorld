@@ -19,18 +19,20 @@ public class Config {
 
     public static ArrayList<String> worldAllPlayerList = new ArrayList<>(),
                                     doNotReceiveDamageList = new ArrayList<>(),
-                                    SpeedRunOnHoldList = new ArrayList<>();
+                                    SpeedRunSingleOnHoldList = new ArrayList<>(),
+                                    adminBuildModeList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
                            lobbyAthleticFinish = new Location(world, -29, 7, -1),
-                           speedRunOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0);
+                           speedRunSingleOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0);
 
     public static ItemStack itemMeta(String displayName, Material material) {
         ItemStack itemStack = new ItemStack(material, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) return null;
         itemMeta.setDisplayName(displayName);
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 }

@@ -2,10 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +35,7 @@ public class playerChangeWorldEvent implements Listener {
         if (this.world != world) {//他のワールドに移動した時
             Config.worldAllPlayerList.remove(playerName);
             Config.doNotReceiveDamageList.remove(playerName);
-            Config.SpeedRunOnHoldList.remove(playerName);
+            Config.SpeedRunSingleOnHoldList.remove(playerName);
         } else { //自分のサーバーに来た時
           if (!Config.worldAllPlayerList.contains(playerName)) {
               Config.worldAllPlayerList.add(playerName);
@@ -54,6 +51,7 @@ public class playerChangeWorldEvent implements Listener {
             player.setFoodLevel(20);
             player.setHealth(20);
             player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
+            player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
         }
     }
 }

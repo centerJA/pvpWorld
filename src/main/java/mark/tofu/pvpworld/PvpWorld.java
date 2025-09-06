@@ -1,5 +1,6 @@
 package mark.tofu.pvpworld;
 
+import mark.tofu.pvpworld.pvpWorldCommand.pvpWorldCommand;
 import mark.tofu.pvpworld.worldEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -18,6 +19,8 @@ public final class PvpWorld extends JavaPlugin {
         new playerInteractEvent(this);
         new foodLevelChangeEvent(this);
         new onPlayerQuitEvent(this);
+        new inventoryClickEvent(this);
+        getCommand("pvpworld").setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
         Bukkit.getLogger().info("pvpWorld enabled!");

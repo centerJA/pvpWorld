@@ -1,14 +1,16 @@
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/playerRespawnEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/utils/AthleticUtils.java
+/Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/utils/SpeedRunTimer.java
+/Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/pvpWorldCommand/pvpWorldCommand.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/playerDeathEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/Config.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/utils/SpeedRunAction.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/playerChangeWorldEvent.java
+/Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/inventoryClickEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/blockBreakEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/entityDamageEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/playerInteractEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/onPlayerQuitEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/worldEvents/foodLevelChangeEvent.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/utils/AthleticTimer.java
-/Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/utils/SignSettings.java
 /Users/mark11/Desktop/pvpWorld/src/main/java/mark/tofu/pvpworld/PvpWorld.java

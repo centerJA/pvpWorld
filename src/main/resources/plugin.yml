@@ -2,3 +2,10 @@ name: pvpWorld
 version: '${project.version}'
 main: mark.tofu.pvpworld.PvpWorld
 api-version: '1.16'
+commands:
+  pvpworld:
+    description: sendMessage about this world
+  pvpworld buildmode true:
+    description: player into build mode
+  pvpworld buildmode false:
+    description: player into normal mode
