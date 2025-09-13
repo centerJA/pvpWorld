@@ -30,6 +30,7 @@ public class AthleticTimer {
                 if (elapsedTime > 2000) {
                     //cancel
                     AthleticTimer.getTaskId(player).cancel();
+                    stopTimer(player);
                     return;
                 }
                 playerTimes.put(player, elapsedTime);

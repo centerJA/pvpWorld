@@ -6,6 +6,8 @@ commands:
   pvpworld:
     description: sendMessage about this world
   pvpworld buildmode true:
-    description: player into build mode
+    description: player into build mode (need ADMIN)
   pvpworld buildmode false:
-    description: player into normal mode
+    description: player into normal mode (need ADMIN)
+  pvpworld worldinfo:
+    description: sendMessage about this world info (need ADMIN)

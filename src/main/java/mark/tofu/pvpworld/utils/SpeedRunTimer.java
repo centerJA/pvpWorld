@@ -21,14 +21,20 @@ public class SpeedRunTimer {
         if (playerTimes.containsKey(player)) {
             SpeedRunTimer.stopTimer(player);
         }
-        playerTimes.put(player, 15);
+        playerTimes.put(player, 16);
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1; //残り時間
                 if (elapsedTime == 0) { //cancel
+                    player.setLevel(0);
+                    player.sendMessage("aaa");
+                    stopTimer(player);
                     SpeedRunTimer.getTaskId(player).cancel();
                     return;
+                }
+                if (elapsedTime <= 5) {
+                    sendMessage(player, elapsedTime);
                 }
                 playerTimes.put(player, elapsedTime);
                 player.setLevel(elapsedTime);
@@ -55,4 +61,9 @@ public class SpeedRunTimer {
             tasks.get(player).cancel();
         }
     }
-}
+
+    public static void sendMessage(Player player, int elapsedTime) {
+        player.sendMessage(ChatColor.AQUA + String.valueOf(elapsedTime) + "秒!");
+        player.sendTitle(String.valueOf(elapsedTime), "", 0, 20, 0);
+    }
+ }

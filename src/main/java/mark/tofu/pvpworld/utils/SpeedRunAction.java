@@ -26,6 +26,7 @@ public class SpeedRunAction {
         } else { //タイマーを発動させる
             player.teleport(Config.speedRunSingleOnholdRoom);
             Config.SpeedRunSingleOnHoldList.add(player.getName());
+            player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
             SpeedRunTimer.startTimer(player, plugin);
         }
     }

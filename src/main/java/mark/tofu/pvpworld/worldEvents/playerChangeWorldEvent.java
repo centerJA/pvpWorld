@@ -50,8 +50,18 @@ public class playerChangeWorldEvent implements Listener {
             player.setGameMode(GameMode.SURVIVAL);
             player.setFoodLevel(20);
             player.setHealth(20);
-            player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
-            player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+            player.sendTitle(
+                    player.getName() + ChatColor.AQUA + "さん",
+                    ChatColor.AQUA + "こんにちは！",
+                    20, 40, 20
+            );
+            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+                }
+            }, 10L);
+            Bukkit.getLogger().info("finished!!");
         }
     }
 }

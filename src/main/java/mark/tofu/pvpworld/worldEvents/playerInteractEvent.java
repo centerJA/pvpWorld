@@ -4,6 +4,7 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.AthleticUtils;
 import mark.tofu.pvpworld.utils.SpeedRunAction;
+import mark.tofu.pvpworld.utils.SpeedRunTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -40,13 +41,6 @@ public class playerInteractEvent implements Listener {
         Player player = e.getPlayer();
         World world = player.getWorld();
         if (this.world != world) return;
-//        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-//            Block block = e.getClickedBlock();
-//            if (block == null) return;
-//            if (block.getType() == Material.OAK_WALL_SIGN) {
-//                Sign sign = (Sign) block.getState();
-//                if (sign == null) return;
-//            }
         if (e.getAction().equals(Action.PHYSICAL)) {
             if(Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
                 if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticFinish.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticFinish.getY()) && Math.floor(e.getClickedBlock().getY()) == Math.floor(Config.lobbyAthleticFinish.getY())) {
@@ -86,6 +80,20 @@ public class playerInteractEvent implements Listener {
                 }
             } else if (block.getType() == Material.STONE) {
 
+            }
+        } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+            player.sendMessage("test");
+            Material block = player.getInventory().getItemInMainHand().getType();
+            if (block == null) return;
+            if (block == Material.QUARTZ_BLOCK) {
+                player.sendMessage("arioa");
+                String playerName = player.getName();
+                if (Config.SpeedRunSingleOnHoldList.contains(playerName)) {
+                    Config.SpeedRunSingleOnHoldList.remove(playerName);
+                    SpeedRunTimer.stopTimer(player);
+                    player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
+                }
+                player.teleport(Config.lobby);
             }
         }
     }

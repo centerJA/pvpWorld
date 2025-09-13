@@ -20,6 +20,7 @@ mark/tofu/pvpworld/worldEvents/playerInteractEvent.class
 mark/tofu/pvpworld/worldEvents/playerRespawnEvent$2.class
 mark/tofu/pvpworld/worldEvents/blockBreakEvent.class
 mark/tofu/pvpworld/worldEvents/playerInteractEvent$1.class
+mark/tofu/pvpworld/worldEvents/playerChangeWorldEvent$2.class
 mark/tofu/pvpworld/worldEvents/entityDamageEvent.class
 mark/tofu/pvpworld/worldEvents/inventoryClickEvent.class
 mark/tofu/pvpworld/worldEvents/playerDeathEvent$1.class
