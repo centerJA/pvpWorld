@@ -1,20 +1,27 @@
 package mark.tofu.pvpworld;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+
+import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
+
+import javax.imageio.IIOException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Config {
+
+public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
+
+    public static File playerExp = new File("./playerExp.yml");
+
+    public static FileConfiguration playerExpData;
 
 
     public static ArrayList<String> worldAllPlayerList = new ArrayList<>(),
@@ -34,5 +41,42 @@ public class Config {
         itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public static String worldUpdateNotice() {
+        String notice = "お知らせを表示するコマンドが作成されました!";
+        String date = "2025/09/14";
+        return date + ": " + notice;
+    }
+
+    public static void playerSetLoginExp(Player player) throws IOException {
+        int finalScore = getPlayerExp(player) + 5;
+        playerExpData.set(player.getName(), finalScore);
+        playerExpData.save(playerExp);
+
+    }
+
+    public static int getPlayerExp(Player player) {
+        return (int) playerExpData.get(player.getName());
+    }
+
+    public static boolean testPlayerLastLoginTime(Player player) {
+        String playerName = player.getName();
+        long oneDay = 24L * 60 * 60 * 1000;
+        long nowTime = System.currentTimeMillis();
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+        long lastPlayed = player.getLastPlayed();
+        if (lastPlayed == 0) {
+            player.sendMessage(ChatColor.AQUA + "初参加です!");
+            return true;
+        }
+        long difference = nowTime - lastPlayed;
+
+        return difference >= oneDay;
+    }
+
+    public static void reloadYaml(JavaPlugin plugin) {
+        File file = new File(plugin.getDataFolder(), "./playerExp.yml");
+        playerExpData = YamlConfiguration.loadConfiguration(file);
     }
 }

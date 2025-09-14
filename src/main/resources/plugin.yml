@@ -5,7 +5,11 @@ api-version: '1.16'
 commands:
   pvpworld:
     description: sendMessage about this world
-  pvpworld buildmode true:
+  pvpworld op bm true:
     description: player into build mode
-  pvpworld buildmode false:
+  pvpworld op bm false:
     description: player into normal mode
+  pvpworld op gm c:
+    description: player gamemode set to creative
+  pvpworld op gm s:
+    description: player gamemode set to survival

@@ -52,6 +52,13 @@ public class playerChangeWorldEvent implements Listener {
             player.setHealth(20);
             player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
             player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+            if (Config.testPlayerLastLoginTime(player)) {
+                Config.playerSetLoginExp(player);
+                player.sendMessage(ChatColor.AQUA + "最後のログインから1日以上経過したので、5expを獲得しました!");
+                player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + Config.getPlayerExp(player) + "exp");
+            } else {
+                player.sendMessage("最後のログインから1日以上経っていないので、ログイン時のexpは獲得できません!");
+            }
         }
     }
 }

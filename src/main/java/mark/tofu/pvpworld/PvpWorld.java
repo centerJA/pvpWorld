@@ -6,6 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.Objects;
+
 public final class PvpWorld extends JavaPlugin {
 
     @Override
@@ -20,7 +23,7 @@ public final class PvpWorld extends JavaPlugin {
         new foodLevelChangeEvent(this);
         new onPlayerQuitEvent(this);
         new inventoryClickEvent(this);
-        getCommand("pvpworld").setExecutor(new pvpWorldCommand());
+        Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
         Bukkit.getLogger().info("pvpWorld enabled!");
