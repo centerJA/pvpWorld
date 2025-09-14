@@ -34,10 +34,16 @@ public class Config extends JavaPlugin {
                            lobbyAthleticFinish = new Location(world, -29, 7, -1),
                            speedRunSingleOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0);
 
+
+
     public static ItemStack itemMeta(String displayName, Material material) {
+        Bukkit.getLogger().info("called itemMeta!");
         ItemStack itemStack = new ItemStack(material, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) return null;
+        if (itemMeta == null) {
+            Bukkit.getLogger().info("itemMeta is null");
+            return null;
+        }
         itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return itemStack;

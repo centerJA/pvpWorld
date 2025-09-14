@@ -26,6 +26,9 @@ public class AthleticUtils {
 
 
     public static void stopAthleticAction(Player player) {
+        for (PotionEffect effect: player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
+        }
         player.sendMessage("ゴールにつきました!おめでとうございます!");
         Objects.requireNonNull(Config.lobbyAthleticFinish.getWorld()).playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
         Config.lobbyAthleticFinish.getWorld().playEffect(player.getLocation(), Effect.DRAGON_BREATH, 0, 2);
