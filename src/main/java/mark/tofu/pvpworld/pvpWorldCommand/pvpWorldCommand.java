@@ -9,9 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.imageio.IIOException;
 import java.io.IOException;
 
 public class pvpWorldCommand implements CommandExecutor {
@@ -33,8 +31,8 @@ public class pvpWorldCommand implements CommandExecutor {
                 if (playerName.equals("markcs11") || playerName.equals("InfInc")) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
-                            if (!Config.adminBuildModeList.contains(playerName)) {
-                                Config.adminBuildModeList.add(playerName);
+                            if (!Config.AdminBuildModeList.contains(playerName)) {
+                                Config.AdminBuildModeList.add(playerName);
                                 player.sendMessage("ビルドモードに切り替えました");
                                 return true;
                             } else {
@@ -42,7 +40,7 @@ public class pvpWorldCommand implements CommandExecutor {
                                 return true;
                             }
                         } else if (args[2].equals("false")) { //pvpworld op bm false
-                            Config.adminBuildModeList.remove(playerName);
+                            Config.AdminBuildModeList.remove(playerName);
                             player.sendMessage("ノーマルモードに切り替えました");
                             return true;
                         }
@@ -57,12 +55,12 @@ public class pvpWorldCommand implements CommandExecutor {
                             return true;
                         }
                     } else if (args[1].equals("info")) { //pvpworld op info
-                        player.sendMessage("worldAllPlayerList");
-                        player.sendMessage(String.valueOf(Config.worldAllPlayerList));
-                        player.sendMessage("doNotReceiveDamageList");
-                        player.sendMessage(String.valueOf(Config.doNotReceiveDamageList));
-                        player.sendMessage("adminBuildModeList");
-                        player.sendMessage(String.valueOf(Config.adminBuildModeList));
+                        player.sendMessage("WorldAllPlayerList");
+                        player.sendMessage(String.valueOf(Config.WorldAllPlayerList));
+                        player.sendMessage("DoNotReceiveDamageList");
+                        player.sendMessage(String.valueOf(Config.DoNotReceiveDamageList));
+                        player.sendMessage("AdminBuildModeList");
+                        player.sendMessage(String.valueOf(Config.AdminBuildModeList));
                         player.sendMessage("SpeedRunSingleOnHoldList");
                         player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
                         player.sendMessage("YourExp Score");

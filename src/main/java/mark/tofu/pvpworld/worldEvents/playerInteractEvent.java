@@ -4,6 +4,7 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.AthleticUtils;
 import mark.tofu.pvpworld.utils.SpeedRunAction;
+import mark.tofu.pvpworld.utils.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.SpeedRunTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +42,7 @@ public class playerInteractEvent implements Listener {
         Player player = e.getPlayer();
         World world = player.getWorld();
         if (this.world != world) return;
+        if (Config.AdminBuildModeList.contains(player.getName())) return;
         if (e.getAction().equals(Action.PHYSICAL)) {
             if(Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
                 if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticFinish.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticFinish.getY()) && Math.floor(e.getClickedBlock().getY()) == Math.floor(Config.lobbyAthleticFinish.getY())) {
@@ -63,7 +65,7 @@ public class playerInteractEvent implements Listener {
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (Config.adminBuildModeList.contains(player.getName())) return;
+            if (Config.AdminBuildModeList.contains(player.getName())) return;
             Block block = e.getClickedBlock();
             if (block == null) return;
             if (block.getType() == Material.OAK_WALL_SIGN) {
@@ -82,15 +84,19 @@ public class playerInteractEvent implements Listener {
 
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-            player.sendMessage("test");
             Material block = player.getInventory().getItemInMainHand().getType();
             if (block == null) return;
             if (block == Material.QUARTZ_BLOCK) {
-                player.sendMessage("arioa");
                 String playerName = player.getName();
-                if (Config.SpeedRunSingleOnHoldList.contains(playerName)) {
+                if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleWaitList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
+                    player.getInventory().clear();
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+                    player.setExp(0);
+                    Config.SpeedRunSingleWaitList.remove(playerName);
                     Config.SpeedRunSingleOnHoldList.remove(playerName);
+                    Config.SpeedRunSingleList.remove(playerName);
                     SpeedRunTimer.stopTimer(player);
+                    SpeedRunScheduledTimer.stopTimer(player);
                     player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
                 }
                 player.teleport(Config.lobby);

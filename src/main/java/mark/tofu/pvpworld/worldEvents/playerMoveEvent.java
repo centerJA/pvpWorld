@@ -4,17 +4,17 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
-public class entityDamageEvent implements Listener {
+public class playerMoveEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public entityDamageEvent(PvpWorld plugin) {
+    public playerMoveEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -26,11 +26,11 @@ public class entityDamageEvent implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamageEvent(EntityDamageEvent e) {
-        Entity entity = e.getEntity();
-        World world = entity.getWorld();
+    public  void onPlayerMoveEvent(PlayerMoveEvent e) {
+        Player player = e.getPlayer();
+        World world = player.getWorld();
         if (this.world != world) return;
-        for (String PlayerName: Config.DoNotReceiveDamageList) {
+        if (Config.SpeedRunSingleWaitList.contains(player.getName())) {
             e.setCancelled(true);
         }
     }

@@ -26,6 +26,7 @@ public final class PvpWorld extends JavaPlugin {
         Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
+        Config.setup(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 

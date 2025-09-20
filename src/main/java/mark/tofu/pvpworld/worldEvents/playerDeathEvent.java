@@ -33,7 +33,7 @@ public class playerDeathEvent implements Listener {
         if (this.world != world) return;
         e.getDrops().clear();
         player.teleport(Config.lobby);
-        if (Config.doNotReceiveDamageList.contains(playerName)) {
+        if (Config.DoNotReceiveDamageList.contains(playerName)) {
             e.getDrops().clear();
         } else return;
     }

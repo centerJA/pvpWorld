@@ -33,25 +33,31 @@ public class playerChangeWorldEvent implements Listener {
         String playerName = player.getName();
         World world = player.getWorld();
         if (this.world != world) {//他のワールドに移動した時
-            Config.worldAllPlayerList.remove(playerName);
-            Config.doNotReceiveDamageList.remove(playerName);
+            player.getInventory().clear();
+            Config.WorldAllPlayerList.remove(playerName);
+            Config.DoNotReceiveDamageList.remove(playerName);
             Config.SpeedRunSingleOnHoldList.remove(playerName);
         } else { //自分のサーバーに来た時
-          if (!Config.worldAllPlayerList.contains(playerName)) {
-              Config.worldAllPlayerList.add(playerName);
+          if (!Config.WorldAllPlayerList.contains(playerName)) {
+              Config.WorldAllPlayerList.add(playerName);
           }
-          if (!Config.doNotReceiveDamageList.contains(playerName)) {
-              Config.doNotReceiveDamageList.add(playerName);
+          if (!Config.DoNotReceiveDamageList.contains(playerName)) {
+              Config.DoNotReceiveDamageList.add(playerName);
           }
             if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
-                player.sendMessage(String.valueOf(Config.worldAllPlayerList));
+                player.sendMessage(String.valueOf(Config.WorldAllPlayerList));
             }
             player.teleport(Config.lobby);
             player.setGameMode(GameMode.SURVIVAL);
             player.setFoodLevel(20);
             player.setHealth(20);
             player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
-            player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+                }
+            }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {
                 Config.playerSetLoginExp(player);
                 player.sendMessage(ChatColor.AQUA + "最後のログインから1日以上経過したので、5expを獲得しました!");

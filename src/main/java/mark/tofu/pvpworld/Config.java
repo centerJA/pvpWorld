@@ -10,7 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,21 +18,22 @@ import java.util.ArrayList;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExp = new File("./playerExp.yml");
-
+    public static File playerExpFile;
     public static FileConfiguration playerExpData;
 
 
-    public static ArrayList<String> worldAllPlayerList = new ArrayList<>(),
-                                    doNotReceiveDamageList = new ArrayList<>(),
+    public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
+                                    DoNotReceiveDamageList = new ArrayList<>(),
                                     SpeedRunSingleOnHoldList = new ArrayList<>(),
-                                    adminBuildModeList = new ArrayList<>();
+                                    AdminBuildModeList = new ArrayList<>(),
+                                    SpeedRunSingleWaitList = new ArrayList<>(),
+                                    SpeedRunSingleList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
                            lobbyAthleticFinish = new Location(world, -29, 7, -1),
-                           speedRunSingleOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0);
-
+                           speedRunSingleOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0),
+                           speedRunSingleMap1SpawnPoint = new Location(world, 14.500, 4, 107, 0, 0);
 
 
     public static ItemStack itemMeta(String displayName, Material material) {
@@ -58,12 +58,17 @@ public class Config extends JavaPlugin {
     public static void playerSetLoginExp(Player player) throws IOException {
         int finalScore = getPlayerExp(player) + 5;
         playerExpData.set(player.getName(), finalScore);
-        playerExpData.save(playerExp);
-
+        try {
+            playerExpData.save(playerExpFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.sendMessage("5expが追加されました");
+        player.sendMessage(String.valueOf(getPlayerExp(player)) + "exp");
     }
 
     public static int getPlayerExp(Player player) {
-        return (int) playerExpData.get(player.getName());
+        return playerExpData.getInt(player.getName(), 0);
     }
 
     public static boolean testPlayerLastLoginTime(Player player) {
@@ -81,8 +86,17 @@ public class Config extends JavaPlugin {
         return difference >= oneDay;
     }
 
-    public static void reloadYaml(JavaPlugin plugin) {
-        File file = new File(plugin.getDataFolder(), "./playerExp.yml");
-        playerExpData = YamlConfiguration.loadConfiguration(file);
+
+    public static void setup(PvpWorld plugin) {
+        playerExpFile = new File(plugin.getDataFolder(), "playerExp.yml");
+        if (!playerExpFile.exists()) {
+            try {
+                playerExpFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
+
     }
 }
