@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExpFile;
-    public static FileConfiguration playerExpData;
+    public static File playerExpFile, playerLastRoginFile;
+    public static FileConfiguration playerExpData, playerLastRogin;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
@@ -72,13 +72,13 @@ public class Config extends JavaPlugin {
     }
 
     public static boolean testPlayerLastLoginTime(Player player) {
-        String playerName = player.getName();
         long oneDay = 24L * 60 * 60 * 1000;
         long nowTime = System.currentTimeMillis();
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
-        long lastPlayed = player.getLastPlayed();
+//        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+        long lastPlayed = getPlayerLastLogin(player);
         if (lastPlayed == 0) {
             player.sendMessage(ChatColor.AQUA + "初参加です!");
+            setPlayerLastRogin(player);
             return true;
         }
         long difference = nowTime - lastPlayed;
@@ -87,7 +87,7 @@ public class Config extends JavaPlugin {
     }
 
 
-    public static void setup(PvpWorld plugin) {
+    public static void playerExpSetup(PvpWorld plugin) {
         playerExpFile = new File(plugin.getDataFolder(), "playerExp.yml");
         if (!playerExpFile.exists()) {
             try {
@@ -98,5 +98,30 @@ public class Config extends JavaPlugin {
         }
         playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
 
+    }
+
+    public static void playerLastRoginSetup(PvpWorld plugin) {
+        playerLastRoginFile = new File(plugin.getDataFolder(), "playerLastRoginTime.yml");
+        if (!playerLastRoginFile.exists()) {
+            try {
+                playerLastRoginFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static int getPlayerLastLogin(Player player) {
+        return playerLastRogin.getInt(player.getName(), 0);
+    }
+
+    public static void setPlayerLastRogin(Player player) {
+        long nowTime = System.currentTimeMillis();
+        playerLastRogin.set(player.getName(), nowTime);
+        try {
+            playerLastRogin.save(playerLastRoginFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

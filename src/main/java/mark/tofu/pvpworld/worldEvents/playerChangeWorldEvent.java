@@ -60,8 +60,9 @@ public class playerChangeWorldEvent implements Listener {
             }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {
                 Config.playerSetLoginExp(player);
-                player.sendMessage(ChatColor.AQUA + "最後のログインから1日以上経過したので、5expを獲得しました!");
+                player.sendMessage(ChatColor.AQUA + "最後にログイン時のexpを受け取ってから1日以上経過したので、5expを獲得しました!");
                 player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + Config.getPlayerExp(player) + "exp");
+                Config.setPlayerLastRogin(player);
             } else {
                 player.sendMessage("最後のログインから1日以上経っていないので、ログイン時のexpは獲得できません!");
             }
