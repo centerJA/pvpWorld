@@ -28,7 +28,7 @@ public class pvpWorldCommand implements CommandExecutor {
 
                 return true;
             } else if (args[0].equals("op")) { //pvpworld op
-                if (playerName.equals("markcs11") || playerName.equals("InfInc")) {
+                if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye")) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
                             if (!Config.AdminBuildModeList.contains(playerName)) {
