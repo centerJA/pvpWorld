@@ -37,6 +37,8 @@ public class playerChangeWorldEvent implements Listener {
             Config.WorldAllPlayerList.remove(playerName);
             Config.DoNotReceiveDamageList.remove(playerName);
             Config.SpeedRunSingleOnHoldList.remove(playerName);
+            Config.NoWalkList.remove(playerName);
+            Config.SpeedRunSingleList.remove(playerName);
         } else { //自分のサーバーに来た時
           if (!Config.WorldAllPlayerList.contains(playerName)) {
               Config.WorldAllPlayerList.add(playerName);
@@ -64,7 +66,7 @@ public class playerChangeWorldEvent implements Listener {
                 player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + Config.getPlayerExp(player) + "exp");
                 Config.setPlayerLastRogin(player);
             } else {
-                player.sendMessage("最後のログインから1日以上経っていないので、ログイン時のexpは獲得できません!");
+                player.sendMessage("最後にログイン時のexpを受け取ってから1日以上経っていないので、ログイン時のexpは獲得できません!");
             }
         }
     }

@@ -60,7 +60,7 @@ public class SpeedRunAction {
 
     public static void randomEvent(Player player, PvpWorld plugin) {
         Random random = new Random();
-        int ran = 1 + random.nextInt(5);
+        int ran = 1 + random.nextInt(10);
         if (ran == 1) { //プレイヤーの居場所の下に蜘蛛の巣を3秒間設置する
             Location playerLocation = player.getLocation();
             Block originalBlock = playerLocation.getBlock();
@@ -93,17 +93,26 @@ public class SpeedRunAction {
 //                }
 //            }, 60L);
         } else if (ran == 4) { //3秒間プレイヤーを動かなくする
-            Config.SpeedRunSingleNoWalkList.add(player.getName());
+            Config.NoWalkList.add(player.getName());
             player.sendMessage(ChatColor.RED + "3秒間動けなくなってしまった!");
-//            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-//                @Override
-//                public void run() {
-//                    Config.SpeedRunSingleNoWalkList.remove(player.getName());
-//                }
-//            }, 60L);
+            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    Config.NoWalkList.remove(player.getName());
+                }
+            }, 60L);
         } else if (ran == 5) { //5秒間浮遊できるアイテムを渡す
             player.getInventory().addItem(Config.itemMeta("浮遊する", Material.FEATHER));
             player.sendMessage(ChatColor.GREEN + "5秒間浮遊できるアイテムをゲットした!");
+        } else if (ran == 6) { //5秒間盲目になる
+            PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
+            player.addPotionEffect(blindness);
+        } else if (ran == 7) { //問題を出して、間違えたらリタイア、8秒をすぎてもリタイア
+            Config.NoWalkList.add(player.getName());
+            Config.setInt(player);
+
+        } else {
+            player.sendMessage("エラーが発生しました");
         }
     }
 

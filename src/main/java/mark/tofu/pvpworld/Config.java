@@ -1,6 +1,7 @@
 package mark.tofu.pvpworld;
 
 
+import mark.tofu.pvpworld.utils.SpeedRunScheduledTimer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Config extends JavaPlugin {
@@ -27,7 +29,7 @@ public class Config extends JavaPlugin {
                                     SpeedRunSingleOnHoldList = new ArrayList<>(),
                                     AdminBuildModeList = new ArrayList<>(),
                                     SpeedRunSingleList = new ArrayList<>(),
-                                    SpeedRunSingleNoWalkList = new ArrayList<>();
+                                    NoWalkList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
@@ -37,6 +39,7 @@ public class Config extends JavaPlugin {
                            speedRunSingleMap1UnderSandPoint = new Location(world, -14, 4, 109),
                            speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109);
 
+    public static int random1, random2, result;
 
     public static ItemStack itemMeta(String displayName, Material material) {
         Bukkit.getLogger().info("called itemMeta!");
@@ -126,4 +129,30 @@ public class Config extends JavaPlugin {
             e.printStackTrace();
         }
     }
+
+    public static void setInt(Player player) {
+        Random random = new Random();
+        random1 = random.nextInt(10) + 1;
+        random2 = random.nextInt(10) + 1;
+        result = random2 + random1;
+        player.sendMessage(ChatColor.YELLOW + "クイズ!間違えたら脱落、8秒以内に答えられなくても脱落!");
+        player.sendMessage(ChatColor.AQUA + String.valueOf(random1) + " + " + String.valueOf(random2) + " = ");
+
+    }
+    public static void compair(Player player, String chat) {
+        if (String.valueOf(result).equals(chat)) {
+            player.sendMessage(ChatColor.GREEN + "合格!");
+            NoWalkList.remove(player.getName());
+        } else {
+            player.sendMessage(ChatColor.RED + "間違えてしまった!");
+            player.sendTitle(ChatColor.RED + "脱落", ChatColor.AQUA + "再挑戦しよう!", 20, 40, 20);
+            player.getInventory().clear();
+            player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
+            SpeedRunSingleList.remove(player.getName());
+            NoWalkList.remove(player.getName());
+            SpeedRunScheduledTimer.stopTimer(player);
+            player.setExp(0);
+        }
+    }
+
 }

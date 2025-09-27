@@ -7,14 +7,21 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class playerMoveEvent implements Listener {
+import java.util.Random;
+
+
+public class asyncPlayerChatEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public playerMoveEvent(PvpWorld plugin) {
+    public static Random random;
+
+    public static int random1, random2, result;
+
+    public asyncPlayerChatEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -26,12 +33,13 @@ public class playerMoveEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMoveEvent(PlayerMoveEvent e) {
+    public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
         World world = player.getWorld();
+        String comment = e.toString();
         if (this.world != world) return;
         if (Config.NoWalkList.contains(player.getName())) {
-            e.setCancelled(true);
+            Config.compair(player, comment);
         }
     }
 }

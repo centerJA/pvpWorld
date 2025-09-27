@@ -79,7 +79,6 @@ public class playerInteractEvent implements Listener {
                 }
 
                 if (Objects.equals(lines[0], "SpeedRunTest")) {
-                    player.sendMessage("testtttttt");
                     SpeedRunAction.openGameListInventory(player);
                 }
             } else if (block.getType() == Material.STONE) {
@@ -102,8 +101,12 @@ public class playerInteractEvent implements Listener {
                 player.teleport(Config.lobby);
                 player.setExp(0);
             } else if (block == Material.FEATHER) {
-                PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 5, 1);
+                PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);
+                if (player.getItemInHand().getType().equals(Material.FEATHER)) {
+                    player.setItemInHand(null);
+                    player.sendMessage("使用しました!");
+                }
             }
         }
     }
