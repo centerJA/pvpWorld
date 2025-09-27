@@ -1,5 +1,6 @@
 package mark.tofu.pvpworld.worldEvents;
 
+import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -33,9 +34,7 @@ public class blockBreakEvent implements Listener {
         Material material = e.getBlock().getType();
         if (this.world != world) return;
         if (material == null) return;
-        if (playerName.equals("markcs11") || playerName.equals("InfInc")) {
-            return;
-        } else {
+        if (!Config.AdminBuildModeList.contains(playerName)) {
             e.setCancelled(true);
             player.sendMessage("地形は破壊できません!");
         }

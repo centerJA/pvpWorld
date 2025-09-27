@@ -23,6 +23,7 @@ public final class PvpWorld extends JavaPlugin {
         new foodLevelChangeEvent(this);
         new onPlayerQuitEvent(this);
         new inventoryClickEvent(this);
+        new blockPlaceEvent(this);
         Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;

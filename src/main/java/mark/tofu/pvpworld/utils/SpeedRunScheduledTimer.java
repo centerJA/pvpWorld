@@ -30,6 +30,7 @@ public class SpeedRunScheduledTimer {
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
                     player.sendMessage("aaa");
+                    SpeedRunAction.randomEvent(player, plugin);
                     SpeedRunScheduledTimer.startTimer(player, plugin);
                     return;
                 }

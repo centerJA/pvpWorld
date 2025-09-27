@@ -26,14 +26,16 @@ public class Config extends JavaPlugin {
                                     DoNotReceiveDamageList = new ArrayList<>(),
                                     SpeedRunSingleOnHoldList = new ArrayList<>(),
                                     AdminBuildModeList = new ArrayList<>(),
-                                    SpeedRunSingleWaitList = new ArrayList<>(),
-                                    SpeedRunSingleList = new ArrayList<>();
+                                    SpeedRunSingleList = new ArrayList<>(),
+                                    SpeedRunSingleNoWalkList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
                            lobbyAthleticFinish = new Location(world, -29, 7, -1),
-                           speedRunSingleOnholdRoom = new Location(world, -78.500, 4, -1.500, 90, 0),
-                           speedRunSingleMap1SpawnPoint = new Location(world, 14.500, 4, 107, 0, 0);
+                           speedRunSingleOnholdRoom = new Location(world, -77.500, 4, -0.500, 90, 0),
+                           speedRunSingleMap1SpawnPoint = new Location(world, -13.500, 4, 107.500, 0, 0),
+                           speedRunSingleMap1UnderSandPoint = new Location(world, -14, 4, 109),
+                           speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109);
 
 
     public static ItemStack itemMeta(String displayName, Material material) {

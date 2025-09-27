@@ -17,6 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -86,13 +88,11 @@ public class playerInteractEvent implements Listener {
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             Material block = player.getInventory().getItemInMainHand().getType();
             if (block == null) return;
-            if (block == Material.QUARTZ_BLOCK) {
+            if (block == Material.RED_MUSHROOM) {
                 String playerName = player.getName();
-                if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleWaitList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
+                if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
                     player.getInventory().clear();
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
-                    player.setExp(0);
-                    Config.SpeedRunSingleWaitList.remove(playerName);
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
                     Config.SpeedRunSingleOnHoldList.remove(playerName);
                     Config.SpeedRunSingleList.remove(playerName);
                     SpeedRunTimer.stopTimer(player);
@@ -100,6 +100,10 @@ public class playerInteractEvent implements Listener {
                     player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
                 }
                 player.teleport(Config.lobby);
+                player.setExp(0);
+            } else if (block == Material.FEATHER) {
+                PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 5, 1);
+                player.addPotionEffect(levitation);
             }
         }
     }

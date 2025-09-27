@@ -55,7 +55,7 @@ public class playerChangeWorldEvent implements Listener {
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.QUARTZ_BLOCK));
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
                 }
             }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {

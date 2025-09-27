@@ -63,6 +63,8 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.AdminBuildModeList));
                         player.sendMessage("SpeedRunSingleOnHoldList");
                         player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
+                        player.sendMessage("SpeedRunSingleList");
+                        player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
                         player.sendMessage("YourExp Score");
                         player.sendMessage(String.valueOf(Config.getPlayerExp(player)));
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
