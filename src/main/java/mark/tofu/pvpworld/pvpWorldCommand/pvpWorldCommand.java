@@ -2,9 +2,8 @@ package mark.tofu.pvpworld.pvpWorldCommand;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -73,6 +72,14 @@ public class pvpWorldCommand implements CommandExecutor {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                    } else if (args[1].equals("fill")) {
+                        double x = Integer.parseInt(args[2]);
+                        double y = Integer.parseInt(args[3]);
+                        double z = Integer.parseInt(args[4]);
+                        Location location = new Location(world, x, y, z);
+                        Block block = location.getBlock();
+                        block.setType(Material.AIR);
+                        player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
                     }
                 } else {
                     player.sendMessage(ChatColor.AQUA + "ADMINユーザーのみ使用できます!");
