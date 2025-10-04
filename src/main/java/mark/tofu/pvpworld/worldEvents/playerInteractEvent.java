@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Random;
 
 public class playerInteractEvent implements Listener {
     PvpWorld plugin;
@@ -78,11 +79,20 @@ public class playerInteractEvent implements Listener {
                     lines[i] = sign.getLine(i);
                 }
 
-                if (Objects.equals(lines[0], "SpeedRunTest")) {
+                if (Objects.equals(lines[0], "SpeedRunTest")) { //SpeedRunのメニューを表示させる
                     SpeedRunAction.openGameListInventory(player);
+                } else if (Objects.equals(lines[0], "ルール説明")) {
+                    if (Objects.equals(lines[1], "SpeedRun")) {
+                        if (Objects.equals(lines[2], "シングルプレイ")) { //SpeedRun Single内の待機所のルール説明
+                            player.sendMessage(ChatColor.AQUA + "-----SpeedRunシングルプレイ-----");
+                            player.sendMessage("このゲームは、アスレチックを走り抜けてゴールにあるボタンを押す速さを争うゲームです!");
+                            player.sendMessage("でも、ただアスレチックをするだけではありません!");
+                            player.sendMessage(ChatColor.YELLOW + "10秒に1回ランダムでイベントが発生します!!");
+                            player.sendMessage(ChatColor.GREEN + "歩く速さが速く" + ChatColor.WHITE + "なったり、" + ChatColor.RED + "周りが見えなく" + ChatColor.WHITE + "なったり...");
+                            player.sendMessage("リーダーボードも作る予定です!");
+                        }
+                    }
                 }
-            } else if (block.getType() == Material.STONE) {
-
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             Material block = player.getInventory().getItemInMainHand().getType();
@@ -104,6 +114,26 @@ public class playerInteractEvent implements Listener {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);
                 if (player.getItemInHand().getType().equals(Material.FEATHER)) {
+                    player.setItemInHand(null);
+                    player.sendMessage("使用しました!");
+                }
+            } else if (block == Material.GOLD_BLOCK) {
+                Random random = new Random();
+                int randomInt = random.nextInt(2) + 1;
+                if (randomInt == 1) { //良い
+                    player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
+                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK));
+                    player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
+                } else {
+                    player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
+                    PotionEffect confusion = new PotionEffect(PotionEffectType.CONFUSION, 100, 1);
+                    player.addPotionEffect(confusion);
+                    player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
+                }
+            } else if (block == Material.NETHER_STAR) {
+                PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
+                player.addPotionEffect(speed);
+                if (player.getItemInHand().getType().equals(Material.NETHER_STAR)) {
                     player.setItemInHand(null);
                     player.sendMessage("使用しました!");
                 }

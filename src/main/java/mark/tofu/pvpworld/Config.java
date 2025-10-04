@@ -145,7 +145,8 @@ public class Config extends JavaPlugin {
             NoWalkList.remove(player.getName());
         } else {
             player.sendMessage(ChatColor.RED + "間違えてしまった!");
-            player.sendTitle(ChatColor.RED + "脱落", ChatColor.AQUA + "再挑戦しよう!", 20, 40, 20);
+            player.sendMessage(String.valueOf(result));
+            player.sendTitle(ChatColor.RED + "脱落", ChatColor.AQUA + "再挑戦しよう!", 20, 80, 20);
             player.getInventory().clear();
             player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
             SpeedRunSingleList.remove(player.getName());

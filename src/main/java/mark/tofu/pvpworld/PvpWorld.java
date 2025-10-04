@@ -25,6 +25,7 @@ public final class PvpWorld extends JavaPlugin {
         new inventoryClickEvent(this);
         new blockPlaceEvent(this);
         new playerMoveEvent(this);
+        new asyncPlayerChatEvent(this);
         Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
