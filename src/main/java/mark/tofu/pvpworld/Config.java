@@ -147,12 +147,20 @@ public class Config extends JavaPlugin {
             player.sendMessage(ChatColor.RED + "間違えてしまった!");
             player.sendMessage(String.valueOf(result));
             player.sendTitle(ChatColor.RED + "脱落", ChatColor.AQUA + "再挑戦しよう!", 20, 80, 20);
-            player.getInventory().clear();
+            Config.clearInventory(player);
             player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
             SpeedRunSingleList.remove(player.getName());
             NoWalkList.remove(player.getName());
             SpeedRunScheduledTimer.stopTimer(player);
             player.setExp(0);
+        }
+    }
+
+    public static void clearInventory(Player player) {
+        int i;
+        for (i=0; i<36; i++) {
+            if (i == 9 || i == 10 || i == 11) return;
+            player.getInventory().clear(i);
         }
     }
 

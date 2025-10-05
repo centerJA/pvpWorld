@@ -33,7 +33,7 @@ public class playerChangeWorldEvent implements Listener {
         String playerName = player.getName();
         World world = player.getWorld();
         if (this.world != world) {//他のワールドに移動した時
-            player.getInventory().clear();
+            Config.clearInventory(player);
             Config.WorldAllPlayerList.remove(playerName);
             Config.DoNotReceiveDamageList.remove(playerName);
             Config.SpeedRunSingleOnHoldList.remove(playerName);

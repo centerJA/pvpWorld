@@ -100,7 +100,7 @@ public class playerInteractEvent implements Listener {
             if (block == Material.RED_MUSHROOM) {
                 String playerName = player.getName();
                 if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
-                    player.getInventory().clear();
+                    Config.clearInventory(player);
                     player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
                     Config.SpeedRunSingleOnHoldList.remove(playerName);
                     Config.SpeedRunSingleList.remove(playerName);

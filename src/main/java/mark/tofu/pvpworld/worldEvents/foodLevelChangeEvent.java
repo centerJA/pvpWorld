@@ -36,11 +36,6 @@ public class foodLevelChangeEvent implements Listener {
         }
         World world = player.getWorld();
         if (this.world != world) return;
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                e.setCancelled(true);
-            }
-        },1L);
+        e.setCancelled(true);
     }
 }

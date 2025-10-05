@@ -32,7 +32,7 @@ public class playerRespawnEvent implements Listener {
         World world = player.getWorld();
         if (this.world != world) return;
         player.setLevel(0);
-        player.getInventory().clear();
+        Config.clearInventory(player);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
