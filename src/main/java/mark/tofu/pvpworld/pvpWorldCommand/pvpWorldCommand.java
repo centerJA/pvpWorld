@@ -27,7 +27,7 @@ public class pvpWorldCommand implements CommandExecutor {
 
                 return true;
             } else if (args[0].equals("op")) { //pvpworld op
-                if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye")) {
+                if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye") || playerName.equals("10000m")) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
                             if (!Config.AdminBuildModeList.contains(playerName)) {
@@ -66,6 +66,8 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
                         player.sendMessage("YourExp Score");
                         player.sendMessage(String.valueOf(Config.getPlayerExp(player)));
+                        player.sendMessage("FreePvpPlayerList");
+                        player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
                             Config.playerSetLoginExp(player);

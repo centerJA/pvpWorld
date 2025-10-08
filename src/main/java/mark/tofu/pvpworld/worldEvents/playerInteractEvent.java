@@ -2,10 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.AthleticUtils;
-import mark.tofu.pvpworld.utils.SpeedRunAction;
-import mark.tofu.pvpworld.utils.SpeedRunScheduledTimer;
-import mark.tofu.pvpworld.utils.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -67,20 +64,33 @@ public class playerInteractEvent implements Listener {
                     AthleticUtils.startAthleticAction(player, plugin);
                 }
             } else if (e.getClickedBlock().getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE) {
-                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.freePvpJoinPoint.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.freePvpJoinPoint.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.freePvpJoinPoint.getZ())) {
+                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.freePvpJoinPoint.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.freePvpJoinPoint.getY()) && (double) e.getClickedBlock().getZ() == Math.floor(Config.freePvpJoinPoint.getZ())) {
                     if (!Config.FreePvpPlayerList.contains(player.getName())) {
                         Config.FreePvpPlayerList.add(player.getName());
+                        Config.clearInventory(player);
+                        player.getInventory().setItem(0, Config.itemMeta("聖なる剣", Material.IRON_SWORD, 1));
+                        player.getInventory().setItem(1, Config.itemMeta("釣り竿", Material.FISHING_ROD, 1));
+                        player.getInventory().setItem(2, Config.itemMeta("弓", Material.BOW, 1));
+                        player.getInventory().setItem(8, Config.itemMeta("矢", Material.ARROW, 8));
+                        player.getInventory().setItem(39, Config.itemMeta("ヘルメット", Material.IRON_HELMET, 1));
+                        player.getInventory().setItem(38, Config.itemMeta("チェストプレート", Material.IRON_CHESTPLATE, 1));
+                        player.getInventory().setItem(37, Config.itemMeta("レギンス", Material.IRON_LEGGINGS, 1));
+                        player.getInventory().setItem(36, Config.itemMeta("ブーツ", Material.IRON_BOOTS, 1));
+                        player.getInventory().setItem(12, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                        Config.DoNotReceiveDamageList.remove(player.getName());
+                        player.sendMessage("ロビーに戻るにはインベントリ内のアイテムを使用してください");
+                        player.teleport(Config.freePvpSpawnPoint);
+                        for (String PlayerName: Config.WorldAllPlayerList) {
+                            Player player2 = Bukkit.getPlayer(PlayerName);
+                            Objects.requireNonNull(player2).sendMessage(ChatColor.GOLD + player.getName() + "さんがFree PVPスペースに参加しました");
+                        }
+                        if (Config.FreePvpPlayerList.isEmpty()) {
+                            player.sendMessage("現在誰もいません");
+                        }
+                    } else {
+                        player.sendMessage("エラーが発生しました");
                     }
-                    Config.clearInventory(player);
-                    player.getInventory().setItem(0, Config.itemMeta("聖なる剣", Material.IRON_SWORD, 1));
-                    player.getInventory().setItem(1, Config.itemMeta("釣り竿", Material.FISHING_ROD, 1));
-                    player.getInventory().setItem(2, Config.itemMeta("弓", Material.BOW, 1));
-                    player.getInventory().setItem(8, Config.itemMeta("矢", Material.ARROW, 8));
-                    player.getInventory().setItem(36, Config.itemMeta("ヘルメット", Material.IRON_HELMET, 1));
-                    player.getInventory().setItem(37, Config.itemMeta("チェストプレート", Material.IRON_CHESTPLATE, 1));
-                    player.getInventory().setItem(38, Config.itemMeta("レギンス", Material.IRON_LEGGINGS, 1));
-                    player.getInventory().setItem(39, Config.itemMeta("ブーツ", Material.IRON_BOOTS, 1));
-                    player.getInventory().setItem(9, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -117,17 +127,22 @@ public class playerInteractEvent implements Listener {
             if (block == Material.RED_MUSHROOM) {
                 String playerName = player.getName();
                 if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
-                    Config.clearInventory(player);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                     Config.SpeedRunSingleOnHoldList.remove(playerName);
                     Config.SpeedRunSingleList.remove(playerName);
-                    Config.FreePvpPlayerList.remove(playerName);
                     SpeedRunTimer.stopTimer(player);
                     SpeedRunScheduledTimer.stopTimer(player);
                     player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
                 }
+                Config.clearInventory(player);
+                player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                 player.teleport(Config.lobby);
                 player.setExp(0);
+                AthleticTimer.stopTimer(player);
+                if (Config.FreePvpPlayerList.contains(playerName)) {
+                    Config.FreePvpPlayerList.remove(playerName);
+                    Config.DoNotReceiveDamageList.add(playerName);
+                    player.sendMessage("Free PVPを退席しました");
+                }
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);

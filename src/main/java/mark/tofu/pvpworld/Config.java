@@ -39,7 +39,8 @@ public class Config extends JavaPlugin {
                            speedRunSingleMap1SpawnPoint = new Location(world, -13.500, 4, 107.500, 0, 0),
                            speedRunSingleMap1UnderSandPoint = new Location(world, -14, 4, 109),
                            speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109),
-                           freePvpJoinPoint = new Location(world, 40, 4, -1);
+                           freePvpJoinPoint = new Location(world, 42, 4, -1),
+                           freePvpSpawnPoint = new Location(world, 45.500, 4.500, -1.500, -90, 0);
 
     public static int random1, random2, result;
 
@@ -160,7 +161,7 @@ public class Config extends JavaPlugin {
 
     public static void clearInventory(Player player) {
         int i;
-        for (i=0; i<36; i++) {
+        for (i=0; i<40  ; i++) {
             if (i == 9 || i == 10 || i == 11) return;
             player.getInventory().clear(i);
         }

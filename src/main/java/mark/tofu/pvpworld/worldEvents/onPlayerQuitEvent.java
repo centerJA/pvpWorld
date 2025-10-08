@@ -34,5 +34,7 @@ public class onPlayerQuitEvent implements Listener {
         Config.WorldAllPlayerList.remove(playerName);
         Config.DoNotReceiveDamageList.remove(playerName);
         Config.SpeedRunSingleOnHoldList.remove(playerName);
+        Config.SpeedRunSingleList.remove(playerName);
+        Config.FreePvpPlayerList.remove(playerName);
     }
 }

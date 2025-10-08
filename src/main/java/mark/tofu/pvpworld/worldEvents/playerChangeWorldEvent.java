@@ -46,7 +46,7 @@ public class playerChangeWorldEvent implements Listener {
           if (!Config.DoNotReceiveDamageList.contains(playerName)) {
               Config.DoNotReceiveDamageList.add(playerName);
           }
-            if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
+            if (playerName.equals("InfInc") || playerName.equals("markcs11") || playerName.equals("10000m")) {
                 player.sendMessage(String.valueOf(Config.WorldAllPlayerList));
             }
             player.teleport(Config.lobby);
@@ -68,6 +68,7 @@ public class playerChangeWorldEvent implements Listener {
             } else {
                 player.sendMessage("最後にログイン時のexpを受け取ってから1日以上経っていないので、ログイン時のexpは獲得できません!");
             }
+            player.sendMessage("testdesu");
         }
     }
 }
