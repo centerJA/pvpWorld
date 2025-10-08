@@ -29,7 +29,8 @@ public class Config extends JavaPlugin {
                                     SpeedRunSingleOnHoldList = new ArrayList<>(),
                                     AdminBuildModeList = new ArrayList<>(),
                                     SpeedRunSingleList = new ArrayList<>(),
-                                    NoWalkList = new ArrayList<>();
+                                    NoWalkList = new ArrayList<>(),
+                                    FreePvpPlayerList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
@@ -37,13 +38,14 @@ public class Config extends JavaPlugin {
                            speedRunSingleOnholdRoom = new Location(world, -77.500, 4, -0.500, 90, 0),
                            speedRunSingleMap1SpawnPoint = new Location(world, -13.500, 4, 107.500, 0, 0),
                            speedRunSingleMap1UnderSandPoint = new Location(world, -14, 4, 109),
-                           speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109);
+                           speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109),
+                           freePvpJoinPoint = new Location(world, 40, 4, -1);
 
     public static int random1, random2, result;
 
-    public static ItemStack itemMeta(String displayName, Material material) {
+    public static ItemStack itemMeta(String displayName, Material material, int i) {
         Bukkit.getLogger().info("called itemMeta!");
-        ItemStack itemStack = new ItemStack(material, 1);
+        ItemStack itemStack = new ItemStack(material, i);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             Bukkit.getLogger().info("itemMeta is null");
@@ -148,7 +150,7 @@ public class Config extends JavaPlugin {
             player.sendMessage(String.valueOf(result));
             player.sendTitle(ChatColor.RED + "脱落", ChatColor.AQUA + "再挑戦しよう!", 20, 80, 20);
             Config.clearInventory(player);
-            player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
+            player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
             SpeedRunSingleList.remove(player.getName());
             NoWalkList.remove(player.getName());
             SpeedRunScheduledTimer.stopTimer(player);

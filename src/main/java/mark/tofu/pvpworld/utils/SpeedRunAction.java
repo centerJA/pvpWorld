@@ -19,8 +19,8 @@ import java.util.Random;
 public class SpeedRunAction {
     public static void openGameListInventory(Player player) {
         Inventory gameList = Bukkit.createInventory(null, 9, "SpeedRun: モード選択");
-        gameList.setItem(0, Config.itemMeta("SpeedRunシングルプレイ", Material.PAPER));
-        gameList.setItem(1, Config.itemMeta("SpeedRunマルチプレイ", Material.PAPER));
+        gameList.setItem(0, Config.itemMeta("SpeedRunシングルプレイ", Material.PAPER, 1));
+        gameList.setItem(1, Config.itemMeta("SpeedRunマルチプレイ", Material.PAPER, 1));
         Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
     }
 
@@ -34,7 +34,7 @@ public class SpeedRunAction {
         } else { //タイマーを発動させる
             player.sendMessage(ChatColor.AQUA + "誰もプレイしていなかったので、開始します");
             player.teleport(Config.speedRunSingleOnholdRoom);
-            player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
+            player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
             Config.SpeedRunSingleOnHoldList.add(player.getName());
             player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
             SpeedRunTimer.startTimer(player, plugin);
@@ -104,7 +104,7 @@ public class SpeedRunAction {
                 }
             }, 60L);
         } else if (ran == 5) { //5秒間浮遊できるアイテムを渡す
-            player.getInventory().addItem(Config.itemMeta("浮遊する", Material.FEATHER));
+            player.getInventory().addItem(Config.itemMeta("浮遊する", Material.FEATHER, 1));
             player.sendMessage(ChatColor.GREEN + "空からの贈り物");
             player.sendMessage(ChatColor.GREEN + "5秒間浮遊できるアイテムをゲットした!");
         } else if (ran == 6) { //5秒間盲目になる
@@ -127,7 +127,7 @@ public class SpeedRunAction {
             player.sendMessage(ChatColor.YELLOW + "知らない人からのちょっかい");
             player.sendMessage(ChatColor.YELLOW + "ノックバックを受けてしまった!");
         } else if (ran == 9) { //1/2ラッキーブロックをあげる
-            player.getInventory().addItem(Config.itemMeta("ラックーブロック", Material.GOLD_BLOCK));
+            player.getInventory().addItem(Config.itemMeta("ラックーブロック", Material.GOLD_BLOCK, 1));
             player.sendMessage(ChatColor.YELLOW + "運試し");
             player.sendMessage(ChatColor.YELLOW + "1/2ラッキーブロックを入手した!");
             player.sendMessage("右クリックすると半分の確率で良いものを得られ、半分の確率で悪い効果を受けます");

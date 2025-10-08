@@ -48,7 +48,7 @@ public class playerInteractEvent implements Listener {
         if (Config.AdminBuildModeList.contains(player.getName())) return;
         if (e.getAction().equals(Action.PHYSICAL)) {
             if(Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
-                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticFinish.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticFinish.getY()) && Math.floor(e.getClickedBlock().getY()) == Math.floor(Config.lobbyAthleticFinish.getY())) {
+                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticFinish.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticFinish.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.lobbyAthleticFinish.getZ())) {
                     if (player.getLevel() == 0) {
                         player.sendMessage(ChatColor.AQUA + "あなたのタイムは現在0です。");
                         player.sendMessage(ChatColor.AQUA + "もう一度アスレチックに挑戦しましょう!");
@@ -60,11 +60,27 @@ public class playerInteractEvent implements Listener {
                     AthleticUtils.stopAthleticAction(player);
                 }
 
-                else if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticStart.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticStart.getY()) && Math.floor(e.getClickedBlock().getY()) == Math.floor(Config.lobbyAthleticStart.getY())) {
+                else if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticStart.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticStart.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.lobbyAthleticStart.getZ())) {
                     if(Config.lobbyAthleticStart.getWorld() == null) {
                         player.sendMessage("問題が発生しました");
                     }
                     AthleticUtils.startAthleticAction(player, plugin);
+                }
+            } else if (e.getClickedBlock().getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE) {
+                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.freePvpJoinPoint.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.freePvpJoinPoint.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.freePvpJoinPoint.getZ())) {
+                    if (!Config.FreePvpPlayerList.contains(player.getName())) {
+                        Config.FreePvpPlayerList.add(player.getName());
+                    }
+                    Config.clearInventory(player);
+                    player.getInventory().setItem(0, Config.itemMeta("聖なる剣", Material.IRON_SWORD, 1));
+                    player.getInventory().setItem(1, Config.itemMeta("釣り竿", Material.FISHING_ROD, 1));
+                    player.getInventory().setItem(2, Config.itemMeta("弓", Material.BOW, 1));
+                    player.getInventory().setItem(8, Config.itemMeta("矢", Material.ARROW, 8));
+                    player.getInventory().setItem(36, Config.itemMeta("ヘルメット", Material.IRON_HELMET, 1));
+                    player.getInventory().setItem(37, Config.itemMeta("チェストプレート", Material.IRON_CHESTPLATE, 1));
+                    player.getInventory().setItem(38, Config.itemMeta("レギンス", Material.IRON_LEGGINGS, 1));
+                    player.getInventory().setItem(39, Config.itemMeta("ブーツ", Material.IRON_BOOTS, 1));
+                    player.getInventory().setItem(9, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -90,6 +106,7 @@ public class playerInteractEvent implements Listener {
                             player.sendMessage(ChatColor.YELLOW + "10秒に1回ランダムでイベントが発生します!!");
                             player.sendMessage(ChatColor.GREEN + "歩く速さが速く" + ChatColor.WHITE + "なったり、" + ChatColor.RED + "周りが見えなく" + ChatColor.WHITE + "なったり...");
                             player.sendMessage("リーダーボードも作る予定です!");
+                            player.sendMessage(ChatColor.AQUA + "--------------------------------------------");
                         }
                     }
                 }
@@ -101,9 +118,10 @@ public class playerInteractEvent implements Listener {
                 String playerName = player.getName();
                 if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
                     Config.clearInventory(player);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM));
+                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                     Config.SpeedRunSingleOnHoldList.remove(playerName);
                     Config.SpeedRunSingleList.remove(playerName);
+                    Config.FreePvpPlayerList.remove(playerName);
                     SpeedRunTimer.stopTimer(player);
                     SpeedRunScheduledTimer.stopTimer(player);
                     player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
@@ -122,13 +140,19 @@ public class playerInteractEvent implements Listener {
                 int randomInt = random.nextInt(2) + 1;
                 if (randomInt == 1) { //良い
                     player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
-                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK));
+                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
                     player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
+                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
+                        player.setItemInHand(null);
+                    }
                 } else {
                     player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
                     PotionEffect confusion = new PotionEffect(PotionEffectType.CONFUSION, 100, 1);
                     player.addPotionEffect(confusion);
                     player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
+                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
+                        player.setItemInHand(null);
+                    }
                 }
             } else if (block == Material.NETHER_STAR) {
                 PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
