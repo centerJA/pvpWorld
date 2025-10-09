@@ -116,8 +116,16 @@ public class playerInteractEvent implements Listener {
                             player.sendMessage(ChatColor.YELLOW + "10秒に1回ランダムでイベントが発生します!!");
                             player.sendMessage(ChatColor.GREEN + "歩く速さが速く" + ChatColor.WHITE + "なったり、" + ChatColor.RED + "周りが見えなく" + ChatColor.WHITE + "なったり...");
                             player.sendMessage("リーダーボードも作る予定です!");
-                            player.sendMessage(ChatColor.AQUA + "--------------------------------------------");
+                            player.sendMessage(ChatColor.AQUA + "---------------------------");
                         }
+                    } else if (Objects.equals(lines[1], "FreePVP")) {
+                        player.sendMessage(ChatColor.AQUA + "-----Free PVP-----");
+                        player.sendMessage("このゲームは、自由参加型の" + ChatColor.GOLD + "FFA" + ChatColor.WHITE + "PVPゲームです!");
+                        player.sendMessage("FFAとは、味方がいない、全員敵のゲームのことです。");
+                        player.sendMessage("鉄剣、弓、矢8本、釣り竿、鉄フル装備が支給されます。");
+                        player.sendMessage("敵を倒すと金リンゴがもらえ、継続的に試合を続けられます!");
+                        player.sendMessage("退出する際は、インベントリ内にある赤いキノコをホットバーに移動させて、右クリックしてください。");
+                        player.sendMessage(ChatColor.AQUA + "---------------------");
                     }
                 }
             }
@@ -136,12 +144,12 @@ public class playerInteractEvent implements Listener {
                 Config.clearInventory(player);
                 player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                 player.teleport(Config.lobby);
-                player.setExp(0);
+                player.setLevel(0);
                 AthleticTimer.stopTimer(player);
                 if (Config.FreePvpPlayerList.contains(playerName)) {
                     Config.FreePvpPlayerList.remove(playerName);
                     Config.DoNotReceiveDamageList.add(playerName);
-                    player.sendMessage("Free PVPを退席しました");
+                    player.sendMessage("Free PVPを退出しました");
                 }
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);

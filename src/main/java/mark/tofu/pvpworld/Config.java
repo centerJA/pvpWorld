@@ -6,6 +6,7 @@ import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,6 +45,8 @@ public class Config extends JavaPlugin {
 
     public static int random1, random2, result;
 
+    public static ItemStack serverSelect, worldSelect, quit;
+
     public static ItemStack itemMeta(String displayName, Material material, int i) {
         Bukkit.getLogger().info("called itemMeta!");
         ItemStack itemStack = new ItemStack(material, i);
@@ -58,9 +61,10 @@ public class Config extends JavaPlugin {
     }
 
     public static String worldUpdateNotice() {
-        String notice = "お知らせを表示するコマンドが作成されました!";
-        String date = "2025/09/14";
-        return date + ": " + notice;
+        String notice = "Free PVPスペースが解放されました!!";
+        String date = "2025/10/10";
+        String description = "ロビーの後ろにあるので、足を運んでみてください!";
+        return date + ": {" + notice + "}: " + description;
     }
 
     public static void playerSetLoginExp(Player player) throws IOException {
@@ -160,11 +164,16 @@ public class Config extends JavaPlugin {
     }
 
     public static void clearInventory(Player player) {
-        int i;
-        for (i=0; i<40  ; i++) {
-            if (i == 9 || i == 10 || i == 11) return;
-            player.getInventory().clear(i);
-        }
+        player.getInventory().clear();
+        player.getInventory().setItem(9, serverSelect);
+        player.getInventory().setItem(10, worldSelect);
+        player.getInventory().setItem(11, quit);
+    }
+
+    public static void checkInventoryItem(Player player) {
+        serverSelect = player.getInventory().getItem(9);
+        worldSelect = player.getInventory().getItem(10);
+        quit = player.getInventory().getItem(11);
     }
 
 }

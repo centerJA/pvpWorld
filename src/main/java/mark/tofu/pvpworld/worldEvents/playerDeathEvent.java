@@ -3,11 +3,16 @@ package mark.tofu.pvpworld.worldEvents;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public class playerDeathEvent implements Listener {
     PvpWorld plugin;
@@ -35,6 +40,20 @@ public class playerDeathEvent implements Listener {
         player.teleport(Config.lobby);
         if (Config.DoNotReceiveDamageList.contains(playerName)) {
             e.getDrops().clear();
-        } else return;
+        } else if (Config.FreePvpPlayerList.contains(playerName)) {
+            Player killedPlayer = e.getEntity().getKiller();
+            if (killedPlayer == null) {
+                player.sendMessage("死んでしまった!!");
+                Config.clearInventory(player);
+                Config.FreePvpPlayerList.remove(playerName);
+                Config.DoNotReceiveDamageList.add(playerName);
+            } else {
+                for (String PlayerName: Config.FreePvpPlayerList) {
+                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + PlayerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
+                    killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
+                    killedPlayer.sendMessage("金リンゴを入手しました");
+                }
+            }
+        }
     }
 }

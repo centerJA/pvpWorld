@@ -53,6 +53,9 @@ public class playerChangeWorldEvent implements Listener {
             player.setGameMode(GameMode.SURVIVAL);
             player.setFoodLevel(20);
             player.setHealth(20);
+            Config.checkInventoryItem(player);
+            player.setLevel(0);
+            player.sendMessage(ChatColor.GOLD + Config.worldUpdateNotice());
             player.sendTitle(player.getName() + ChatColor.AQUA + "さん", ChatColor.AQUA + "こんにちは！", 20, 40, 20);
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
