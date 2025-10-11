@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils;
+package mark.tofu.pvpworld.utils.athletic;
 
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.ChatColor;
@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AthleticTimer {

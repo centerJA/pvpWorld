@@ -2,7 +2,12 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.*;
+import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -63,35 +68,6 @@ public class playerInteractEvent implements Listener {
                     }
                     AthleticUtils.startAthleticAction(player, plugin);
                 }
-            } else if (e.getClickedBlock().getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE) {
-                if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.freePvpJoinPoint.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.freePvpJoinPoint.getY()) && (double) e.getClickedBlock().getZ() == Math.floor(Config.freePvpJoinPoint.getZ())) {
-                    if (!Config.FreePvpPlayerList.contains(player.getName())) {
-                        Config.FreePvpPlayerList.add(player.getName());
-                        Config.clearInventory(player);
-                        player.getInventory().setItem(0, Config.itemMeta("聖なる剣", Material.IRON_SWORD, 1));
-                        player.getInventory().setItem(1, Config.itemMeta("釣り竿", Material.FISHING_ROD, 1));
-                        player.getInventory().setItem(2, Config.itemMeta("弓", Material.BOW, 1));
-                        player.getInventory().setItem(8, Config.itemMeta("矢", Material.ARROW, 8));
-                        player.getInventory().setItem(39, Config.itemMeta("ヘルメット", Material.IRON_HELMET, 1));
-                        player.getInventory().setItem(38, Config.itemMeta("チェストプレート", Material.IRON_CHESTPLATE, 1));
-                        player.getInventory().setItem(37, Config.itemMeta("レギンス", Material.IRON_LEGGINGS, 1));
-                        player.getInventory().setItem(36, Config.itemMeta("ブーツ", Material.IRON_BOOTS, 1));
-                        player.getInventory().setItem(12, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
-                        Config.DoNotReceiveDamageList.remove(player.getName());
-                        player.sendMessage("ロビーに戻るにはインベントリ内のアイテムを使用してください");
-                        player.teleport(Config.freePvpSpawnPoint);
-                        for (String PlayerName: Config.WorldAllPlayerList) {
-                            Player player2 = Bukkit.getPlayer(PlayerName);
-                            Objects.requireNonNull(player2).sendMessage(ChatColor.GOLD + player.getName() + "さんがFree PVPスペースに参加しました");
-                        }
-                        if (Config.FreePvpPlayerList.isEmpty()) {
-                            player.sendMessage("現在誰もいません");
-                        }
-                    } else {
-                        player.sendMessage("エラーが発生しました");
-                    }
-
-                }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (Config.AdminBuildModeList.contains(player.getName())) return;
@@ -119,13 +95,7 @@ public class playerInteractEvent implements Listener {
                             player.sendMessage(ChatColor.AQUA + "---------------------------");
                         }
                     } else if (Objects.equals(lines[1], "FreePVP")) {
-                        player.sendMessage(ChatColor.AQUA + "-----Free PVP-----");
-                        player.sendMessage("このゲームは、自由参加型の" + ChatColor.GOLD + "FFA" + ChatColor.WHITE + "PVPゲームです!");
-                        player.sendMessage("FFAとは、味方がいない、全員敵のゲームのことです。");
-                        player.sendMessage("鉄剣、弓、矢8本、釣り竿、鉄フル装備が支給されます。");
-                        player.sendMessage("敵を倒すと金リンゴがもらえ、継続的に試合を続けられます!");
-                        player.sendMessage("退出する際は、インベントリ内にある赤いキノコをホットバーに移動させて、右クリックしてください。");
-                        player.sendMessage(ChatColor.AQUA + "---------------------");
+                        FreePvpUtils.ruleExplain(player);
                     }
                 }
             }

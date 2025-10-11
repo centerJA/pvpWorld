@@ -1,7 +1,7 @@
 package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.SpeedRunAction;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;

@@ -1,12 +1,11 @@
 package mark.tofu.pvpworld;
 
 
-import mark.tofu.pvpworld.utils.SpeedRunScheduledTimer;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,8 +20,8 @@ import java.util.Random;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExpFile, playerLastRoginFile;
-    public static FileConfiguration playerExpData, playerLastRogin;
+    public static File playerExpFile, playerLastLoginFile;
+    public static FileConfiguration playerExpData, playerLastLogin;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
@@ -67,8 +66,8 @@ public class Config extends JavaPlugin {
         return date + ": {" + notice + "}: " + description;
     }
 
-    public static void playerSetLoginExp(Player player) throws IOException {
-        int finalScore = getPlayerExp(player) + 5;
+    public static void playerSetExp(Player player, int exp) throws IOException {
+        int finalScore = getPlayerExp(player) + exp;
         playerExpData.set(player.getName(), finalScore);
         try {
             playerExpData.save(playerExpFile);
@@ -80,7 +79,11 @@ public class Config extends JavaPlugin {
     }
 
     public static int getPlayerExp(Player player) {
-        return playerExpData.getInt(player.getName(), 0);
+        if (playerExpData.contains(player.getName())) {
+            return playerExpData.getInt(player.getName(), 0);
+        } else {
+            return 0;
+        }
     }
 
     public static boolean testPlayerLastLoginTime(Player player) {
@@ -90,11 +93,14 @@ public class Config extends JavaPlugin {
         long lastPlayed = getPlayerLastLogin(player);
         if (lastPlayed == 0) {
             player.sendMessage(ChatColor.AQUA + "初参加です!");
-            setPlayerLastRogin(player);
+            setPlayerLastLogin(player);
             return true;
         }
         long difference = nowTime - lastPlayed;
-
+        player.sendMessage(String.valueOf(nowTime));
+        player.sendMessage(String.valueOf(lastPlayed));
+        player.sendMessage(String.valueOf(oneDay));
+        player.sendMessage(String.valueOf(difference));
         return difference >= oneDay;
     }
 
@@ -112,26 +118,31 @@ public class Config extends JavaPlugin {
 
     }
 
-    public static void playerLastRoginSetup(PvpWorld plugin) {
-        playerLastRoginFile = new File(plugin.getDataFolder(), "playerLastRoginTime.yml");
-        if (!playerLastRoginFile.exists()) {
+    public static void playerLastLoginSetup(PvpWorld plugin) {
+        playerLastLoginFile = new File(plugin.getDataFolder(), "playerLastRoginTime.yml");
+        if (!playerLastLoginFile.exists()) {
             try {
-                playerLastRoginFile.createNewFile();
+                playerLastLoginFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        playerLastLogin = YamlConfiguration.loadConfiguration(playerLastLoginFile);
     }
 
-    public static int getPlayerLastLogin(Player player) {
-        return playerLastRogin.getInt(player.getName(), 0);
+    public static long getPlayerLastLogin(Player player) {
+        if (playerLastLogin.contains(player.getName())) {
+            return playerLastLogin.getLong(player.getName());
+        } else {
+            return 0;
+        }
     }
 
-    public static void setPlayerLastRogin(Player player) {
+    public static void setPlayerLastLogin(Player player) {
         long nowTime = System.currentTimeMillis();
-        playerLastRogin.set(player.getName(), nowTime);
+        playerLastLogin.set(player.getName(), nowTime);
         try {
-            playerLastRogin.save(playerLastRoginFile);
+            playerLastLogin.save(playerLastLoginFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

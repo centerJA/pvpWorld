@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -35,15 +36,7 @@ public class playerRespawnEvent implements Listener {
         player.setLevel(0);
         Config.clearInventory(player);
         if (Config.FreePvpPlayerList.contains(player.getName())) {
-            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    Config.FreePvpPlayerList.remove(player.getName());
-                    Config.DoNotReceiveDamageList.add(player.getName());
-                    player.setGameMode(GameMode.SURVIVAL);
-                    player.teleport(Config.freePvpSpawnPoint);
-                }
-            }, 2L);
+            FreePvpUtils.freePvpPlayerRespawnAction(player, plugin);
         } else {
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override

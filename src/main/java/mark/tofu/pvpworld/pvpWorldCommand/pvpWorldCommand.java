@@ -70,7 +70,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
-                            Config.playerSetLoginExp(player);
+                            Config.playerSetExp(player, 5);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

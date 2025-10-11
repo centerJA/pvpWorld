@@ -1,6 +1,5 @@
-package mark.tofu.pvpworld.utils;
+package mark.tofu.pvpworld.utils.speedRun;
 
-import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,20 +8,20 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
-import static mark.tofu.pvpworld.utils.AthleticTimer.tasks;
+import static mark.tofu.pvpworld.utils.athletic.AthleticTimer.tasks;
 
-public class SpeedRunTimer {
+public class SpeedRunScheduledTimer {
     private static BukkitRunnable timerTask;
 
     public static int speedRunTime;
 
-    public static HashMap<Player, Integer>playerTimes = new HashMap<>();
+    public static HashMap<Player, Integer> playerTimes = new HashMap<>();
 
     public static void startTimer(Player player, PvpWorld plugin) {
         if (playerTimes.containsKey(player)) {
             SpeedRunTimer.stopTimer(player);
         }
-        playerTimes.put(player, 16);
+        playerTimes.put(player, 11);
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -30,14 +29,9 @@ public class SpeedRunTimer {
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
                     player.sendMessage("aaa");
-                    SpeedRunAction.startSingleMode(player, plugin);
-                    Config.SpeedRunSingleOnHoldList.remove(player.getName());
-                    stopTimer(player);
-                    SpeedRunTimer.getTaskId(player).cancel();
+                    SpeedRunAction.randomEvent(player, plugin);
+                    SpeedRunScheduledTimer.startTimer(player, plugin);
                     return;
-                }
-                if (elapsedTime <= 5) {
-                    sendMessage(player, elapsedTime);
                 }
                 playerTimes.put(player, elapsedTime);
                 player.setLevel(elapsedTime);
@@ -61,12 +55,8 @@ public class SpeedRunTimer {
     }
     public static void stopTimer(Player player) {
         if (tasks.get(player) != null) {
+            getTaskId(player).cancel();
             tasks.get(player).cancel();
         }
     }
-
-    public static void sendMessage(Player player, int elapsedTime) {
-        player.sendMessage(ChatColor.AQUA + String.valueOf(elapsedTime) + "秒!");
-        player.sendTitle(String.valueOf(elapsedTime), "", 0, 20, 0);
-    }
- }
+}

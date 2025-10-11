@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
 
 public final class PvpWorld extends JavaPlugin {
@@ -30,7 +29,7 @@ public final class PvpWorld extends JavaPlugin {
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
         Config.playerExpSetup(this);
-        Config.playerLastRoginSetup(this);
+        Config.playerLastLoginSetup(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 

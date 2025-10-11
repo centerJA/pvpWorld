@@ -30,10 +30,7 @@ public class foodLevelChangeEvent implements Listener {
     public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
         Entity entity = e.getEntity();
         Player player = (Player) entity;
-        if (player == null) {
-            Bukkit.getLogger().info("エラーが発生しました");
-            return;
-        }
+        if (player == null) return;
         World world = player.getWorld();
         if (this.world != world) return;
         e.setCancelled(true);
