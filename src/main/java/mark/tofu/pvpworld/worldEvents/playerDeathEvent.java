@@ -45,14 +45,12 @@ public class playerDeathEvent implements Listener {
             if (killedPlayer == null) {
                 player.sendMessage("死んでしまった!!");
                 Config.clearInventory(player);
-                Config.FreePvpPlayerList.remove(playerName);
-                Config.DoNotReceiveDamageList.add(playerName);
             } else {
                 for (String PlayerName: Config.FreePvpPlayerList) {
                     Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + PlayerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
-                    killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
-                    killedPlayer.sendMessage("金リンゴを入手しました");
                 }
+                killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
+                killedPlayer.sendMessage("金リンゴを入手しました");
             }
         }
     }

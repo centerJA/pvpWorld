@@ -1,3 +1,4 @@
+mark\tofu\pvpworld\worldEvents\playerRespawnEvent$3.class
 mark\tofu\pvpworld\utils\AthleticUtils.class
 mark\tofu\pvpworld\worldEvents\asyncPlayerChatEvent$1.class
 mark\tofu\pvpworld\worldEvents\playerRespawnEvent.class
@@ -9,6 +10,7 @@ mark\tofu\pvpworld\utils\SpeedRunTimer$2.class
 mark\tofu\pvpworld\worldEvents\playerChangeWorldEvent.class
 mark\tofu\pvpworld\worldEvents\playerInteractEvent$1.class
 mark\tofu\pvpworld\utils\SpeedRunAction$4.class
+mark\tofu\pvpworld\worldEvents\playerMoveEvent$2.class
 mark\tofu\pvpworld\worldEvents\blockPlaceEvent.class
 mark\tofu\pvpworld\worldEvents\playerRespawnEvent$1.class
 mark\tofu\pvpworld\pvpWorldCommand\pvpWorldCommand.class

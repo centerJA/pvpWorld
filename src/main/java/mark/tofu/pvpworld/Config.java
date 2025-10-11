@@ -41,7 +41,7 @@ public class Config extends JavaPlugin {
                            speedRunSingleMap1UnderSandPoint = new Location(world, -14, 4, 109),
                            speedRunSingleMap1UpSandPoint = new Location(world, -14, 5, 109),
                            freePvpJoinPoint = new Location(world, 42, 4, -1),
-                           freePvpSpawnPoint = new Location(world, 45.500, 4.500, -1.500, -90, 0);
+                           freePvpSpawnPoint = new Location(world, 54.500, 14.500, -0.500, -90, 0);
 
     public static int random1, random2, result;
 
