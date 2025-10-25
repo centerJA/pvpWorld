@@ -20,8 +20,8 @@ import java.util.Random;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExpFile, playerLastLoginFile;
-    public static FileConfiguration playerExpData, playerLastLogin;
+    public static File playerExpFile, playerLastLoginFile, playerCoinDataFile;
+    public static FileConfiguration playerExpData, playerLastLogin, playerCoinData;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
@@ -68,19 +68,36 @@ public class Config extends JavaPlugin {
 
     public static void playerSetExp(Player player, int exp) throws IOException {
         int finalScore = getPlayerExp(player) + exp;
-        playerExpData.set(player.getName(), finalScore);
+        playerExpData.set(String.valueOf(player.getUniqueId()), finalScore);
         try {
             playerExpData.save(playerExpFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendMessage("5expが追加されました");
-        player.sendMessage(String.valueOf(getPlayerExp(player)) + "exp");
+        player.sendMessage(ChatColor.GREEN + "+" + exp + "Exp");
     }
 
+    public static void playerSetCoin(Player player, int coin) throws IOException {
+        int finalScore = getPlayerCoin(player) + coin;
+        playerCoinData.set(String.valueOf(player.getUniqueId()), finalScore);
+        try {
+            playerCoinData.save(playerCoinDataFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.sendMessage(ChatColor.GOLD + "+" + coin + "Coin");
+    }
     public static int getPlayerExp(Player player) {
-        if (playerExpData.contains(player.getName())) {
-            return playerExpData.getInt(player.getName(), 0);
+        if (playerExpData.contains(String.valueOf(player.getUniqueId()))) {
+            return playerExpData.getInt(String.valueOf(player.getUniqueId()), 0);
+        } else {
+            return 0;
+        }
+    }
+
+    public static int getPlayerCoin(Player player) {
+        if (playerCoinData.contains(String.valueOf(player.getUniqueId()))) {
+            return playerCoinData.getInt(String.valueOf(player.getUniqueId()), 0);
         } else {
             return 0;
         }
@@ -97,10 +114,10 @@ public class Config extends JavaPlugin {
             return true;
         }
         long difference = nowTime - lastPlayed;
-        player.sendMessage(String.valueOf(nowTime));
-        player.sendMessage(String.valueOf(lastPlayed));
-        player.sendMessage(String.valueOf(oneDay));
-        player.sendMessage(String.valueOf(difference));
+//        player.sendMessage(String.valueOf(nowTime));
+//        player.sendMessage(String.valueOf(lastPlayed));
+//        player.sendMessage(String.valueOf(oneDay));
+//        player.sendMessage(String.valueOf(difference));
         return difference >= oneDay;
     }
 
@@ -115,11 +132,22 @@ public class Config extends JavaPlugin {
             }
         }
         playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
+    }
 
+    public static void playerCoinSetUp(PvpWorld plugin) {
+        playerCoinDataFile = new File(plugin.getDataFolder(), "playerCoin.yml");
+        if (!playerCoinDataFile.exists()) {
+            try {
+                playerCoinDataFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        playerCoinData = YamlConfiguration.loadConfiguration(playerCoinDataFile);
     }
 
     public static void playerLastLoginSetup(PvpWorld plugin) {
-        playerLastLoginFile = new File(plugin.getDataFolder(), "playerLastRoginTime.yml");
+        playerLastLoginFile = new File(plugin.getDataFolder(), "playerLastLoginTime.yml");
         if (!playerLastLoginFile.exists()) {
             try {
                 playerLastLoginFile.createNewFile();
@@ -131,16 +159,17 @@ public class Config extends JavaPlugin {
     }
 
     public static long getPlayerLastLogin(Player player) {
-        if (playerLastLogin.contains(player.getName())) {
-            return playerLastLogin.getLong(player.getName());
+        if (playerLastLogin.contains(String.valueOf(player.getUniqueId()))) {
+            return playerLastLogin.getLong(String.valueOf(player.getUniqueId()));
         } else {
             return 0;
         }
     }
 
+
     public static void setPlayerLastLogin(Player player) {
         long nowTime = System.currentTimeMillis();
-        playerLastLogin.set(player.getName(), nowTime);
+        playerLastLogin.set(String.valueOf(player.getUniqueId()), nowTime);
         try {
             playerLastLogin.save(playerLastLoginFile);
         } catch (IOException e) {
@@ -186,5 +215,7 @@ public class Config extends JavaPlugin {
         worldSelect = player.getInventory().getItem(10);
         quit = player.getInventory().getItem(11);
     }
+
+
 
 }

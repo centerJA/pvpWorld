@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.utils.freePvp;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -24,6 +25,7 @@ public class FreePvpUtils {
 
     public static void joinAction(Player player, PvpWorld plugin) {
         if (!Config.FreePvpPlayerList.contains(player.getName())) {
+            AthleticTimer.stopTimer(player);
             Config.FreePvpPlayerList.add(player.getName());
             player.getInventory().setItem(0, null);
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {

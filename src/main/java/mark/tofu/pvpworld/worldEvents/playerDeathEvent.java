@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class playerDeathEvent implements Listener {
@@ -31,7 +32,7 @@ public class playerDeathEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeathEvent(PlayerDeathEvent e) {
+    public void onPlayerDeathEvent(PlayerDeathEvent e) throws IOException {
         Player player = e.getEntity();
         String playerName = player.getName();
         World world = player.getWorld();
@@ -47,8 +48,11 @@ public class playerDeathEvent implements Listener {
                 Config.clearInventory(player);
             } else {
                 for (String PlayerName: Config.FreePvpPlayerList) {
-                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + PlayerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
+                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + playerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
+                    Config.playerSetExp(Bukkit.getPlayer(playerName), 1);
                 }
+                Config.playerSetExp(killedPlayer, 3);
+                Config.playerSetCoin(killedPlayer, 7);
                 killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
                 killedPlayer.sendMessage("金リンゴを入手しました");
             }

@@ -66,6 +66,8 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
                         player.sendMessage("YourExp Score");
                         player.sendMessage(String.valueOf(Config.getPlayerExp(player)));
+                        player.sendMessage("YourCoin Score");
+                        player.sendMessage(String.valueOf(Config.getPlayerCoin(player)));
                         player.sendMessage("FreePvpPlayerList");
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
@@ -82,6 +84,12 @@ public class pvpWorldCommand implements CommandExecutor {
                         Block block = location.getBlock();
                         block.setType(Material.AIR);
                         player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
+                    } else if (args[1].equals("getcoin")) {
+                        try {
+                            Config.playerSetCoin(player, 5);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 } else {
                     player.sendMessage(ChatColor.AQUA + "ADMINユーザーのみ使用できます!");

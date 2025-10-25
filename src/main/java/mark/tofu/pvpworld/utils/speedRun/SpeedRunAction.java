@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.utils.speedRun;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,6 +28,7 @@ public class SpeedRunAction {
     //single------------
 
     public static void singleOnHoldAction(Player player, PvpWorld plugin) {
+        AthleticTimer.stopTimer(player);
         if (!Config.SpeedRunSingleOnHoldList.isEmpty()) { //誰かがプレイしている最中
             player.sendMessage(ChatColor.AQUA + "既に誰かがプレイしています!");
             player.sendMessage(ChatColor.AQUA + "少々お待ちください");

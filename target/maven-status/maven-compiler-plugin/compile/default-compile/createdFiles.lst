@@ -18,7 +18,6 @@ mark/tofu/pvpworld/worldEvents/blockBreakEvent$1.class
 mark/tofu/pvpworld/worldEvents/blockPlaceEvent.class
 mark/tofu/pvpworld/worldEvents/onPlayerQuitEvent$1.class
 mark/tofu/pvpworld/worldEvents/entityDamageEvent$1.class
-mark/tofu/pvpworld/utils/athletic/AthleticTimer$2.class
 mark/tofu/pvpworld/worldEvents/playerInteractEvent.class
 mark/tofu/pvpworld/worldEvents/playerRespawnEvent$2.class
 mark/tofu/pvpworld/worldEvents/blockBreakEvent.class

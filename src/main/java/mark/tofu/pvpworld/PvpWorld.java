@@ -30,6 +30,7 @@ public final class PvpWorld extends JavaPlugin {
         if (world == null) return;
         Config.playerExpSetup(this);
         Config.playerLastLoginSetup(this);
+        Config.playerCoinSetUp(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 
