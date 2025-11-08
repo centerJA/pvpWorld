@@ -1,7 +1,9 @@
 package mark.tofu.pvpworld;
 
 
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 
 import java.io.File;
@@ -20,8 +23,8 @@ import java.util.Random;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExpFile, playerLastLoginFile, playerCoinDataFile;
-    public static FileConfiguration playerExpData, playerLastLogin, playerCoinData;
+    public static File playerExpFile, playerLastLoginFile, playerCoinDataFile, playerLobbyAthleticTimeFile;
+    public static FileConfiguration playerExpData, playerLastLogin, playerCoinData, playerLobbyAthleticTimeData;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
@@ -75,6 +78,7 @@ public class Config extends JavaPlugin {
             e.printStackTrace();
         }
         player.sendMessage(ChatColor.GREEN + "+" + exp + "Exp");
+        ScoreBoardUtils.updateScoreBoard(player);
     }
 
     public static void playerSetCoin(Player player, int coin) throws IOException {
@@ -86,6 +90,7 @@ public class Config extends JavaPlugin {
             e.printStackTrace();
         }
         player.sendMessage(ChatColor.GOLD + "+" + coin + "Coin");
+        ScoreBoardUtils.updateScoreBoard(player);
     }
     public static int getPlayerExp(Player player) {
         if (playerExpData.contains(String.valueOf(player.getUniqueId()))) {
@@ -134,6 +139,19 @@ public class Config extends JavaPlugin {
         playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
     }
 
+    public static void lobbyAthleticSetUp(PvpWorld plugin) {
+        playerLobbyAthleticTimeFile = new File(plugin.getDataFolder(), "playerAthleticTime.yml");
+        if (!playerLobbyAthleticTimeFile.exists()) {
+            try {
+                playerLobbyAthleticTimeFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        playerLobbyAthleticTimeData = YamlConfiguration.loadConfiguration(playerLobbyAthleticTimeFile);
+
+    }
+
     public static void playerCoinSetUp(PvpWorld plugin) {
         playerCoinDataFile = new File(plugin.getDataFolder(), "playerCoin.yml");
         if (!playerCoinDataFile.exists()) {
@@ -174,6 +192,24 @@ public class Config extends JavaPlugin {
             playerLastLogin.save(playerLastLoginFile);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void setPlayerLobbyAthleticTime(Player player, int playerScore) {
+        playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
+        try {
+            playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ScoreBoardUtils.updateScoreBoard(player);
+    }
+
+    public static int getPlayerLobbyAthleticTime(Player player) {
+        if (playerLobbyAthleticTimeData.contains(String.valueOf(player.getUniqueId()))) {
+            return playerLobbyAthleticTimeData.getInt(String.valueOf(player.getUniqueId()));
+        } else {
+            return 10000;
         }
     }
 

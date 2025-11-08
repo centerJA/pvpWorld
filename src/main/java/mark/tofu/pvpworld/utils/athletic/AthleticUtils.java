@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.utils.athletic;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
@@ -34,6 +35,8 @@ public class AthleticUtils {
         Config.lobbyAthleticFinish.getWorld().playEffect(player.getLocation(), Effect.DRAGON_BREATH, 0, 2);
         String playerScore = String.valueOf(player.getLevel());
         int playerScoreInt = player.getLevel();
+        Config.setPlayerLobbyAthleticTime(player, playerScoreInt);
+        ScoreBoardUtils.updateScoreBoard(player);
         player.sendTitle(ChatColor.AQUA + "おめでとう!", ChatColor.AQUA + playerScore + "秒でした", 20, 40, 20);
         AthleticTimer.stopTimer(player);
         player.sendMessage("あなたの記録は" + ChatColor.AQUA + playerScore + "秒でした!");

@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -61,6 +62,7 @@ public class playerChangeWorldEvent implements Listener {
                 @Override
                 public void run() {
                     player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    ScoreBoardUtils.updateScoreBoard(player);
                 }
             }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {
