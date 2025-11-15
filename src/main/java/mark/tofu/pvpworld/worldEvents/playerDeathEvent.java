@@ -15,6 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import java.io.IOException;
 import java.util.Objects;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
+
 public class playerDeathEvent implements Listener {
     PvpWorld plugin;
 
@@ -49,10 +52,10 @@ public class playerDeathEvent implements Listener {
             } else {
                 for (String PlayerName: Config.FreePvpPlayerList) {
                     Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + playerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
-                    Config.playerSetExp(Bukkit.getPlayer(playerName), 1);
+                    playerSetExp(Bukkit.getPlayer(playerName), 1);
                 }
-                Config.playerSetExp(killedPlayer, 3);
-                Config.playerSetCoin(killedPlayer, 7);
+                playerSetExp(killedPlayer, 3);
+                playerSetCoin(killedPlayer, 7);
                 killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
                 killedPlayer.sendMessage("金リンゴを入手しました");
             }

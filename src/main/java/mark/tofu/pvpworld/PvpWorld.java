@@ -8,6 +8,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.lobbyAthleticSetUp;
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerCoinSetUp;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerExpSetup;
+
 public final class PvpWorld extends JavaPlugin {
 
     @Override
@@ -28,10 +32,10 @@ public final class PvpWorld extends JavaPlugin {
         Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
         if (world == null) return;
-        Config.playerExpSetup(this);
+        playerExpSetup(this);
         Config.playerLastLoginSetup(this);
-        Config.lobbyAthleticSetUp(this);
-        Config.playerCoinSetUp(this);
+        lobbyAthleticSetUp(this);
+        playerCoinSetUp(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 

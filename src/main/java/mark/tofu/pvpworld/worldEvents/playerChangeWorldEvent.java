@@ -11,6 +11,11 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import java.io.IOException;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
+
 public class playerChangeWorldEvent implements Listener {
     PvpWorld plugin;
 
@@ -66,11 +71,11 @@ public class playerChangeWorldEvent implements Listener {
                 }
             }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {
-                Config.playerSetExp(player, 5);
-                Config.playerSetCoin(player, 3);
+                playerSetExp(player, 5);
+                playerSetCoin(player, 3);
                 player.sendMessage(ChatColor.AQUA + "最後にログイン時のexpを受け取ってから1日以上経過したので、5expと3coin獲得しました!");
-                player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + Config.getPlayerExp(player) + "exp");
-                player.sendMessage(ChatColor.AQUA + "現在のあなたのcoin; " + Config.getPlayerCoin(player) + "coin");
+                player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + getPlayerExp(player) + "exp");
+                player.sendMessage(ChatColor.AQUA + "現在のあなたのcoin; " + getPlayerCoin(player) + "coin");
                 Config.setPlayerLastLogin(player);
             } else {
                 player.sendMessage("最後にログイン時のexpを受け取ってから1日以上経っていないので、ログイン時のexpとcoinは獲得できません!");

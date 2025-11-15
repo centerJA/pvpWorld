@@ -2,6 +2,9 @@ package mark.tofu.pvpworld.pvpWorldCommand;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -9,7 +12,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
 import java.io.IOException;
+
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
 
 public class pvpWorldCommand implements CommandExecutor {
     private static final PvpWorld plugin = PvpWorld.getPlugin(PvpWorld.class);
@@ -65,14 +74,14 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage("SpeedRunSingleList");
                         player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
                         player.sendMessage("YourExp Score");
-                        player.sendMessage(String.valueOf(Config.getPlayerExp(player)));
+                        player.sendMessage(String.valueOf(getPlayerExp(player)));
                         player.sendMessage("YourCoin Score");
-                        player.sendMessage(String.valueOf(Config.getPlayerCoin(player)));
+                        player.sendMessage(String.valueOf(getPlayerCoin(player)));
                         player.sendMessage("FreePvpPlayerList");
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
-                            Config.playerSetExp(player, 5);
+                            playerSetExp(player, 5);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -86,7 +95,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
                     } else if (args[1].equals("getcoin")) {
                         try {
-                            Config.playerSetCoin(player, 5);
+                            playerSetCoin(player, 5);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -98,6 +107,27 @@ public class pvpWorldCommand implements CommandExecutor {
             } else if (args[0].equals("notice")) { //pvpworld notice
                 player.sendMessage(ChatColor.AQUA + Config.worldUpdateNotice());
                 return true;
+            } else if (args[0].equals("actions")) {
+                if (args[1].equals("lobbyAthletic")) {
+                    if (args[2].equals("clear")) { //pvpworld actions lobbyAthletic clear
+                        AthleticUtils.clearAthleticTimes(player);
+                    }
+                }
+            } else if (args[0].equals("help")) {
+                TextComponent showCommandList = new TextComponent(ChatColor.AQUA + "・コマンド一覧を表示する");
+                showCommandList.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pvpworld command"));
+                TextComponent sendHomePage = new TextComponent(ChatColor.AQUA + "・ホームページにアクセスする(現在アクセスできません)");
+                sendHomePage.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://google.com"));
+                player.sendMessage("ヘルプが必要ですか？");
+                player.sendMessage("押すと、それに応じたヘルプが表示されます");
+                player.spigot().sendMessage(showCommandList);
+                player.spigot().sendMessage(sendHomePage);
+            } else if (args[0].equals("command")) {
+                player.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "-----PVP WORLD-----");
+                player.sendMessage("/pvpworld -このワールドについてを表示します");
+                player.sendMessage("/pvpworld help -ヘルプを表示します");
+                player.sendMessage("/pvpworld command -コマンドのリストを表示します");
+                player.sendMessage("/pvpworld notice -お知らせを表示します");
             }
         }
         return false;

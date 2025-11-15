@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
+import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
+
 
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
@@ -69,49 +72,11 @@ public class Config extends JavaPlugin {
         return date + ": {" + notice + "}: " + description;
     }
 
-    public static void playerSetExp(Player player, int exp) throws IOException {
-        int finalScore = getPlayerExp(player) + exp;
-        playerExpData.set(String.valueOf(player.getUniqueId()), finalScore);
-        try {
-            playerExpData.save(playerExpFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        player.sendMessage(ChatColor.GREEN + "+" + exp + "Exp");
-        ScoreBoardUtils.updateScoreBoard(player);
-    }
 
-    public static void playerSetCoin(Player player, int coin) throws IOException {
-        int finalScore = getPlayerCoin(player) + coin;
-        playerCoinData.set(String.valueOf(player.getUniqueId()), finalScore);
-        try {
-            playerCoinData.save(playerCoinDataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        player.sendMessage(ChatColor.GOLD + "+" + coin + "Coin");
-        ScoreBoardUtils.updateScoreBoard(player);
-    }
-    public static int getPlayerExp(Player player) {
-        if (playerExpData.contains(String.valueOf(player.getUniqueId()))) {
-            return playerExpData.getInt(String.valueOf(player.getUniqueId()), 0);
-        } else {
-            return 0;
-        }
-    }
-
-    public static int getPlayerCoin(Player player) {
-        if (playerCoinData.contains(String.valueOf(player.getUniqueId()))) {
-            return playerCoinData.getInt(String.valueOf(player.getUniqueId()), 0);
-        } else {
-            return 0;
-        }
-    }
 
     public static boolean testPlayerLastLoginTime(Player player) {
         long oneDay = 24L * 60 * 60 * 1000;
         long nowTime = System.currentTimeMillis();
-//        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
         long lastPlayed = getPlayerLastLogin(player);
         if (lastPlayed == 0) {
             player.sendMessage(ChatColor.AQUA + "初参加です!");
@@ -119,50 +84,10 @@ public class Config extends JavaPlugin {
             return true;
         }
         long difference = nowTime - lastPlayed;
-//        player.sendMessage(String.valueOf(nowTime));
-//        player.sendMessage(String.valueOf(lastPlayed));
-//        player.sendMessage(String.valueOf(oneDay));
-//        player.sendMessage(String.valueOf(difference));
         return difference >= oneDay;
     }
 
 
-    public static void playerExpSetup(PvpWorld plugin) {
-        playerExpFile = new File(plugin.getDataFolder(), "playerExp.yml");
-        if (!playerExpFile.exists()) {
-            try {
-                playerExpFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
-    }
-
-    public static void lobbyAthleticSetUp(PvpWorld plugin) {
-        playerLobbyAthleticTimeFile = new File(plugin.getDataFolder(), "playerAthleticTime.yml");
-        if (!playerLobbyAthleticTimeFile.exists()) {
-            try {
-                playerLobbyAthleticTimeFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        playerLobbyAthleticTimeData = YamlConfiguration.loadConfiguration(playerLobbyAthleticTimeFile);
-
-    }
-
-    public static void playerCoinSetUp(PvpWorld plugin) {
-        playerCoinDataFile = new File(plugin.getDataFolder(), "playerCoin.yml");
-        if (!playerCoinDataFile.exists()) {
-            try {
-                playerCoinDataFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        playerCoinData = YamlConfiguration.loadConfiguration(playerCoinDataFile);
-    }
 
     public static void playerLastLoginSetup(PvpWorld plugin) {
         playerLastLoginFile = new File(plugin.getDataFolder(), "playerLastLoginTime.yml");
@@ -195,23 +120,7 @@ public class Config extends JavaPlugin {
         }
     }
 
-    public static void setPlayerLobbyAthleticTime(Player player, int playerScore) {
-        playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
-        try {
-            playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ScoreBoardUtils.updateScoreBoard(player);
-    }
 
-    public static int getPlayerLobbyAthleticTime(Player player) {
-        if (playerLobbyAthleticTimeData.contains(String.valueOf(player.getUniqueId()))) {
-            return playerLobbyAthleticTimeData.getInt(String.valueOf(player.getUniqueId()));
-        } else {
-            return 10000;
-        }
-    }
 
     public static void setInt(Player player) {
         Random random = new Random();

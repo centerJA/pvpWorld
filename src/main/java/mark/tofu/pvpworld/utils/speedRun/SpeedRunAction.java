@@ -142,4 +142,45 @@ public class SpeedRunAction {
     public static void multiOnHoldAction(Player player, PvpWorld plugin) {
         player.sendMessage("まだアクセスできません!");
     }
+
+
+    //click------------------
+    public static void clickedFeather(Player player) {
+        PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
+        player.addPotionEffect(levitation);
+        if (player.getItemInHand().getType().equals(Material.FEATHER)) {
+            player.setItemInHand(null);
+            player.sendMessage("使用しました!");
+        }
+    }
+
+    public static void clickedGoldBlock(Player player) {
+        Random random = new Random();
+        int randomInt = random.nextInt(2) + 1;
+        if (randomInt == 1) { //良い
+            player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
+            player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
+            player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
+            if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
+                player.setItemInHand(null);
+            }
+        } else {
+            player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
+            PotionEffect confusion = new PotionEffect(PotionEffectType.CONFUSION, 100, 1);
+            player.addPotionEffect(confusion);
+            player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
+            if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
+                player.setItemInHand(null);
+            }
+        }
+    }
+
+    public static void clickedNetherStar(Player player) {
+        PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
+        player.addPotionEffect(speed);
+        if (player.getItemInHand().getType().equals(Material.NETHER_STAR)) {
+            player.setItemInHand(null);
+            player.sendMessage("使用しました!");
+        }
+    }
 }

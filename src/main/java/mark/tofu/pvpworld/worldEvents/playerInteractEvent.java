@@ -8,6 +8,8 @@ import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
@@ -97,6 +100,15 @@ public class playerInteractEvent implements Listener {
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
                     }
+                } else if (Objects.equals(lines[0], "右クリックして")) {
+                    if (Objects.equals(lines[1], "あなたのスコアを")) {
+                        if (Objects.equals(lines[2], "リセットします")) {
+                            TextComponent yes = new TextComponent(ChatColor.GREEN + "[はい]");
+                            yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pvpworld actions lobbyAthletic clear"));
+                            player.sendMessage("本当にスコアをリセットする場合は、[はい]を押してください");
+                            player.spigot().sendMessage(yes);
+                        }
+                    }
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -122,38 +134,11 @@ public class playerInteractEvent implements Listener {
                     player.sendMessage("Free PVPを退出しました");
                 }
             } else if (block == Material.FEATHER) {
-                PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
-                player.addPotionEffect(levitation);
-                if (player.getItemInHand().getType().equals(Material.FEATHER)) {
-                    player.setItemInHand(null);
-                    player.sendMessage("使用しました!");
-                }
+                SpeedRunAction.clickedFeather(player);
             } else if (block == Material.GOLD_BLOCK) {
-                Random random = new Random();
-                int randomInt = random.nextInt(2) + 1;
-                if (randomInt == 1) { //良い
-                    player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
-                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
-                    player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
-                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.setItemInHand(null);
-                    }
-                } else {
-                    player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
-                    PotionEffect confusion = new PotionEffect(PotionEffectType.CONFUSION, 100, 1);
-                    player.addPotionEffect(confusion);
-                    player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
-                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.setItemInHand(null);
-                    }
-                }
+                SpeedRunAction.clickedGoldBlock(player);
             } else if (block == Material.NETHER_STAR) {
-                PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
-                player.addPotionEffect(speed);
-                if (player.getItemInHand().getType().equals(Material.NETHER_STAR)) {
-                    player.setItemInHand(null);
-                    player.sendMessage("使用しました!");
-                }
+            SpeedRunAction.clickedNetherStar(player);
             }
         }
     }

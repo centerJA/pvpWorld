@@ -12,6 +12,8 @@ import org.bukkit.potion.PotionEffect;
 import java.io.IOException;
 import java.util.Objects;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.setPlayerLobbyAthleticTime;
+
 public class AthleticUtils {
     public static void startAthleticAction(Player player, PvpWorld plugin) throws IOException {
         player.sendMessage(ChatColor.AQUA + "アスレチックスタート!");
@@ -35,7 +37,7 @@ public class AthleticUtils {
         Config.lobbyAthleticFinish.getWorld().playEffect(player.getLocation(), Effect.DRAGON_BREATH, 0, 2);
         String playerScore = String.valueOf(player.getLevel());
         int playerScoreInt = player.getLevel();
-        Config.setPlayerLobbyAthleticTime(player, playerScoreInt);
+        setPlayerLobbyAthleticTime(player, playerScoreInt, false);
         ScoreBoardUtils.updateScoreBoard(player);
         player.sendTitle(ChatColor.AQUA + "おめでとう!", ChatColor.AQUA + playerScore + "秒でした", 20, 40, 20);
         AthleticTimer.stopTimer(player);
@@ -44,5 +46,10 @@ public class AthleticUtils {
             player.sendMessage(ChatColor.AQUA + "40秒を切るなんてすごいです!");
         }
         player.setLevel(0);
+    }
+
+    public static void clearAthleticTimes(Player player) {
+        setPlayerLobbyAthleticTime(player, 10000, true);
+        player.sendMessage("あなたのスコアをリセットしました");
     }
 }
