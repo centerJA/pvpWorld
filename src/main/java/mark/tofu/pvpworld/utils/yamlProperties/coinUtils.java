@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
-public class coinUtils extends JavaPlugin {
+public class   coinUtils extends JavaPlugin {
     public static File playerCoinDataFile;
     public static FileConfiguration playerCoinData;
 

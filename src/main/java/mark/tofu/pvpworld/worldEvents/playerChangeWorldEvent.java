@@ -13,8 +13,8 @@ import java.io.IOException;
 
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.getPlayerExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerSetExp;
 
 public class playerChangeWorldEvent implements Listener {
     PvpWorld plugin;

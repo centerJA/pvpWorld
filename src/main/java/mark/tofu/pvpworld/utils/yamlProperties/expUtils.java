@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
-public class xpUtils extends JavaPlugin {
+public class expUtils extends JavaPlugin {
 
     public static File playerExpFile;
     public static FileConfiguration playerExpData;
@@ -27,10 +27,12 @@ public class xpUtils extends JavaPlugin {
             }
         }
         playerExpData = YamlConfiguration.loadConfiguration(playerExpFile);
+        System.out.println("setup good");
     }
 
     public static int getPlayerExp(Player player) {
         if (playerExpData.contains(String.valueOf(player.getUniqueId()))) {
+            System.out.println("setup go12434od");
             return playerExpData.getInt(String.valueOf(player.getUniqueId()), 0);
         } else {
             return 0;

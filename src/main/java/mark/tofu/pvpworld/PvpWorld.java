@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.lobbyAthleticSetUp;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerCoinSetUp;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerExpSetup;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerExpSetup;
 
 public final class PvpWorld extends JavaPlugin {
 

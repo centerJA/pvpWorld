@@ -10,13 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.util.Objects;
 
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerSetExp;
 
 public class playerDeathEvent implements Listener {
     PvpWorld plugin;

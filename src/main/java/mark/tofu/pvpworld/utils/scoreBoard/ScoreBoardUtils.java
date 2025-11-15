@@ -1,6 +1,7 @@
 package mark.tofu.pvpworld.utils.scoreBoard;
 
 import mark.tofu.pvpworld.Config;
+import mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,7 +13,7 @@ import java.util.*;
 
 import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.getPlayerLobbyAthleticTime;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.getPlayerExp;
 
 public class ScoreBoardUtils {
     public static Scoreboard createScoreBoard() {
@@ -57,15 +58,15 @@ public class ScoreBoardUtils {
         String yourScore = ChatColor.WHITE + "あなたのスコア: " + getPlayerLobbyAthleticTime(player);
         objective.getScore(yourScore).setScore(6);
 
-        for (String playerName2 : Config.playerLobbyAthleticTimeData.getKeys(false)) {
-            int time = Config.playerLobbyAthleticTimeData.getInt(playerName2);
+        for (String playerName2 : athleticTimeUtils.playerLobbyAthleticTimeData.getKeys(false)) {
+            int time = athleticTimeUtils.playerLobbyAthleticTimeData.getInt(playerName2);
             TimesMap.put(playerName2, time);
         }
 
         String firstScore = ChatColor.WHITE + "1番の人のスコア: " +ChatColor.GOLD +  getSortedInteger(TimesMap);
         objective.getScore(firstScore).setScore(5);
 
-        String firstPlayer = ChatColor.WHITE + "1番の人の名前: " + ChatColor.GOLD + getSortedKey(TimesMap);
+        String firstPlayer = ChatColor.WHITE + "名前: " + ChatColor.GOLD + getSortedKey(TimesMap);
         objective.getScore(firstPlayer).setScore(4);
 
         objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.STRIKETHROUGH).setScore(3);

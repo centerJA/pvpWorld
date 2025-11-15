@@ -1,9 +1,7 @@
 package mark.tofu.pvpworld;
 
 
-import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
 
 
 import java.io.File;
@@ -19,15 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
-
 
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerExpFile, playerLastLoginFile, playerCoinDataFile, playerLobbyAthleticTimeFile;
-    public static FileConfiguration playerExpData, playerLastLogin, playerCoinData, playerLobbyAthleticTimeData;
+    public static File playerLastLoginFile;
+    public static FileConfiguration  playerLastLogin;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),

@@ -12,13 +12,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.awt.*;
 import java.io.IOException;
 
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.getPlayerExp;
-import static mark.tofu.pvpworld.utils.yamlProperties.xpUtils.playerSetExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.getPlayerExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerSetExp;
 
 public class pvpWorldCommand implements CommandExecutor {
     private static final PvpWorld plugin = PvpWorld.getPlugin(PvpWorld.class);
