@@ -11,6 +11,7 @@ import java.util.Objects;
 import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.lobbyAthleticSetUp;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerCoinSetUp;
 import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerExpSetup;
+import static mark.tofu.pvpworld.utils.yamlProperties.playerAdminList.playerAdminListSetup;
 
 public final class PvpWorld extends JavaPlugin {
 
@@ -36,6 +37,7 @@ public final class PvpWorld extends JavaPlugin {
         Config.playerLastLoginSetup(this);
         lobbyAthleticSetUp(this);
         playerCoinSetUp(this);
+        playerAdminListSetup(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 

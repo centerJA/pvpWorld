@@ -23,6 +23,7 @@ mark\tofu\pvpworld\utils\yamlProperties\athleticTimeUtils.class
 mark\tofu\pvpworld\worldEvents\asyncPlayerChatEvent$1.class
 mark\tofu\pvpworld\worldEvents\playerRespawnEvent.class
 mark\tofu\pvpworld\worldEvents\inventoryClickEvent$1.class
+mark\tofu\pvpworld\utils\yamlProperties\playerAdminList.class
 mark\tofu\pvpworld\utils\speedRun\SpeedRunAction$3.class
 mark\tofu\pvpworld\utils\yamlProperties\expUtils.class
 mark\tofu\pvpworld\utils\speedRun\SpeedRunTimer$1.class
