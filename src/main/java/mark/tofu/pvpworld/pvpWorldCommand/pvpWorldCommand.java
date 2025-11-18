@@ -18,6 +18,7 @@ import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.getPlayerCoin;
 import static mark.tofu.pvpworld.utils.yamlProperties.coinUtils.playerSetCoin;
 import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.getPlayerExp;
 import static mark.tofu.pvpworld.utils.yamlProperties.expUtils.playerSetExp;
+import static mark.tofu.pvpworld.utils.yamlProperties.playerAdminList.*;
 
 public class pvpWorldCommand implements CommandExecutor {
     private static final PvpWorld plugin = PvpWorld.getPlugin(PvpWorld.class);
@@ -34,7 +35,12 @@ public class pvpWorldCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + ">" + ChatColor.DARK_PURPLE + ">" + ChatColor.DARK_RED + ">" + "コマンド一覧" + ChatColor.DARK_RED + "<" + ChatColor.DARK_PURPLE + "<" + ChatColor.RED + "<");
 
                 return true;
-            } else if (args[0].equals("op")) { //pvpworld op
+            } else if (args[0].equals("op")) {//pvpworld op
+                if (playerHasAdmin(player)) {
+                    player.sendMessage("playerAdminListに登録されています");
+                } else {
+                    player.sendMessage("playerAdminListに登録されていません");
+                }
                 if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye") || playerName.equals("10000m")) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
@@ -78,6 +84,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(getPlayerCoin(player)));
                         player.sendMessage("FreePvpPlayerList");
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
+                        printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
                             playerSetExp(player, 5);
@@ -127,6 +134,14 @@ public class pvpWorldCommand implements CommandExecutor {
                 player.sendMessage("/pvpworld help -ヘルプを表示します");
                 player.sendMessage("/pvpworld command -コマンドのリストを表示します");
                 player.sendMessage("/pvpworld notice -お知らせを表示します");
+            } else if (args[0].equals("admin")) {
+                if (args[1].equals("test")) {
+                    if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
+                        playerApplyAdmin(player);
+                    } else {
+                        player.sendMessage("権限を持っていません");
+                    }
+                }
             }
         }
         return false;

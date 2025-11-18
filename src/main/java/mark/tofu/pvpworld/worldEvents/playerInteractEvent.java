@@ -97,6 +97,8 @@ public class playerInteractEvent implements Listener {
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
                     }
+                } else if (Objects.equals(lines[0], "1v1Test")) {
+
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
