@@ -1,7 +1,11 @@
 package mark.tofu.pvpworld;
 
 
+import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,7 +34,8 @@ public class Config extends JavaPlugin {
                                     AdminBuildModeList = new ArrayList<>(),
                                     SpeedRunSingleList = new ArrayList<>(),
                                     NoWalkList = new ArrayList<>(),
-                                    FreePvpPlayerList = new ArrayList<>();
+                                    FreePvpPlayerList = new ArrayList<>(),
+                                    TeleportToLobbyList = new ArrayList<>();
 
     public static Location lobby = new Location(world, 0.500, 5.500, -0.500, 90, 0),
                            lobbyAthleticStart = new Location(world, -28, 4, 6),
@@ -154,7 +159,6 @@ public class Config extends JavaPlugin {
         worldSelect = player.getInventory().getItem(10);
         quit = player.getInventory().getItem(11);
     }
-
 
 
 }

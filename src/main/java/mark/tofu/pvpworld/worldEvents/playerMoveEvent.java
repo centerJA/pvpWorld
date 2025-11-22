@@ -14,6 +14,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.Objects;
 
+import static mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames.sumoCloseAction;
+import static mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames.sumoQueueingList;
+
 public class playerMoveEvent implements Listener {
     PvpWorld plugin;
 
@@ -37,8 +40,14 @@ public class playerMoveEvent implements Listener {
         if (this.world != world) return;
         if (Config.NoWalkList.contains(player.getName())) {
             e.setCancelled(true);
-        } else if (player.getLocation().getBlock().getType().equals(Material.TRIPWIRE)) {
+        }
+        if (Config.AdminBuildModeList.contains(player.getName())) return;
+        Material type = player.getLocation().getBlock().getType();
+        if (type.equals(Material.TRIPWIRE)) {
             FreePvpUtils.joinAction(player, plugin);
+        } else if (type.equals(Material.WATER)) {
+            if (!sumoQueueingList.contains(player.getName())) return;
+            sumoCloseAction(player, plugin);
         }
     }
 }

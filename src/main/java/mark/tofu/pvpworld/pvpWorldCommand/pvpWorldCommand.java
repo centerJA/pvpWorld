@@ -134,14 +134,6 @@ public class pvpWorldCommand implements CommandExecutor {
                 player.sendMessage("/pvpworld help -ヘルプを表示します");
                 player.sendMessage("/pvpworld command -コマンドのリストを表示します");
                 player.sendMessage("/pvpworld notice -お知らせを表示します");
-            } else if (args[0].equals("admin")) {
-                if (args[1].equals("test")) {
-                    if (playerName.equals("InfInc") || playerName.equals("markcs11")) {
-                        playerApplyAdmin(player);
-                    } else {
-                        player.sendMessage("権限を持っていません");
-                    }
-                }
             }
         }
         return false;

@@ -5,6 +5,9 @@ import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
+import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
@@ -25,6 +28,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
+
+import static mark.tofu.pvpworld.utils.oneVersusOne.InventoryUtils.openGameListInventory;
 
 public class playerInteractEvent implements Listener {
     PvpWorld plugin;
@@ -97,8 +102,8 @@ public class playerInteractEvent implements Listener {
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
                     }
-                } else if (Objects.equals(lines[0], "1v1Test")) {
-
+                } else if (Objects.equals(lines[0], "1v1test")) {
+                    openGameListInventory(player);
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -113,6 +118,8 @@ public class playerInteractEvent implements Listener {
                     SpeedRunScheduledTimer.stopTimer(player);
                     player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
                 }
+                StartTimerUtils.stopTimer(player);
+                TimeUpTimer.stopTimer(player);
                 Config.clearInventory(player);
                 player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                 player.teleport(Config.lobby);
@@ -156,6 +163,9 @@ public class playerInteractEvent implements Listener {
                     player.setItemInHand(null);
                     player.sendMessage("使用しました!");
                 }
+            } else if (block == Material.RED_DYE) {
+                OneVersusOneGames.sumoQueueingList.remove(player.getName());
+                player.sendMessage("参加を中止しました");
             }
         }
     }

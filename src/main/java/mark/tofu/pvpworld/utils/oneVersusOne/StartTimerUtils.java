@@ -21,13 +21,13 @@ public class StartTimerUtils {
         if (playerTimes.containsKey(player)) {
             stopTimer(player);
         }
-        playerTimes.put(player, 5);
+        playerTimes.put(player, 6);
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1;
                 if (elapsedTime == 0) {
-                    player.sendMessage("test");
+                    player.sendMessage("test888");
                     stopTimer(player);
                     StartTimerUtils.getTaskId(player);
                     return;
