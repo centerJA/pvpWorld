@@ -4,6 +4,7 @@ mark/tofu/pvpworld/utils/freePvp/FreePvpUtils$2.class
 mark/tofu/pvpworld/utils/speedRun/SpeedRunAction$2.class
 mark/tofu/pvpworld/utils/speedRun/SpeedRunScheduledTimer.class
 mark/tofu/pvpworld/worldEvents/foodLevelChangeEvent$1.class
+mark/tofu/pvpworld/utils/oneVersusOne/SumoActivities$1.class
 mark/tofu/pvpworld/utils/yamlProperties/athleticTimeUtils.class
 mark/tofu/pvpworld/worldEvents/blockBreakEvent$1.class
 mark/tofu/pvpworld/worldEvents/blockPlaceEvent.class
@@ -20,7 +21,6 @@ mark/tofu/pvpworld/utils/speedRun/SpeedRunScheduledTimer$2.class
 mark/tofu/pvpworld/utils/oneVersusOne/StartTimerUtils.class
 mark/tofu/pvpworld/worldEvents/entityDamageEvent.class
 mark/tofu/pvpworld/worldEvents/inventoryClickEvent.class
-mark/tofu/pvpworld/utils/oneVersusOne/OneVersusOneGames$2.class
 mark/tofu/pvpworld/utils/yamlProperties/expUtils.class
 mark/tofu/pvpworld/worldEvents/playerRespawnEvent$1.class
 mark/tofu/pvpworld/worldEvents/playerChangeWorldEvent.class
@@ -44,6 +44,7 @@ mark/tofu/pvpworld/utils/oneVersusOne/OneVersusOneGames$1.class
 mark/tofu/pvpworld/worldEvents/playerInteractEvent.class
 mark/tofu/pvpworld/worldEvents/blockBreakEvent.class
 mark/tofu/pvpworld/utils/speedRun/SpeedRunAction$3.class
+mark/tofu/pvpworld/utils/oneVersusOne/SumoActivities.class
 mark/tofu/pvpworld/worldEvents/asyncPlayerChatEvent.class
 mark/tofu/pvpworld/worldEvents/playerChangeWorldEvent$2.class
 mark/tofu/pvpworld/utils/freePvp/FreePvpUtils.class

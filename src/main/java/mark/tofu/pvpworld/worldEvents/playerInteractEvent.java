@@ -7,6 +7,7 @@ import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
@@ -164,8 +165,11 @@ public class playerInteractEvent implements Listener {
                     player.sendMessage("使用しました!");
                 }
             } else if (block == Material.RED_DYE) {
-                OneVersusOneGames.sumoQueueingList.remove(player.getName());
-                player.sendMessage("参加を中止しました");
+                SumoActivities.sumoQueueingList.remove(player.getName());
+                if (player.getItemInHand().getType().equals(Material.RED_DYE)) {
+                    player.setItemInHand(null);
+                    player.sendMessage("退出しました");
+                }
             }
         }
     }

@@ -3,19 +3,14 @@ package mark.tofu.pvpworld.worldEvents;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import java.util.Objects;
-
-import static mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames.sumoCloseAction;
-import static mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames.sumoQueueingList;
 
 public class playerMoveEvent implements Listener {
     PvpWorld plugin;
@@ -46,8 +41,8 @@ public class playerMoveEvent implements Listener {
         if (type.equals(Material.TRIPWIRE)) {
             FreePvpUtils.joinAction(player, plugin);
         } else if (type.equals(Material.WATER)) {
-            if (!sumoQueueingList.contains(player.getName())) return;
-            sumoCloseAction(player, plugin);
+            if (!SumoActivities.sumoQueueingList.contains(player.getName())) return;
+            SumoActivities.sumoCloseAction(player, plugin);
         }
     }
 }

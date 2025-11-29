@@ -2,9 +2,11 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -30,8 +32,21 @@ public class entityDamageEvent implements Listener {
         Entity entity = e.getEntity();
         World world = entity.getWorld();
         if (this.world != world) return;
-        for (String PlayerName: Config.DoNotReceiveDamageList) {
-            e.setCancelled(true);
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            player.sendMessage("get damage");
+
+            if (Config.DoNotReceiveDamageList.contains(player.getName())) {
+                player.sendMessage("cancel-1");
+                e.setCancelled(true);
+                player.sendMessage("cancel");
+            } else {
+                if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+                    player.sendMessage("contains-");
+                } else {
+                    player.sendMessage("外");
+                }
+            }
         }
     }
 }

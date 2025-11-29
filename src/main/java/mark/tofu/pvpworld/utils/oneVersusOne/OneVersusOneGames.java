@@ -7,6 +7,7 @@ import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -16,37 +17,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 public class OneVersusOneGames {
-    public static ArrayList<String> sumoQueueingList;
-    public static void sumoStartAction(Player player, PvpWorld plugin) {
-        //teleport
-        TimeUpTimer.startTimer(player, plugin, 300);
-        Config.NoWalkList.addAll(sumoQueueingList);
-        StartTimerUtils.startTimer(player, plugin);
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() { //スタート
-            @Override
-            public void run() {
-                noWalkRemoveAction();
-            }
-        }, 100L);
-    }
-
-    public static void sumoCloseAction(Player player, PvpWorld plugin) {
-        Config.TeleportToLobbyList.addAll(sumoQueueingList);
-        sumoQueueingList.remove(player.getName());
-        player.sendTitle(ChatColor.RED + "敗北", ChatColor.YELLOW + "もう一度挑戦しよう", 0, 60, 0);
-        Player winner = Bukkit.getPlayer(sumoQueueingList.get(0));
-        if (winner == null) return;
-        sumoQueueingList.remove(winner.getName());
-        winner.sendTitle(ChatColor.GREEN + "勝利", ChatColor.YELLOW + "すごい!!", 0, 60, 0);
-        gameCloseAction(plugin);
-    }
-
-    public static void noWalkRemoveAction() {
-        for (String PlayerName: sumoQueueingList) {
-            Config.NoWalkList.remove(PlayerName);
-        }
-    }
-
     public static void gameCloseAction(PvpWorld plugin) {
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
@@ -69,5 +39,10 @@ public class OneVersusOneGames {
 
     public static void drawAction() {
 
+    }
+
+    public static void overlappingGames(String gameName, Player player) {
+        player.sendMessage("あなたは他のゲーム: " + ChatColor.AQUA + gameName + ChatColor.WHITE + "に参加しています!");
+        player.sendMessage("退出してから他のゲームに参加してください");
     }
 }

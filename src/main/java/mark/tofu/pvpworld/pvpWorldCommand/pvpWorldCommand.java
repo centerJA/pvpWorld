@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.pvpWorldCommand;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -84,6 +85,8 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(getPlayerCoin(player)));
                         player.sendMessage("FreePvpPlayerList");
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
+                        player.sendMessage("sumoQueueingList");
+                        player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
                         printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {

@@ -1,7 +1,9 @@
 package mark.tofu.pvpworld.utils.oneVersusOne;
 
 import mark.tofu.pvpworld.PvpWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -33,7 +35,11 @@ public class StartTimerUtils {
                     return;
                 }
                 if (elapsedTime <= 5) {
-                    player.sendTitle(ChatColor.RED + String.valueOf(elapsedTime), "", 0, 20, 0);
+                    for (String PlayerName: SumoActivities.sumoQueueingList) {
+                        Player player = Bukkit.getPlayer(PlayerName);
+                        player.sendTitle(ChatColor.RED + String.valueOf(elapsedTime), "", 0, 20, 0);
+                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
+                    }
                 }
                 playerTimes.put(player, elapsedTime);
             }
