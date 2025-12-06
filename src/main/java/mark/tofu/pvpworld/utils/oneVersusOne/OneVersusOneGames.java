@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,7 +25,7 @@ public class OneVersusOneGames {
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Player player = Bukkit.getPlayer(PlayerName);
                     if (player == null) return;
-                    player.getInventory().clear();String playerName = player.getName();
+                    player.getInventory().clear();
                     StartTimerUtils.stopTimer(player);
                     TimeUpTimer.stopTimer(player);
                     player.teleport(Config.lobby);
@@ -37,12 +38,84 @@ public class OneVersusOneGames {
         }, 60L);
     }
 
-    public static void drawAction() {
-
+    public static void drawAction(ArrayList<String> arrayList, PvpWorld plugin) {
+        for (String PlayerName: arrayList) {
+            Player player = Bukkit.getPlayer(PlayerName);
+            if (player == null) return;
+            player.sendTitle(ChatColor.YELLOW + "引き分け", ChatColor.YELLOW + "勝利までもう少し!!", 0, 60, 0);
+            Config.TeleportToLobbyList.addAll(arrayList);
+            gameCloseAction(plugin);
+        }
     }
 
-    public static void overlappingGames(String gameName, Player player) {
-        player.sendMessage("あなたは他のゲーム: " + ChatColor.AQUA + gameName + ChatColor.WHITE + "に参加しています!");
-        player.sendMessage("退出してから他のゲームに参加してください");
+    public static void overlappingGames(Player player) {
+        player.sendMessage("あなたは既に1v1ゲームスに参加しています!");
+        player.sendMessage("退出してからゲームに参加してください");
+    }
+
+    public static boolean player1v1GamesContainsCheck(Player player) {
+        if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+            return true;
+        }
+        else return false;
+    }
+
+    public static void noWalkRemoveAction(ArrayList<String> arrayList) {
+        for (String PlayerName: arrayList) {
+            Config.NoWalkList.remove(PlayerName);
+        }
+    }
+
+    public static void timeUpAction(Player player, PvpWorld plugin) {
+        String playerName = player.getName();
+        if (SumoActivities.sumoQueueingList.contains(playerName)) {
+            drawAction(SumoActivities.sumoQueueingList, plugin);
+        }
+        else if (TopfightActivities.topfightQueueingList.contains(playerName)) {
+            drawAction(TopfightActivities.topfightQueueingList, plugin);
+        }
+    }
+
+    public static void queueingActivities(Player player, InventoryClickEvent e, PvpWorld plugin, ArrayList<String> arrayList) {
+        player.sendMessage(String.valueOf(arrayList));
+        if (arrayList.isEmpty()) {
+            arrayList.add(player.getName());
+            e.setCancelled(true);
+            player.closeInventory();
+            player.sendMessage("他の人を待っています...");
+            player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
+            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
+        } else if (arrayList.size() == 1) {
+            for (String PlayerName: arrayList) {
+                if (PlayerName.equals(player.getName())) {
+                    e.setCancelled(true);
+                    player.closeInventory();
+                    player.sendMessage("既に参加しています!");
+                    player.sendMessage("退出するにはインベントリ内の赤い染料を右クリックしてください");
+                } else {
+                    arrayList.add(player.getName());
+                    e.setCancelled(true);
+                    player.closeInventory();
+                    player.sendMessage("相手が見つかりました!");
+                    dividePlayer(arrayList, player, plugin);
+                }
+            }
+        } else {
+            e.setCancelled(true);
+            player.closeInventory();
+            player.sendMessage("既に誰かがプレイ中です");
+        }
+    }
+
+    public static void dividePlayer(ArrayList<String> arrayList, Player player, PvpWorld plugin) {
+        if (arrayList.equals(SumoActivities.sumoQueueingList)) {
+            SumoActivities.sumoStartAction(player, plugin);
+        }
+        else if (arrayList.equals(TopfightActivities.topfightQueueingList)) {
+            TopfightActivities.topfightStartAction(player, plugin);
+        }
+        else {
+            player.sendMessage("エラー");
+        }
     }
 }

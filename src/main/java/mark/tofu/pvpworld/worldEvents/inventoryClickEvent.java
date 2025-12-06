@@ -4,6 +4,7 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,8 +45,8 @@ public class inventoryClickEvent implements Listener {
         if (!(entity instanceof Player)) return;
         Player player = (Player) entity;
         if (itemStack.getType() == Material.PAPER) {
-            if (SumoActivities.sumoQueueingList.contains(player.getName())) {
-                OneVersusOneGames.overlappingGames("sumo", player);
+            if (OneVersusOneGames.player1v1GamesContainsCheck(player)) {
+                OneVersusOneGames.overlappingGames(player);
                 e.setCancelled(true);
                 player.closeInventory();
                 return;
@@ -59,35 +60,10 @@ public class inventoryClickEvent implements Listener {
             }
         } else if (itemStack.getType() == Material.LEAD) {
             if (displayName.equals("sumo")) {
-                player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
-                if (SumoActivities.sumoQueueingList.isEmpty()) {
-                    SumoActivities.sumoQueueingList.add(player.getName());
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    player.sendMessage("他の人を待っています...");
-                    player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
-                    player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
-                } else if (SumoActivities.sumoQueueingList.size() == 1) {
-                    for (String PlayerName: SumoActivities.sumoQueueingList) {
-                        if (PlayerName.equals(player.getName())) {
-                            e.setCancelled(true);
-                            player.closeInventory();
-                            player.sendMessage("既に参加しています!");
-                            player.sendMessage("退出するにはインベントリ内の赤い染料を右クリックしてください");
-                        } else {
-                            SumoActivities.sumoQueueingList.add(player.getName());
-                            e.setCancelled(true);
-                            player.closeInventory();
-                            player.sendMessage("相手が見つかりました!");
-                            SumoActivities.sumoStartAction(player, plugin);
-                        }
-                    }
-                } else {
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    player.sendMessage("既に誰かがプレイ中です");
-                }
+                OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
             }
+        } else if (itemStack.getType() == Material.IRON_BLOCK) {
+            OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         }
     }
 }

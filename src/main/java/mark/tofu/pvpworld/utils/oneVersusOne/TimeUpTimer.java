@@ -31,7 +31,7 @@ public class TimeUpTimer {
                 int elapsedTime = playerTimes.get(player) - 1; //残り時間
                 if (elapsedTime == 0) { //cancel
                     player.sendMessage("aaa");
-                    OneVersusOneGames.gameCloseAction(plugin);
+                    OneVersusOneGames.timeUpAction(player, plugin);
 
                     stopTimer(player);
                     SpeedRunTimer.getTaskId(player).cancel();

@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.worldEvents;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -39,6 +40,11 @@ public class playerMoveEvent implements Listener {
         if (Config.AdminBuildModeList.contains(player.getName())) return;
         Material type = player.getLocation().getBlock().getType();
         if (type.equals(Material.TRIPWIRE)) {
+            if (OneVersusOneGames.player1v1GamesContainsCheck(player)) {
+                OneVersusOneGames.overlappingGames(player);
+                player.teleport(Config.lobby);
+                return;
+            }
             FreePvpUtils.joinAction(player, plugin);
         } else if (type.equals(Material.WATER)) {
             if (!SumoActivities.sumoQueueingList.contains(player.getName())) return;

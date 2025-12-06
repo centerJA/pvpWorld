@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -58,6 +59,8 @@ public class playerDeathEvent implements Listener {
                 killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
                 killedPlayer.sendMessage("金リンゴを入手しました");
             }
+        } else if (TopfightActivities.topfightQueueingList.contains(playerName)) {
+
         }
     }
 }
