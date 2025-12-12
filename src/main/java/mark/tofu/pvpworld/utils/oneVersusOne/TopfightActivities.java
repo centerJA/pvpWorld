@@ -27,7 +27,7 @@ public class TopfightActivities {
         Objects.requireNonNull(Bukkit.getPlayer(topfightQueueingList.get(1))).teleport(player2Location);
         TimeUpTimer.startTimer(player, plugin, 300);
         Config.NoWalkList.addAll(topfightQueueingList);
-        StartTimerUtils.startTimer(player, plugin);
+        StartTimerUtils.startTimer(player, plugin, topfightQueueingList);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {

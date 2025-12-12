@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
@@ -47,8 +48,11 @@ public class playerMoveEvent implements Listener {
             }
             FreePvpUtils.joinAction(player, plugin);
         } else if (type.equals(Material.WATER)) {
-            if (!SumoActivities.sumoQueueingList.contains(player.getName())) return;
-            SumoActivities.sumoCloseAction(player, plugin);
+            if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+                SumoActivities.sumoCloseAction(player, plugin);
+            } else if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
+                SpleefActivities.spleefCloseAction(player, plugin);
+            }
         }
     }
 }

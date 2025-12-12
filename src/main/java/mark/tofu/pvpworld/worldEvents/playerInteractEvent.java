@@ -105,6 +105,8 @@ public class playerInteractEvent implements Listener {
                     }
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
+                } else if (Objects.equals(lines[0], "ffatest")) {
+
                 }
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {

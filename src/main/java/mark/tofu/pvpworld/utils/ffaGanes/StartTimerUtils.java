@@ -1,6 +1,7 @@
-package mark.tofu.pvpworld.utils.oneVersusOne;
+package mark.tofu.pvpworld.utils.ffaGanes;
 
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -16,7 +17,7 @@ public class StartTimerUtils {
 
     private static BukkitRunnable timerTask;
 
-    public static int oneVersusOneTime;
+    public static int ffaGamesTime;
 
     public static HashMap<Player, Integer>playerTimes = new HashMap<>();
 
@@ -30,9 +31,8 @@ public class StartTimerUtils {
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1;
                 if (elapsedTime == 0) {
-                    player.sendMessage("test888");
                     stopTimer(player);
-                    StartTimerUtils.getTaskId(player);
+                    mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils.getTaskId(player);
                     return;
                 }
                 if (elapsedTime <= 5) {
@@ -53,11 +53,11 @@ public class StartTimerUtils {
         return PvpWorld.getPlugin(PvpWorld.class).getServer().getScheduler().runTaskLater(PvpWorld.getPlugin(PvpWorld.class), new Runnable() {
             @Override
             public void run() {
-                if (oneVersusOneTime == 0) {
+                if (ffaGamesTime == 0) {
                     player.sendMessage(ChatColor.AQUA + "test");
                     return;
                 }
-                oneVersusOneTime--;
+                ffaGamesTime--;
             }
         }, 0);
     }

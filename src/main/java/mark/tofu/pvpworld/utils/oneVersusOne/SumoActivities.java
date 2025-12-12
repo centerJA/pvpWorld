@@ -26,7 +26,7 @@ public class SumoActivities {
         Objects.requireNonNull(Bukkit.getPlayer(sumoQueueingList.get(1))).teleport(player2Location);
         TimeUpTimer.startTimer(player, plugin, 300);
         Config.NoWalkList.addAll(sumoQueueingList);
-        StartTimerUtils.startTimer(player, plugin);
+        StartTimerUtils.startTimer(player, plugin, sumoQueueingList);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() { //スタート
             @Override
             public void run() {
