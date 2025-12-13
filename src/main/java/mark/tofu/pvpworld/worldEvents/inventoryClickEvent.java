@@ -8,6 +8,7 @@ import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
@@ -45,6 +46,7 @@ public class inventoryClickEvent implements Listener {
         String displayName = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
         if (!(entity instanceof Player)) return;
         Player player = (Player) entity;
+        if (Config.AdminBuildModeList.contains(player.getName())) return;
         if (itemStack.getType() == Material.PAPER) {
             if (OneVersusOneGames.player1v1GamesContainsCheck(player)) {
                 OneVersusOneGames.overlappingGames(player);
@@ -60,13 +62,13 @@ public class inventoryClickEvent implements Listener {
                 //SpeedRunAction.multiOnHoldAction(player, plugin);
             }
         } else if (itemStack.getType() == Material.LEAD) {
-            if (displayName.equals("sumo")) {
+            if (displayName.equals(ChatColor.YELLOW + "sumo")) {
                 OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
             }
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
-            FfaGames.queueingActivities(player, e, plugin);
+//            FfaGames.queueingActivities(player, e, plugin);
         }
     }
 }

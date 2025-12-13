@@ -12,6 +12,7 @@ import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -108,6 +109,8 @@ public class playerInteractEvent implements Listener {
                 } else if (Objects.equals(lines[0], "ffatest")) {
 
                 }
+            } else if (block.getType() == Material.END_PORTAL_FRAME) {
+                WellUtilities.openInventory(player);
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             Material block = player.getInventory().getItemInMainHand().getType();

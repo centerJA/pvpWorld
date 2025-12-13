@@ -4,6 +4,7 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.yamlProperties.playerAdminList;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -42,7 +43,7 @@ public class pvpWorldCommand implements CommandExecutor {
                 } else {
                     player.sendMessage("playerAdminListに登録されていません");
                 }
-                if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye") || playerName.equals("10000m")) {
+                if (playerAdminList.playerHasAdmin(player)) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
                             if (!Config.AdminBuildModeList.contains(playerName)) {
