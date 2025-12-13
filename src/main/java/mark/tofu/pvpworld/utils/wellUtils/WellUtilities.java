@@ -1,16 +1,22 @@
 package mark.tofu.pvpworld.utils.wellUtils;
 
+import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.yamlProperties.coinUtils;
+import mark.tofu.pvpworld.utils.yamlProperties.expUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class WellUtilities {
     public static void openInventory(Player player) {
@@ -32,5 +38,42 @@ public class WellUtilities {
         meta.setDisplayName(ChatColor.DARK_PURPLE + "井戸");
         item.setItemMeta(meta);
         return item;
+    }
+
+    public static void rollItems(Player player, PvpWorld plugin) throws IOException {
+        player.closeInventory();
+        coinUtils.playerSetCoin(player, -10);
+        //soundを追加する
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Random random = new Random();
+                int value = random.nextInt(10000) + 1;
+                if (value <= 5000) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "8Gold" + ChatColor.WHITE + "を入手しました!!");
+                    try {
+                        coinUtils.playerSetCoin(player, 8);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 7000) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "12Gold" + ChatColor.WHITE + "を入手しました!!");
+                    try {
+                        coinUtils.playerSetCoin(player, 12);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 10000) {
+                    player.sendMessage("test--");
+                }
+                try {
+                    expUtils.playerSetExp(player, 2);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 80L);
     }
 }
