@@ -32,9 +32,10 @@ public class WellUtilities {
         loreList.add(ChatColor.WHITE + "10Goldを使用して、レアアイテムや");
         loreList.add(ChatColor.WHITE + "Goldなどを入手できます!!");
         loreList.add(ChatColor.GREEN + "何がでるかはわかりません");
-        loreList.add(ChatColor.RED + "消費: " + ChatColor.YELLOW + "10Gold");
-        loreList.add(ChatColor.GOLD + ">>右クリックして井戸から入手<<");
-        meta.setLore(loreList);
+        loreList.add("");
+        loreList.add(ChatColor.RED + "消費: " + ChatColor.GOLD + "10Gold");
+        loreList.add(ChatColor.YELLOW + ">>右クリックして井戸から入手<<");
+        Objects.requireNonNull(meta).setLore(loreList);
         meta.setDisplayName(ChatColor.DARK_PURPLE + "井戸");
         item.setItemMeta(meta);
         return item;

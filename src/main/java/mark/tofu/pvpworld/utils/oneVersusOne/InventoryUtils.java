@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class InventoryUtils {
     public static void openGameListInventory(Player player) {
-        Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.YELLOW + "1v1ゲームス");
+        Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.YELLOW + "1v1 Games");
         gameList.setItem(10, sumoSetProperties());
         gameList.setItem(11, topfightSetProperties());
         Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
@@ -30,12 +30,13 @@ public class InventoryUtils {
         loreList.add(ChatColor.WHITE + "ルール:");
         loreList.add(ChatColor.WHITE + "・ブロック使用不可!");
         loreList.add(ChatColor.WHITE + "・落ちたら負け!");
+        loreList.add("");
         if (size == 2) {
             loreList.add(ChatColor.RED + "誰かがプレイ中!");
         } else {
             loreList.add(ChatColor.WHITE + "待機中: " + ChatColor.GOLD + size);
         }
-        meta.setLore(loreList);
+        Objects.requireNonNull(meta).setLore(loreList);
         meta.setDisplayName(ChatColor.YELLOW + "sumo");
         item.setItemMeta(meta);
         return item;
@@ -51,12 +52,13 @@ public class InventoryUtils {
         loreList.add(ChatColor.WHITE + "・ブロックは16個!");
         loreList.add(ChatColor.WHITE + "・最高高度はy16!");
         loreList.add(ChatColor.WHITE + "・落ちたら負け!");
+        loreList.add("");
         if (size == 2) {
             loreList.add(ChatColor.RED + "誰かがプレイ中!");
         } else {
             loreList.add(ChatColor.WHITE + "待機中: " + ChatColor.GOLD + size);
         }
-        meta.setLore(loreList);
+        Objects.requireNonNull(meta).setLore(loreList);
         meta.setDisplayName(ChatColor.RED + "topfight");
         item.setItemMeta(meta);
         return item;

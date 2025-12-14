@@ -10,10 +10,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class InventoryUtils {
     public static void openGameListInventory(Player player) {
-        Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.GREEN + "FFAゲームス");
+        Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.GREEN + "FFA Games");
         gameList.setItem(10, spleefSetProperties());
     }
 
@@ -27,7 +28,8 @@ public class InventoryUtils {
         loreList.add(ChatColor.WHITE + "雪は掘れる!");
         loreList.add(ChatColor.WHITE + "掘ると雪玉が手に入る!");
         loreList.add(ChatColor.WHITE + "落ちたら負け!");
-        meta.setLore(loreList);
+        loreList.add("");
+        Objects.requireNonNull(meta).setLore(loreList);
         meta.setDisplayName(ChatColor.GREEN + "spleef");
         item.setItemMeta(meta);
         return item;

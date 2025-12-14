@@ -4,6 +4,7 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.yamlProperties.playerAdminList;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -33,15 +34,16 @@ public class pvpWorldCommand implements CommandExecutor {
         World world = player.getWorld();
         if (command.getName().equalsIgnoreCase("pvpworld")) { //pvpworld
             if (args.length == 0) {
-                player.sendMessage("PVP WORLDへようこそ");
-                player.sendMessage(ChatColor.RED + ">" + ChatColor.DARK_PURPLE + ">" + ChatColor.DARK_RED + ">" + "コマンド一覧" + ChatColor.DARK_RED + "<" + ChatColor.DARK_PURPLE + "<" + ChatColor.RED + "<");
-
+                player.sendMessage(ChatColor.BOLD + "" + ChatColor.GREEN + "-------------------");
+                player.sendMessage("PVP WORLDへようこそ、" + ChatColor.AQUA + player.getName() + ChatColor.WHITE + "さん!");
+                player.sendMessage("コマンド一覧を表示するには、/pvpworld commandを使用してください!");
+                player.sendMessage(ChatColor.BOLD + "" + ChatColor.GREEN + "-------------------");
                 return true;
             } else if (args[0].equals("op")) {//pvpworld op
                 if (playerHasAdmin(player)) {
-                    player.sendMessage("playerAdminListに登録されています");
+                    player.sendMessage("このコマンドを実行する権限を所有しています");
                 } else {
-                    player.sendMessage("playerAdminListに登録されていません");
+                    player.sendMessage("このコマンドを実行する権限がありません");
                 }
                 if (playerAdminList.playerHasAdmin(player)) {
                     if (args[1].equals("bm")) { //pvpworld op bm
@@ -88,10 +90,13 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                         player.sendMessage("sumoQueueingList");
                         player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
+                        player.sendMessage("topfightQueueingList");
+                        player.sendMessage(String.valueOf(TopfightActivities.topfightQueueingList));
+                        player.sendMessage("Admin player List");
                         printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
-                            playerSetExp(player, 5);
+                            playerSetExp(player, 1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -105,7 +110,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
                     } else if (args[1].equals("getcoin")) {
                         try {
-                            playerSetCoin(player, 5);
+                            playerSetCoin(player, 1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -138,6 +143,15 @@ public class pvpWorldCommand implements CommandExecutor {
                 player.sendMessage("/pvpworld help -ヘルプを表示します");
                 player.sendMessage("/pvpworld command -コマンドのリストを表示します");
                 player.sendMessage("/pvpworld notice -お知らせを表示します");
+                if (playerHasAdmin(player)) {
+                    player.sendMessage(ChatColor.RED + "ここから下のコマンドはADMINユーザーのみ使用可能");
+                    player.sendMessage("/pvpworld op info -ほぼ全てのArrayListを表示します");
+                    player.sendMessage("/pvpworld op gm s/c -サバイバルモード/クリエイティブモードを切り替えます");
+                    player.sendMessage("/pvpworld op bm true/false -ビルドモード/ノーマルモードを切り替えます");
+                    player.sendMessage("/pvpworld op getexp -テスト用のexpを得ます");
+                    player.sendMessage("/pvpworld op getcoin -テスト用のcoinを得ます");
+                    player.sendMessage("/pvpworld op fill (x) (y) (z) -指定したブロックをAIRに変えます");
+                }
             }
         }
         return false;
