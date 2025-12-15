@@ -1,15 +1,20 @@
 package mark.tofu.pvpworld.utils.ffaGanes;
 
+import jdk.nashorn.internal.objects.NativeError;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.scoreboard.Score;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FfaGames {
     public static void gameCloseAction(PvpWorld plugin) {
@@ -32,13 +37,80 @@ public class FfaGames {
         }, 60L);
     }
 
-    public static void queueingActivities(Player player, InventoryClickEvent e, PvpWorld plugin, ArrayList<String> arrayList) {
-
-    }
 
     public static void noWalkRemoveAction(ArrayList<String> arrayList) {
         for (String PlayerName: arrayList) {
             Config.NoWalkList.remove(PlayerName);
+        }
+    }
+
+    public static void ffaQueueingActivities(Player player, ArrayList<String> arrayList, PvpWorld plugin, InventoryClickEvent e) {
+        player.sendMessage(String.valueOf(arrayList));
+        if (arrayList.isEmpty()) {
+            arrayList.add(player.getName());
+            e.setCancelled(true);
+            player.closeInventory();
+            player.sendMessage("他の人を待っています...");
+            player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
+            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
+            ffaSuggestPlayerJoin(arrayList);
+        } else if (arrayList.size() == 1) {
+            for (String PlayerName: arrayList) {
+                if (PlayerName.equals(player.getName())) {
+                    e.setCancelled(true);
+                    player.closeInventory();
+                    player.sendMessage("既に参加しています!");
+                    player.sendMessage("退出するにはインベントリ内の赤い染料を右クリックしてください");
+                } else {
+                    arrayList.add(player.getName());
+                    e.setCancelled(true);
+                    player.closeInventory();
+                    player.sendMessage("相手が見つかりました!");
+                    player.sendMessage("ほかの人を探しています...");
+                    mark.tofu.pvpworld.utils.ffaGanes.StartTimerUtils.startTimer(player, plugin, arrayList);
+                }
+            }
+        } else {
+            arrayList.add(player.getName());
+            e.setCancelled(true);
+            player.closeInventory();
+            player.sendMessage("参加しました");
+        }
+    }
+
+    public static void ffaSuggestPlayerJoin(ArrayList<String> arrayList) {
+        String base = ChatColor.RED + "[FFA Games]";
+        String base2 = ChatColor.WHITE + "で";
+        String base3 = ChatColor.WHITE + "人が待機中です!";
+        if ( arrayList.equals(SpleefActivities.spleefPlayingList)) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(base + "Spleef" + base2 + arrayList.size() + base3);
+            }
+        }
+    }
+
+    public static void playerQuitByBlueDyeAction(ArrayList<String> arrayList, String playerName, PvpWorld plugin) {
+        arrayList.remove(playerName);
+        if (arrayList.size() == 1) {
+            for (String PlayerName: arrayList) {
+                Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage("最低人数に達していないため、タイマーを止めます");
+                if (arrayList.equals(SpleefActivities.spleefPlayingList)) {
+                    mark.tofu.pvpworld.utils.ffaGanes.StartTimerUtils.startTimer(Objects.requireNonNull(Bukkit.getPlayer(playerName)), plugin, SpleefActivities.spleefPlayingList);
+
+                }
+            }
+        } else return;
+    }
+
+    public static void playerQuitByLeaveWorldAction(ArrayList<String> arrayList, String playerName, PvpWorld plugin) {
+        arrayList.remove(playerName);
+        if (arrayList.size() == 1) {
+            for (String PlayerName: arrayList) {
+                Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                player.sendTitle(ChatColor.GREEN + "勝利", ChatColor.YELLOW + "対戦相手が放棄しました", 0, 60, 0);
+                arrayList.remove(PlayerName);
+                gameCloseAction(plugin);
+            }
         }
     }
 }

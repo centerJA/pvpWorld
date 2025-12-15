@@ -2,6 +2,10 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -36,5 +40,14 @@ public class onPlayerQuitEvent implements Listener {
         Config.SpeedRunSingleOnHoldList.remove(playerName);
         Config.SpeedRunSingleList.remove(playerName);
         Config.FreePvpPlayerList.remove(playerName);
+        if (SumoActivities.sumoQueueingList.contains(playerName)) {
+            OneVersusOneGames.playerQuitAction(SumoActivities.sumoQueueingList, playerName, plugin);
+        }
+        if (TopfightActivities.topfightQueueingList.contains(playerName)) {
+            OneVersusOneGames.playerQuitAction(TopfightActivities.topfightQueueingList, playerName, plugin);
+        }
+        if (SpleefActivities.spleefPlayingList.contains(playerName)) {
+
+        }
     }
 }

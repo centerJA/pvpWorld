@@ -1,6 +1,7 @@
 package mark.tofu.pvpworld.utils.scoreBoard;
 
 import mark.tofu.pvpworld.Config;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,23 +41,23 @@ public class ScoreBoardUtils {
         if (objective == null) return;
 
         String playerName = ChatColor.AQUA + player.getName() + "さん";
-        objective.getScore(ChatColor.UNDERLINE + playerName).setScore(12);
+        objective.getScore(ChatColor.UNDERLINE + playerName).setScore(14);
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET).setScore(11);
+        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET).setScore(13);
 
         String exp = ChatColor.WHITE + "EXP: " + ChatColor.GREEN + getPlayerExp(player);
-        objective.getScore(exp).setScore(10);
+        objective.getScore(exp).setScore(12);
 
         String coin = ChatColor.WHITE + "Coin: " + ChatColor.GOLD + getPlayerCoin(player);
-        objective.getScore(coin).setScore(9);
+        objective.getScore(coin).setScore(11);
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.BLACK).setScore(8);
+        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.BLACK).setScore(10);
 
         String athletic = ChatColor.WHITE + "アスレチックのランキング";
-        objective.getScore(athletic).setScore(7);
+        objective.getScore(athletic).setScore(9);
 
         String yourScore = ChatColor.WHITE + "あなたのスコア: " + getPlayerLobbyAthleticTime(player);
-        objective.getScore(yourScore).setScore(6);
+        objective.getScore(yourScore).setScore(8);
 
         for (String playerName2 : athleticTimeUtils.playerLobbyAthleticTimeData.getKeys(false)) {
             int time = athleticTimeUtils.playerLobbyAthleticTimeData.getInt(playerName2);
@@ -64,19 +65,21 @@ public class ScoreBoardUtils {
         }
 
         String firstScore = ChatColor.WHITE + "1番の人のスコア: " +ChatColor.GOLD +  getSortedInteger(TimesMap);
-        objective.getScore(firstScore).setScore(5);
+        objective.getScore(firstScore).setScore(7);
 
         String firstPlayer = ChatColor.WHITE + "名前: " + ChatColor.GOLD + getSortedKey(TimesMap);
-        objective.getScore(firstPlayer).setScore(4);
+        objective.getScore(firstPlayer).setScore(6);
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.STRIKETHROUGH).setScore(3);
+        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.STRIKETHROUGH).setScore(5);
 
         String contact = ChatColor.WHITE + "分からないことがあったら...";
-        objective.getScore(contact).setScore(2);
+        objective.getScore(contact).setScore(4);
 
         String contact2 = ChatColor.AQUA + "" + ChatColor.BOLD + "/pvpworld help";
-        objective.getScore(contact2).setScore(1);
+        objective.getScore(contact2).setScore(3);
         player.setScoreboard(scoreBoard);
+
+        objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(2);
     }
 
     public static void removeScoreBoard(Player player) {
@@ -102,5 +105,35 @@ public class ScoreBoardUtils {
         String playerUUID = sortedEntries.get(0).getKey();
         UUID uuid = UUID.fromString(playerUUID);
         return Bukkit.getOfflinePlayer(uuid).getName();
+    }
+
+    public static void set1v1ScoreBoard(Player player, boolean game) {
+        Scoreboard scoreBoard = createScoreBoard();
+        if (scoreBoard == null) return;
+        Objective objective = scoreBoard.getObjective("lobby");
+        if (objective == null) return;
+        if (game) {
+            objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+        } else {
+            String status = ChatColor.WHITE + "対戦相手を探しています";
+            objective.getScore(status).setScore(1);
+        }
+    }
+
+    public static void setFfaScoreBoard(Player player, int time, boolean game, ArrayList<String> arrayList) {
+        Scoreboard scoreboard = createScoreBoard();
+        if (scoreboard == null) return;
+        Objective objective = scoreboard.getObjective("lobby");
+        if (objective == null) return;
+        if (time == 0) {
+            objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+            return;
+        }
+        if (game) {
+            String status = ChatColor.WHITE + String.valueOf(time) + "秒";
+            objective.getScore(status).setScore(1);
+        } else {
+            objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+        }
     }
 }

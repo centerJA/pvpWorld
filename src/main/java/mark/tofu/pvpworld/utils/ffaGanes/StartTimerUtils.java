@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.utils.ffaGanes;
 
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -11,6 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class StartTimerUtils {
     public static HashMap<Player, BukkitTask> tasks = new HashMap<>();
@@ -19,29 +21,24 @@ public class StartTimerUtils {
 
     public static int ffaGamesTime;
 
-    public static HashMap<Player, Integer>playerTimes = new HashMap<>();
+    public static HashMap<Player, Integer> playerTimes = new HashMap<>();
 
     public static void startTimer(Player player, PvpWorld plugin, ArrayList<String> arrayList) {
         if (playerTimes.containsKey(player)) {
             stopTimer(player);
         }
-        playerTimes.put(player, 6);
+        playerTimes.put(player, 21);
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1;
                 if (elapsedTime == 0) {
                     stopTimer(player);
-                    mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils.getTaskId(player);
+                    StartTimerUtils.getTaskId(player);
                     return;
                 }
-                if (elapsedTime <= 5) {
-                    for (String PlayerName: arrayList) {
-                        Player player = Bukkit.getPlayer(PlayerName);
-                        if (player == null) return;
-                        player.sendTitle(ChatColor.RED + String.valueOf(elapsedTime), "", 0, 20, 0);
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
-                    }
+                for (String PlayerName: arrayList) {
+                    ScoreBoardUtils.setFfaScoreBoard(Objects.requireNonNull(Bukkit.getPlayer(PlayerName)), elapsedTime, true, arrayList);
                 }
                 playerTimes.put(player, elapsedTime);
             }

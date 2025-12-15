@@ -2,6 +2,10 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -45,6 +49,15 @@ public class playerChangeWorldEvent implements Listener {
             Config.SpeedRunSingleOnHoldList.remove(playerName);
             Config.NoWalkList.remove(playerName);
             Config.SpeedRunSingleList.remove(playerName);
+            if (SumoActivities.sumoQueueingList.contains(playerName)) {
+                OneVersusOneGames.playerQuitAction(SumoActivities.sumoQueueingList, playerName, plugin);
+            }
+            if (TopfightActivities.topfightQueueingList.contains(playerName)) {
+                OneVersusOneGames.playerQuitAction(TopfightActivities.topfightQueueingList, playerName, plugin);
+            }
+            if (SpleefActivities.spleefPlayingList.contains(playerName)) {
+
+            }
         } else { //自分のサーバーに来た時
           if (!Config.WorldAllPlayerList.contains(playerName)) {
               Config.WorldAllPlayerList.add(playerName);

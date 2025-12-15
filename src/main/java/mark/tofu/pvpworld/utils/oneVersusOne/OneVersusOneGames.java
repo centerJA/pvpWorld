@@ -2,22 +2,19 @@ package mark.tofu.pvpworld.utils.oneVersusOne;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 
-import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class OneVersusOneGames {
+public class  OneVersusOneGames {
     public static void gameCloseAction(PvpWorld plugin) {
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
@@ -29,7 +26,6 @@ public class OneVersusOneGames {
                     StartTimerUtils.stopTimer(player);
                     TimeUpTimer.stopTimer(player);
                     player.teleport(Config.lobby);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
                 }
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
@@ -85,6 +81,8 @@ public class OneVersusOneGames {
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
+            oneVersusOneSggestPlayerJoin(arrayList);
+            ScoreBoardUtils.set1v1ScoreBoard(player, false);
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
                 if (PlayerName.equals(player.getName())) {
@@ -98,6 +96,7 @@ public class OneVersusOneGames {
                     player.closeInventory();
                     player.sendMessage("相手が見つかりました!");
                     dividePlayer(arrayList, player, plugin);
+                    ScoreBoardUtils.set1v1ScoreBoard(player, true);
                 }
             }
         } else {
@@ -116,6 +115,32 @@ public class OneVersusOneGames {
         }
         else {
             player.sendMessage("エラー");
+        }
+    }
+
+
+    public static void oneVersusOneSggestPlayerJoin(ArrayList<String> arrayList) {
+        String base = ChatColor.YELLOW + "[1v1 Games]";
+        String base2 = ChatColor.WHITE + "で1人が対戦者を探しています!";
+        if (arrayList.equals(SumoActivities.sumoQueueingList)) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(base + ChatColor.WHITE + "sumo" + base2);
+            }
+        } else if (arrayList.equals(TopfightActivities.topfightQueueingList)) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(base + ChatColor.WHITE + "topfight" + base2);
+            }
+        }
+    }
+
+    public static void playerQuitAction(ArrayList<String> arrayList, String playerName, PvpWorld plugin) {
+        arrayList.remove(playerName);
+        ScoreBoardUtils.set1v1ScoreBoard(Objects.requireNonNull(Bukkit.getPlayer(playerName)), true);
+        for (String PlayerName: arrayList) {
+            if (PlayerName == null) return;
+            arrayList.remove(Objects.requireNonNull(Bukkit.getPlayer(PlayerName)));
+            Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendTitle(ChatColor.GREEN + "勝利!", ChatColor.YELLOW + "相手が戦いを放棄しました", 0, 60, 0);
+            gameCloseAction(plugin);
         }
     }
 }

@@ -33,7 +33,6 @@ public class TimeUpTimer {
                     OneVersusOneGames.timeUpAction(player, plugin);
 
                     stopTimer(player);
-                    SpeedRunTimer.getTaskId(player).cancel();
                     return;
                 }
                 playerTimes.put(player, elapsedTime);

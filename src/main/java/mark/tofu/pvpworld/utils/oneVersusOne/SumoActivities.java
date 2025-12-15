@@ -52,35 +52,4 @@ public class SumoActivities {
         winner.sendTitle(ChatColor.GREEN + "勝利", ChatColor.YELLOW + "すごい!!", 0, 60, 0);
         OneVersusOneGames.gameCloseAction(plugin);
     }
-
-    public static void sumoQueueingActivities(Player player, InventoryClickEvent e, PvpWorld plugin) {
-        player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
-        if (SumoActivities.sumoQueueingList.isEmpty()) {
-            SumoActivities.sumoQueueingList.add(player.getName());
-            e.setCancelled(true);
-            player.closeInventory();
-            player.sendMessage("他の人を待っています...");
-            player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
-            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
-        } else if (SumoActivities.sumoQueueingList.size() == 1) {
-            for (String PlayerName: SumoActivities.sumoQueueingList) {
-                if (PlayerName.equals(player.getName())) {
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    player.sendMessage("既に参加しています!");
-                    player.sendMessage("退出するにはインベントリ内の赤い染料を右クリックしてください");
-                } else {
-                    SumoActivities.sumoQueueingList.add(player.getName());
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    player.sendMessage("相手が見つかりました!");
-                    SumoActivities.sumoStartAction(player, plugin);
-                }
-            }
-        } else {
-            e.setCancelled(true);
-            player.closeInventory();
-            player.sendMessage("既に誰かがプレイ中です");
-        }
-    }
 }
