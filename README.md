@@ -1,5 +1,5 @@
 # pvpWorld
-  This plugin is only for TOHU server.<br/>
+  This plugin is only for TOFU server.<br/>
   First commit(initial commit): 2025.07.23
 
   ---
