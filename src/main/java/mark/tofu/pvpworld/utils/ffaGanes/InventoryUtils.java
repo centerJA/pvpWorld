@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -16,6 +17,7 @@ public class InventoryUtils {
     public static void openGameListInventory(Player player) {
         Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.GREEN + "FFA Games");
         gameList.setItem(10, spleefSetProperties());
+        player.openInventory(gameList);
     }
 
     public static ItemStack spleefSetProperties() {
@@ -31,6 +33,7 @@ public class InventoryUtils {
         loreList.add("");
         Objects.requireNonNull(meta).setLore(loreList);
         meta.setDisplayName(ChatColor.GREEN + "spleef");
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }

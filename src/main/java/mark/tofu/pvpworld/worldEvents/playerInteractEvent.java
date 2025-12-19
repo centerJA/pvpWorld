@@ -4,11 +4,11 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.ffaGanes.FfaGames;
+import mark.tofu.pvpworld.utils.ffaGanes.InventoryUtils;
+import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
-import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
-import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
-import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
-import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.oneVersusOne.*;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
@@ -106,8 +106,8 @@ public class playerInteractEvent implements Listener {
                     }
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
-                } else if (Objects.equals(lines[0], "ffatest")) {
-
+                } else if (Objects.equals(lines[0], "FFA Games test")) {
+                    InventoryUtils.openGameListInventory(player);
                 }
             } else if (block.getType() == Material.END_PORTAL_FRAME) {
                 WellUtilities.openInventory(player);
@@ -170,8 +170,21 @@ public class playerInteractEvent implements Listener {
                     player.sendMessage("使用しました!");
                 }
             } else if (block == Material.RED_DYE) {
-                SumoActivities.sumoQueueingList.remove(player.getName());
+                if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+                    SumoActivities.sumoQueueingList.remove(player.getName());
+                } else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
+                    TopfightActivities.topfightQueueingList.remove(player.getName());
+                }
                 if (player.getItemInHand().getType().equals(Material.RED_DYE)) {
+                    player.setItemInHand(null);
+                    player.sendMessage("退出しました");
+                }
+            } else if (block == Material.BLUE_DYE) {
+                if (player.getItemInHand().getType().equals(Material.BLUE_DYE)) {
+                    if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
+                        FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefPlayingList, player.getName(), plugin);
+                        FfaGames.playerListChecker(player, SpleefActivities.spleefPlayingList);
+                    }
                     player.setItemInHand(null);
                     player.sendMessage("退出しました");
                 }

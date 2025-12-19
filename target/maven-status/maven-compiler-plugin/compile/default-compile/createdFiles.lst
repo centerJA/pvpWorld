@@ -1,3 +1,4 @@
+mark\tofu\pvpworld\worldEvents\projectileHitEvent.class
 mark\tofu\pvpworld\utils\athletic\AthleticUtils.class
 mark\tofu\pvpworld\worldEvents\playerChangeWorldEvent$1.class
 mark\tofu\pvpworld\utils\ffaGanes\InventoryUtils.class
@@ -62,6 +63,7 @@ mark\tofu\pvpworld\PvpWorld.class
 mark\tofu\pvpworld\utils\oneVersusOne\OneVersusOneGames.class
 mark\tofu\pvpworld\worldEvents\playerRespawnEvent$2.class
 mark\tofu\pvpworld\utils\speedRun\SpeedRunTimer$2.class
+mark\tofu\pvpworld\worldEvents\projectileHitEvent$1.class
 mark\tofu\pvpworld\worldEvents\playerInteractEvent.class
 mark\tofu\pvpworld\utils\ffaGanes\SpleefActivities$1.class
 mark\tofu\pvpworld\worldEvents\inventoryClickEvent.class

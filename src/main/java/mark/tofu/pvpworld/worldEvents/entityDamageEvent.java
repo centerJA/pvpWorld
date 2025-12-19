@@ -35,17 +35,14 @@ public class entityDamageEvent implements Listener {
         if (this.world != world) return;
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            player.sendMessage("get damage");
 
             if (Config.DoNotReceiveDamageList.contains(player.getName())) {
-                player.sendMessage("cancel-1");
                 e.setCancelled(true);
-                player.sendMessage("cancel");
             } else {
                 if (SumoActivities.sumoQueueingList.contains(player.getName()) || SpleefActivities.spleefQueueingList.contains(player.getName())) {
-                    player.sendMessage("contains-");
-                } else {
-                    player.sendMessage("外");
+                    e.setDamage(0);
+                } else if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
+                    e.setDamage(0);
                 }
             }
         }

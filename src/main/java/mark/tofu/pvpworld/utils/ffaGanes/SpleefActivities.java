@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.utils.ffaGanes;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -15,18 +16,18 @@ public class SpleefActivities {
     public static ArrayList<String> spleefQueueingList = new ArrayList<>(),
                                     spleefPlayingList = new ArrayList<>();
 
+    public static Location spawnPoint = new Location(world, 183.500, 4.500, -24.500);
+
     public static void spleefStartAction(Player player, PvpWorld plugin) {
-        //全員同じところにtpさせるようにする
         for (String PlayerName: spleefQueueingList) {
             Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).getInventory().setItem(8, null);
+            Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).teleport(spawnPoint);
         }
         TimeUpTimer.startTimer(player, plugin, 600);
-        Config.NoWalkList.addAll(spleefQueueingList);
         StartTimerUtils.startTimer(player, plugin, spleefQueueingList);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
-                FfaGames.noWalkRemoveAction(spleefQueueingList);
                 for (String PlayerName: spleefQueueingList) {
                     Config.DoNotReceiveDamageList.remove(PlayerName);
                     spleefPlayingList.addAll(spleefQueueingList);

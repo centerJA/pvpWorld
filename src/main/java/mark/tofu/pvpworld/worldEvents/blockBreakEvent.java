@@ -2,6 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class blockBreakEvent implements Listener {
     PvpWorld plugin;
@@ -34,9 +36,14 @@ public class blockBreakEvent implements Listener {
         Material material = e.getBlock().getType();
         if (this.world != world) return;
         if (material == null) return;
-        if (!Config.AdminBuildModeList.contains(playerName)) {
+        if (Config.AdminBuildModeList.contains(playerName)) return;
+        if (SpleefActivities.spleefPlayingList.contains(playerName)) {
+            ItemStack itemStack = new ItemStack(Material.DIAMOND_SHOVEL, 1);
+            if (player.getItemInHand().equals(itemStack)) {
+                e.getBlock().setType(Material.AIR);
+            }
+        } else {
             e.setCancelled(true);
-            player.sendMessage("地形は破壊できません!");
         }
     }
 }
