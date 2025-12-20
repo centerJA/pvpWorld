@@ -3,12 +3,15 @@ package mark.tofu.pvpworld.utils.ffaGames;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FfaGames {
     public static void gameCloseAction(PvpWorld plugin) {

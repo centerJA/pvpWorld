@@ -8,7 +8,9 @@ import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
+import mark.tofu.pvpworld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
@@ -18,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class inventoryClickEvent implements Listener {
@@ -37,7 +40,7 @@ public class inventoryClickEvent implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClickEvent(InventoryClickEvent e) {
+    public void onInventoryClickEvent(InventoryClickEvent e) throws IOException {
         HumanEntity entity = e.getWhoClicked();
         World world = e.getWhoClicked().getWorld();
         ItemStack itemStack = e.getCurrentItem();
