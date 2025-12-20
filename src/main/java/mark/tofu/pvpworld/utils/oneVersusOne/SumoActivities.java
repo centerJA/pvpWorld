@@ -63,7 +63,7 @@ public class SumoActivities {
             player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
         } else if (SumoActivities.sumoQueueingList.size() == 1) {
-            for (String PlayerName: SumoActivities.sumoQueueingList) {
+            for (String PlayerName : SumoActivities.sumoQueueingList) {
                 if (PlayerName.equals(player.getName())) {
                     e.setCancelled(true);
                     player.closeInventory();

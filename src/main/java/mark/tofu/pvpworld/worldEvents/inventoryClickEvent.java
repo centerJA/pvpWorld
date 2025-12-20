@@ -66,7 +66,7 @@ public class inventoryClickEvent implements Listener {
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
-            FfaGames.queueingActivities(player, e, plugin);
+//            FfaGames.queueingActivities(player, e, plugin);
         }
     }
 }
