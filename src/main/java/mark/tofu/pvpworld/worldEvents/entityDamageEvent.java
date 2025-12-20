@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -43,9 +43,9 @@ public class entityDamageEvent implements Listener {
                 player.sendMessage("cancel");
             } else {
                 if (SumoActivities.sumoQueueingList.contains(player.getName()) || SpleefActivities.spleefQueueingList.contains(player.getName())) {
-                    player.sendMessage("contains-");
-                } else {
-                    player.sendMessage("外");
+                    e.setDamage(0);
+                } else if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
+                    e.setDamage(0.1);
                 }
             }
         }

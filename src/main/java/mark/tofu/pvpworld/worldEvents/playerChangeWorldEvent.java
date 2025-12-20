@@ -2,12 +2,17 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.scoreboard.Score;
 
 import java.io.IOException;
 
@@ -40,6 +45,7 @@ public class playerChangeWorldEvent implements Listener {
         World world = player.getWorld();
         if (this.world != world) {//他のワールドに移動した時
             Config.clearInventory(player);
+            ScoreBoardUtils.removeScoreBoard(player);
             Config.WorldAllPlayerList.remove(playerName);
             Config.DoNotReceiveDamageList.remove(playerName);
             Config.SpeedRunSingleOnHoldList.remove(playerName);
@@ -71,8 +77,8 @@ public class playerChangeWorldEvent implements Listener {
                 }
             }, 10L);
             if (Config.testPlayerLastLoginTime(player)) {
-                playerSetExp(player, 5);
-                playerSetCoin(player, 3);
+                playerSetExp(player, 10);
+                playerSetCoin(player, 7);
                 player.sendMessage(ChatColor.AQUA + "最後にログイン時のexpを受け取ってから1日以上経過したので、5expと3coin獲得しました!");
                 player.sendMessage(ChatColor.AQUA + "現在のあなたのexp: " + getPlayerExp(player) + "exp");
                 player.sendMessage(ChatColor.AQUA + "現在のあなたのcoin; " + getPlayerCoin(player) + "coin");

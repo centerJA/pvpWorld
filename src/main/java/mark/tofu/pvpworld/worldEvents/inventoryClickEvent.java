@@ -2,7 +2,8 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.ffaGanes.FfaGames;
+import mark.tofu.pvpworld.utils.ffaGames.FfaGames;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
@@ -66,7 +67,12 @@ public class inventoryClickEvent implements Listener {
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
-//            FfaGames.queueingActivities(player, e, plugin);
+            FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
+        } else if (itemStack.getType() == Material.GOLD_INGOT) {
+            if (displayName.equals(ChatColor.DARK_PURPLE + "井戸")) {
+                e.setCancelled(true);
+                WellUtilities.rollItems(player, plugin);
+            }
         }
     }
 }
