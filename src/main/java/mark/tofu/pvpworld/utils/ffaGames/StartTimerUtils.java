@@ -1,6 +1,7 @@
 package mark.tofu.pvpworld.utils.ffaGames;
 
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -49,6 +50,7 @@ public class StartTimerUtils {
                 }
                 playerTimes.put(player, elapsedTime);
                 for (String PlayerName: arrayList) {
+                    ScoreBoardUtils.setFfaScoreBoard(Objects.requireNonNull(Bukkit.getPlayer(PlayerName)), elapsedTime, true, arrayList);
                     Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).setLevel(elapsedTime);
                 }
             }

@@ -42,7 +42,7 @@ public class entityDamageEvent implements Listener {
                 if (SumoActivities.sumoQueueingList.contains(player.getName()) || SpleefActivities.spleefQueueingList.contains(player.getName())) {
                     e.setDamage(0);
                 } else if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
-                    e.setDamage(0);
+                    e.setDamage(0.1);
                 }
             }
         }

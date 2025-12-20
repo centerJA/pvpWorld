@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.scoreboard.Score;
 
 import java.io.IOException;
 
@@ -44,6 +45,7 @@ public class playerChangeWorldEvent implements Listener {
         World world = player.getWorld();
         if (this.world != world) {//他のワールドに移動した時
             Config.clearInventory(player);
+            ScoreBoardUtils.removeScoreBoard(player);
             Config.WorldAllPlayerList.remove(playerName);
             Config.DoNotReceiveDamageList.remove(playerName);
             Config.SpeedRunSingleOnHoldList.remove(playerName);

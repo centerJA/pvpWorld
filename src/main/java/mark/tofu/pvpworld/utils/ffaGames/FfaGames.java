@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.utils.ffaGames;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,13 +45,13 @@ public class FfaGames {
         player.sendMessage(String.valueOf(arrayList));
         if (arrayList.isEmpty()) {
             arrayList.add(player.getName());
-            player.sendMessage("1:" + arrayList);
             e.setCancelled(true);
             player.closeInventory();
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の青色の染料を右クリックしてください");
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
             ffaSuggestPlayerJoin(arrayList);
+            ScoreBoardUtils.setFfaScoreBoard(player, 1000, false, arrayList);
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
                 if (PlayerName.equals(player.getName())) {

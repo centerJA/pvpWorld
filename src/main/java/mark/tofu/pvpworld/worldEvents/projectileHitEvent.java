@@ -31,23 +31,14 @@ public class projectileHitEvent implements Listener {
     @EventHandler
     public void ProjectileHitEvent(ProjectileHitEvent e) {
         World world = e.getEntity().getWorld();
-        System.out.println("3333");
         if (this.world != world) return;
-        System.out.println("198282822828");
         if (!(e.getEntity() instanceof Snowball)) return;
-        System.out.println("0000000000");
         if (!(e.getEntity().getShooter() instanceof Player)) return;
-        System.out.println("???");
         Player player = (Player) e.getEntity().getShooter();
-        player.sendMessage("1111111111");
         if (Config.AdminBuildModeList.contains(player.getName())) return;
-        player.sendMessage("aaaaaaaaaaa");
         if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
-            player.sendMessage("aqrhri2hqrl");
             if (e.getHitEntity() != null && e.getHitEntity() instanceof Player) {
-                player.sendMessage("hittt");
             } else if (e.getHitBlock() != null && e.getHitEntity() == null) {
-                player.sendMessage("28292");
                 Material material = e.getHitBlock().getType();
                 if (material == Material.SNOW_BLOCK) {
                     e.getHitBlock().setType(Material.AIR);

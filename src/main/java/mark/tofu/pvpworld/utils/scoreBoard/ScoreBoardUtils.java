@@ -114,10 +114,12 @@ public class ScoreBoardUtils {
         if (objective == null) return;
         if (game) {
             objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+            updateScoreBoard(player);
         } else {
             String status = ChatColor.WHITE + "対戦相手を探しています";
             objective.getScore(status).setScore(1);
         }
+        updateScoreBoard(player);
     }
 
     public static void setFfaScoreBoard(Player player, int time, boolean game, ArrayList<String> arrayList) {
@@ -125,15 +127,23 @@ public class ScoreBoardUtils {
         if (scoreboard == null) return;
         Objective objective = scoreboard.getObjective("lobby");
         if (objective == null) return;
+        if (time == 1000) {
+            String status = ChatColor.WHITE + String.valueOf(time) + "待機中";
+            objective.getScore(status).setScore(1);
+            updateScoreBoard(player);
+        }
         if (time == 0) {
             objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+            updateScoreBoard(player);
             return;
         }
         if (game) {
             String status = ChatColor.WHITE + String.valueOf(time) + "秒";
             objective.getScore(status).setScore(1);
+            updateScoreBoard(player);
         } else {
             objective.getScore(ChatColor.AQUA.toString() + ChatColor.RESET).setScore(1);
+            updateScoreBoard(player);
         }
     }
 }
