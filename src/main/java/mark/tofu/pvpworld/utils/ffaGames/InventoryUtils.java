@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils.ffaGanes;
+package mark.tofu.pvpworld.utils.ffaGames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils.ffaGanes;
+package mark.tofu.pvpworld.utils.ffaGames;
 
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;

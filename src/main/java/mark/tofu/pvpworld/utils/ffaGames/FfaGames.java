@@ -1,17 +1,13 @@
-package mark.tofu.pvpworld.utils.ffaGanes;
+package mark.tofu.pvpworld.utils.ffaGames;
 
-import jdk.nashorn.internal.objects.NativeError;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
-import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.scoreboard.Score;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -48,6 +44,7 @@ public class FfaGames {
         player.sendMessage(String.valueOf(arrayList));
         if (arrayList.isEmpty()) {
             arrayList.add(player.getName());
+            player.sendMessage("1:" + arrayList);
             e.setCancelled(true);
             player.closeInventory();
             player.sendMessage("他の人を待っています...");
@@ -63,12 +60,13 @@ public class FfaGames {
                     player.sendMessage("退出するにはインベントリ内の青い染料を右クリックしてください");
                 } else {
                     arrayList.add(player.getName());
+                    player.sendMessage("2:" + arrayList);
                     e.setCancelled(true);
                     player.closeInventory();
                     player.sendMessage("相手が見つかりました!");
-                    player.sendMessage("ほかの人を探しています...");
+                    player.sendMessage("追加の人を探しています...");
                     player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
-                    mark.tofu.pvpworld.utils.ffaGanes.StartTimerUtils.startTimer(player, plugin, arrayList);
+                    mark.tofu.pvpworld.utils.ffaGames.StartTimerUtils.startTimer(player, plugin, arrayList);
                 }
             }
         } else {
@@ -96,7 +94,7 @@ public class FfaGames {
             for (String PlayerName: arrayList) {
                 Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage("最低人数に達していないため、タイマーを止めます");
                 if (arrayList.equals(SpleefActivities.spleefPlayingList)) {
-                    mark.tofu.pvpworld.utils.ffaGanes.StartTimerUtils.startTimer(Objects.requireNonNull(Bukkit.getPlayer(playerName)), plugin, SpleefActivities.spleefPlayingList);
+                    StartTimerUtils.stopTimer(Objects.requireNonNull(Bukkit.getPlayer(PlayerName)));
 
                 }
             }
@@ -117,7 +115,7 @@ public class FfaGames {
 
     public static void playerListChecker(Player player, ArrayList<String> arrayList) {
         if (arrayList.size() == 1) {
-            mark.tofu.pvpworld.utils.ffaGanes.StartTimerUtils.stopTimer(player);
+            StartTimerUtils.stopTimer(player);
             for (String PlayerName: arrayList) {
                 Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage("1人になってしまったため、タイマーがストップしました");
             }

@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;

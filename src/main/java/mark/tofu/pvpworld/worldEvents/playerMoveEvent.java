@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.ffaGanes.SpleefActivities;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import java.io.IOException;
 
 public class playerMoveEvent implements Listener {
     PvpWorld plugin;
@@ -31,7 +33,7 @@ public class playerMoveEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMoveEvent(PlayerMoveEvent e) {
+    public void onPlayerMoveEvent(PlayerMoveEvent e) throws IOException {
         Player player = e.getPlayer();
         World world = player.getWorld();
         if (this.world != world) return;
@@ -50,8 +52,8 @@ public class playerMoveEvent implements Listener {
         } else if (type.equals(Material.WATER)) {
             if (SumoActivities.sumoQueueingList.contains(player.getName())) {
                 SumoActivities.sumoCloseAction(player, plugin);
-            } else if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
-                SpleefActivities.spleefCloseAction(player, plugin);
+            } else if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
+                SpleefActivities.voidAction(player, plugin);
             }
         }
     }
