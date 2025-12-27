@@ -4,6 +4,8 @@ import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -11,11 +13,14 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
+import javax.xml.soap.Text;
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.playerLobbyAthleticTimeData;
 import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.setPlayerLobbyAthleticTime;
 
 public class AthleticUtils {
@@ -66,5 +71,25 @@ public class AthleticUtils {
     public static void clearAthleticTimes(Player player) {
         setPlayerLobbyAthleticTime(player, 10000, true);
         player.sendMessage("あなたのスコアをリセットしました");
+    }
+
+    public static void sendClearAthleticTimeRequest(Player player) {
+        player.sendMessage(ChatColor.YELLOW + "注意!" + ChatColor.WHITE + "本当にスコアをリセットしますか?");
+        TextComponent yes = new TextComponent(ChatColor.RED + "[はい]");
+        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pvpworld actions lobbyAthletic clear"));
+        player.spigot().sendMessage(yes);
+    }
+
+    public static void scheduledAthleticTimeClear() {
+        if (Config.systemConfigGetItem("athleticTime") != null && Config.systemConfigGetItem("athleticTime").equals("true")) {
+            //allclearmethod
+//            if (!athleticTimeUtils.playerLobbyAthleticTimeFile.exists()) return;
+//            if (athleticTimeUtils.playerLobbyAthleticTimeFile.delete()) {
+//                System.out.println("Successfully deleted");
+//            }
+//            athleticTimeUtils.playerLobbyAthleticTimeFile =
+//            setPlayerLobbyAthleticTime(playerLobbyAthleticTimeData);
+//        } else if (Config.systemConfigGetItem("athleticTime").equals("false"))}
+        }
     }
 }

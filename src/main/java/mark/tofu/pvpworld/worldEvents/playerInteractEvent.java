@@ -108,6 +108,12 @@ public class playerInteractEvent implements Listener {
                     openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
                     InventoryUtils.openGameListInventory(player);
+                } else if (Objects.equals(lines[0], "右クリックして")) {
+                    if (Objects.equals(lines[1], "あなたのスコアを")) {
+                        if (Objects.equals(lines[2], "リセットします")) {
+                            AthleticUtils.sendClearAthleticTimeRequest(player);
+                        }
+                    }
                 }
             } else if (block.getType() == Material.END_PORTAL_FRAME) {
                 WellUtilities.openInventory(player);
