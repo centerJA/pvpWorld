@@ -38,6 +38,7 @@ public final class PvpWorld extends JavaPlugin {
         lobbyAthleticSetUp(this);
         playerCoinSetUp(this);
         playerAdminListSetup(this);
+        Config.systemConfigSetUp(this);
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
 

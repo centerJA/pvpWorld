@@ -24,8 +24,8 @@ import java.util.Random;
 public class Config extends JavaPlugin {
     public static World world = Bukkit.getWorld("pvpWorld");
 
-    public static File playerLastLoginFile;
-    public static FileConfiguration  playerLastLogin;
+    public static File playerLastLoginFile, systemConfigFile;
+    public static FileConfiguration  playerLastLogin, systemConfig;
 
 
     public static ArrayList<String> WorldAllPlayerList = new ArrayList<>(),
@@ -161,4 +161,39 @@ public class Config extends JavaPlugin {
     }
 
 
+    public static void systemConfigSetUp(PvpWorld plugin) {
+        systemConfigFile = new File(plugin.getDataFolder(), "systemConfig.yml");
+        if (!systemConfigFile.exists()) {
+            try {
+                systemConfigFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        systemConfig = YamlConfiguration.loadConfiguration(systemConfigFile);
+    }
+
+    public static String systemConfigGetItem(String request) {
+        if (request.equals("athleticTime")) {
+            long nowTime = System.currentTimeMillis();
+            long before = systemConfig.getLong("systemConfig.athleticTime");
+            long difference = nowTime - before;
+            long twoWeek = 24L * 60 * 60 * 1000 * 14;
+            if (twoWeek > difference) {
+                return "false";
+            } else {
+                return "true";
+            }
+        }
+        else return null;
+    }
+
+    public static void setSystemConfigAthleticTime(long time) {
+        systemConfig.set("Config.athleticTime", time);
+        try {
+            systemConfig.save(systemConfigFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
