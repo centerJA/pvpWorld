@@ -64,6 +64,7 @@ public class inventoryClickEvent implements Listener {
                 e.setCancelled(true);
                 //SpeedRunAction.multiOnHoldAction(player, plugin);
             }
+            //test
         } else if (itemStack.getType() == Material.LEAD) {
             if (displayName.equals(ChatColor.YELLOW + "sumo")) {
                 OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
