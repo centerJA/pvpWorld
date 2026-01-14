@@ -64,14 +64,14 @@ public class WellUtilities {
                     player.sendMessage(ChatColor.GOLD + "12Gold" + ChatColor.WHITE + "を入手しました!!");
                     player.sendTitle(ChatColor.GREEN + "アンコモン", "", 20, 40, 20);
                     try {
-                        coinUtils.playerSetCoin(player, 15);
+                        coinUtils.playerSetCoin(player, 12);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 } else if (value <= 8000) {
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "20Gold" + ChatColor.WHITE + "を入手しました!!");
-                    player.sendTitle(ChatColor.BLUE + "レア", "", 20, 40, 20);
+                    player.sendTitle(ChatColor.AQUA + "レア", "", 20, 40, 20);
                     try {
                         coinUtils.playerSetCoin(player, 20);
                     } catch (IOException e) {
@@ -80,7 +80,7 @@ public class WellUtilities {
                 } else if (value <= 8100) {
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "100Gold" + ChatColor.WHITE + "を入手しました!!");
-                    player.sendTitle(ChatColor.GREEN + "スーパーレア", "", 20, 40, 20);
+                    player.sendTitle(ChatColor.BLUE + "スーパーレア", "", 20, 40, 20);
                     try {
                         coinUtils.playerSetCoin(player, 100);
                     } catch (IOException e) {
