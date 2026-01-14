@@ -29,7 +29,7 @@ public class AthleticTimer {
         }
 
         // プレイヤーの時間を0に初期化
-        playerTimes.put(player, 0);
+        playerTimes.put(player, -1);
 
         // プレイヤー専用のBukkitRunnableを作成
         BukkitRunnable playerTask = new BukkitRunnable() {

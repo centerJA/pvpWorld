@@ -2,7 +2,9 @@ package mark.tofu.pvpworld.utils.ffaGames;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,12 +48,14 @@ public class FfaGames {
 
     public static void ffaQueueingActivities(Player player, ArrayList<String> arrayList, PvpWorld plugin, InventoryClickEvent e) {
         player.sendMessage(String.valueOf(arrayList));
+        InventoryUtils.replaceInventoryCheck(player);
         if (arrayList.isEmpty()) {
             arrayList.add(player.getName());
             e.setCancelled(true);
             player.closeInventory();
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の青色の染料を右クリックしてください");
+            encourageJoinGame(player);
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
             ffaSuggestPlayerJoin(arrayList);
             ScoreBoardUtils.setFfaScoreBoard(player, 1000, false, arrayList);
@@ -122,6 +126,16 @@ public class FfaGames {
             StartTimerUtils.stopTimer(player);
             for (String PlayerName: arrayList) {
                 Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage("1人になってしまったため、タイマーがストップしました");
+            }
+        }
+    }
+
+    public static void encourageJoinGame(Player player) {
+        String base = "1人が対戦相手を待機中です!";
+        if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                player2.sendMessage(ChatColor.YELLOW + "[Spleef]" + ChatColor.WHITE + base);
             }
         }
     }

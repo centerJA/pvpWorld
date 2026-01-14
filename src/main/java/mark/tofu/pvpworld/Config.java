@@ -2,8 +2,11 @@ package mark.tofu.pvpworld;
 
 
 import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
+import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.*;
@@ -195,5 +198,21 @@ public class Config extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean overLappingTrigger(Player player) {
+        String playerName = player.getName();
+        if (SpleefActivities.spleefQueueingList.contains(playerName)) return true;
+        if (SumoActivities.sumoQueueingList.contains(playerName)) return true;
+        if (TopfightActivities.topfightQueueingList.contains(playerName)) return true;
+        if (SpeedRunSingleOnHoldList.contains(playerName)) return true;
+        if (FreePvpPlayerList.contains(playerName)) return true;
+        return false;
+    }
+
+    public static void overLappingMessage(Player player) {
+        player.sendMessage("あなたは既に1v1ゲームスに参加しています!");
+        player.sendMessage("退出してからゲームに参加してください");
+        player.teleport(Config.lobby);
     }
 }

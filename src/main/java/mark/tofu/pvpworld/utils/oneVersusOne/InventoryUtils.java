@@ -6,6 +6,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -37,6 +39,7 @@ public class InventoryUtils {
         }
         meta.setLore(loreList);
         meta.setDisplayName(ChatColor.YELLOW + "sumo");
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }
@@ -58,6 +61,7 @@ public class InventoryUtils {
         }
         meta.setLore(loreList);
         meta.setDisplayName(ChatColor.RED + "topfight");
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }

@@ -50,8 +50,8 @@ public class inventoryClickEvent implements Listener {
         if (!(entity instanceof Player)) return;
         Player player = (Player) entity;
         if (itemStack.getType() == Material.PAPER) {
-            if (OneVersusOneGames.player1v1GamesContainsCheck(player)) {
-                OneVersusOneGames.overlappingGames(player);
+            if (Config.overLappingTrigger(player)) {
+                Config.overLappingMessage(player);
                 e.setCancelled(true);
                 player.closeInventory();
                 return;
@@ -65,12 +65,13 @@ public class inventoryClickEvent implements Listener {
             }
             //test
         } else if (itemStack.getType() == Material.LEAD) {
-            if (displayName.equals("sumo")) {
-                OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
-            }
+            if (!displayName.equals(ChatColor.YELLOW + "sumo")) return;
+            OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
+            if (!displayName.equals(ChatColor.RED + "topfight")) return;
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
+            if (!displayName.equals(ChatColor.GREEN + "spleef")) return;
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
             if (displayName.equals(ChatColor.DARK_PURPLE + "井戸")) {

@@ -104,7 +104,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
                     } else if (args[1].equals("getcoin")) {
                         try {
-                            playerSetCoin(player, 5);
+                            playerSetCoin(player, Integer.parseInt(args[2]));
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

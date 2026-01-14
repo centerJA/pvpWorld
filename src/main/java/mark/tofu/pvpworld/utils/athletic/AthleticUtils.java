@@ -79,17 +79,4 @@ public class AthleticUtils {
         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pvpworld actions lobbyAthletic clear"));
         player.spigot().sendMessage(yes);
     }
-
-    public static void scheduledAthleticTimeClear() {
-        if (Config.systemConfigGetItem("athleticTime") != null && Config.systemConfigGetItem("athleticTime").equals("true")) {
-            //allclearmethod
-//            if (!athleticTimeUtils.playerLobbyAthleticTimeFile.exists()) return;
-//            if (athleticTimeUtils.playerLobbyAthleticTimeFile.delete()) {
-//                System.out.println("Successfully deleted");
-//            }
-//            athleticTimeUtils.playerLobbyAthleticTimeFile =
-//            setPlayerLobbyAthleticTime(playerLobbyAthleticTimeData);
-//        } else if (Config.systemConfigGetItem("athleticTime").equals("false"))}
-        }
-    }
 }

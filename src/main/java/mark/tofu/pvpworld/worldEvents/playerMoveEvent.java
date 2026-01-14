@@ -43,8 +43,8 @@ public class playerMoveEvent implements Listener {
         if (Config.AdminBuildModeList.contains(player.getName())) return;
         Material type = player.getLocation().getBlock().getType();
         if (type.equals(Material.TRIPWIRE)) {
-            if (OneVersusOneGames.player1v1GamesContainsCheck(player)) {
-                OneVersusOneGames.overlappingGames(player);
+            if (Config.overLappingTrigger(player)) {
+                Config.overLappingMessage(player);
                 player.teleport(Config.lobby);
                 return;
             }

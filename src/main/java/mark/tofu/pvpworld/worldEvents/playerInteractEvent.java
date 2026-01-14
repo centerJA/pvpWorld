@@ -80,7 +80,7 @@ public class playerInteractEvent implements Listener {
             if (Config.AdminBuildModeList.contains(player.getName())) return;
             Block block = e.getClickedBlock();
             if (block == null) return;
-            if (block.getType() == Material.OAK_WALL_SIGN) {
+            if (block.getType() == Material.OAK_SIGN) {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 String[] lines = new String[4];
@@ -88,9 +88,7 @@ public class playerInteractEvent implements Listener {
                     lines[i] = sign.getLine(i);
                 }
 
-                if (Objects.equals(lines[0], "SpeedRunTest")) { //SpeedRunのメニューを表示させる
-                    SpeedRunAction.openGameListInventory(player);
-                } else if (Objects.equals(lines[0], "ルール説明")) {
+                if (Objects.equals(lines[0], "ルール説明")) {
                     if (Objects.equals(lines[1], "SpeedRun")) {
                         if (Objects.equals(lines[2], "シングルプレイ")) { //SpeedRun Single内の待機所のルール説明
                             player.sendMessage(ChatColor.AQUA + "-----SpeedRunシングルプレイ-----");
@@ -104,9 +102,32 @@ public class playerInteractEvent implements Listener {
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
                     }
+                }
+            }
+            if (block.getType() == Material.OAK_WALL_SIGN) {
+                Sign sign = (Sign) block.getState();
+                if (sign == null) return;
+                String[] lines = new String[4];
+                for (int i = 0; i < 4; i++) {
+                    lines[i] = sign.getLine(i);
+                }
+
+                if (Config.overLappingTrigger(player)) {
+                    Config.overLappingMessage(player);
+                    return;
+                }
+
+                if (e.getItem() != null && e.getItem().getType().name().endsWith("_DYE")) {
+                    e.setCancelled(true);
+                    player.sendMessage("染料以外のアイテムや、素手で看板をクリックしてください!");
+                }
+
+                if (Objects.equals(lines[0], "SpeedRunTest")) { //SpeedRunのメニューを表示させる
+                    SpeedRunAction.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
+                    player.sendMessage("test1u124u12894");
                     InventoryUtils.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "右クリックして")) {
                     if (Objects.equals(lines[1], "あなたのスコアを")) {

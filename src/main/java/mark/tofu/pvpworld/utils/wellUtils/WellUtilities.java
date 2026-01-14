@@ -53,6 +53,7 @@ public class WellUtilities {
                 if (value <= 5000) {
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "8Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.WHITE + "コモン", "", 20, 40, 20);
                     try {
                         coinUtils.playerSetCoin(player, 8);
                     } catch (IOException e) {
@@ -61,13 +62,48 @@ public class WellUtilities {
                 } else if (value <= 7000) {
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "12Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.GREEN + "アンコモン", "", 20, 40, 20);
                     try {
-                        coinUtils.playerSetCoin(player, 12);
+                        coinUtils.playerSetCoin(player, 15);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                } else if (value <= 10000) {
-                    player.sendMessage("test--");
+                } else if (value <= 8000) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "20Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.BLUE + "レア", "", 20, 40, 20);
+                    try {
+                        coinUtils.playerSetCoin(player, 20);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 8100) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "100Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.GREEN + "スーパーレア", "", 20, 40, 20);
+                    try {
+                        coinUtils.playerSetCoin(player, 100);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 8150) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "200Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.DARK_PURPLE + "エピック", "", 20, 40, 20);
+                    try {
+                        coinUtils.playerSetCoin(player, 400);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 8155) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "700Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.DARK_PURPLE + "レジェンダリー", "", 20, 40, 20);
+                    try {
+                        coinUtils.playerSetCoin(player, 700);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 try {
                     expUtils.playerSetExp(player, 2);

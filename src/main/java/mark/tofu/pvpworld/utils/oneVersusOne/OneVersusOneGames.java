@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OneVersusOneGames {
     public static void gameCloseAction(PvpWorld plugin) {
@@ -48,18 +49,6 @@ public class OneVersusOneGames {
         }
     }
 
-    public static void overlappingGames(Player player) {
-        player.sendMessage("あなたは既に1v1ゲームスに参加しています!");
-        player.sendMessage("退出してからゲームに参加してください");
-    }
-
-    public static boolean player1v1GamesContainsCheck(Player player) {
-        if (SumoActivities.sumoQueueingList.contains(player.getName())) {
-            return true;
-        }
-        else return false;
-    }
-
     public static void noWalkRemoveAction(ArrayList<String> arrayList) {
         for (String PlayerName: arrayList) {
             Config.NoWalkList.remove(PlayerName);
@@ -84,6 +73,7 @@ public class OneVersusOneGames {
             player.closeInventory();
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
+            encourageJoinGame(player);
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
@@ -116,6 +106,22 @@ public class OneVersusOneGames {
         }
         else {
             player.sendMessage("エラー");
+        }
+    }
+
+    public static void encourageJoinGame(Player player) {
+        String base = "1人が対戦相手を待機中です!";
+        if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                player2.sendMessage(ChatColor.YELLOW + "[Sumo] " + ChatColor.WHITE + base);
+            }
+        }
+        else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
+            for (String PlayerName: Config.WorldAllPlayerList) {
+                Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                player2.sendMessage(ChatColor.RED + "[TopFight] " + ChatColor.WHITE + base);
+            }
         }
     }
 }
