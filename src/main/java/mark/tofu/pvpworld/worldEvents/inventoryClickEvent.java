@@ -74,9 +74,14 @@ public class inventoryClickEvent implements Listener {
             if (!displayName.equals(ChatColor.GREEN + "spleef")) return;
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
-            if (displayName.equals(ChatColor.DARK_PURPLE + "井戸")) {
+            if (displayName.equals(ChatColor.RED + "小さな井戸")) {
                 e.setCancelled(true);
                 WellUtilities.rollItems(player, plugin);
+            }
+        } else if (itemStack.getType() == Material.GOLD_BLOCK) {
+            if (displayName.equals(ChatColor.DARK_PURPLE + "大きな井戸")) {
+                e.setCancelled(true);
+                WellUtilities.rollItemsBIG(player, plugin);
             }
         }
     }
