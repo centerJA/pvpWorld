@@ -50,7 +50,6 @@ public class StartTimerUtils {
                 }
                 playerTimes.put(player, elapsedTime);
                 for (String PlayerName: arrayList) {
-                    ScoreBoardUtils.setFfaScoreBoard(Objects.requireNonNull(Bukkit.getPlayer(PlayerName)), elapsedTime, true, arrayList);
                     Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).setLevel(elapsedTime);
                 }
             }

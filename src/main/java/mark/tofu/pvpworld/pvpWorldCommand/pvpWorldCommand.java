@@ -3,7 +3,9 @@ package mark.tofu.pvpworld.pvpWorldCommand;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -87,6 +89,8 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
                         player.sendMessage("sumoQueueingList");
                         player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
+                        player.sendMessage("spleefQueueingList");
+                        player.sendMessage(String.valueOf(SpleefActivities.spleefQueueingList));
                         printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {

@@ -67,6 +67,7 @@ public class OneVersusOneGames {
 
     public static void queueingActivities(Player player, InventoryClickEvent e, PvpWorld plugin, ArrayList<String> arrayList) {
         player.sendMessage(String.valueOf(arrayList));
+        InventoryUtils.replaceInventoryCheck(player);
         if (arrayList.isEmpty()) {
             arrayList.add(player.getName());
             e.setCancelled(true);
@@ -124,4 +125,6 @@ public class OneVersusOneGames {
             }
         }
     }
+
+
 }

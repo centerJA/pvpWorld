@@ -65,4 +65,17 @@ public class InventoryUtils {
         item.setItemMeta(meta);
         return item;
     }
+
+
+
+    public static void replaceInventoryCheck(Player player) {
+        String target = ChatColor.BOLD + "" + ChatColor.YELLOW + "1v1ゲームス";
+        for (String PlayerName : Config.WorldAllPlayerList) {
+            Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+            InventoryView inventoryView = player2.getOpenInventory();
+            if (inventoryView == null || !inventoryView.getTitle().equals(target)) return;
+            player.closeInventory();
+            openGameListInventory(player);
+        }
+    }
 }

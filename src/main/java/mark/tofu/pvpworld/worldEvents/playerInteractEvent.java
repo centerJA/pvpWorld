@@ -207,14 +207,11 @@ public class playerInteractEvent implements Listener {
                     player.sendMessage("退出しました");
                 }
             } else if (block == Material.BLUE_DYE) {
-                if (player.getItemInHand().getType().equals(Material.BLUE_DYE)) {
-                    if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
-                        FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefPlayingList, player.getName(), plugin);
-                        FfaGames.playerListChecker(player, SpleefActivities.spleefPlayingList);
-                    }
-                    player.setItemInHand(null);
-                    player.sendMessage("退出しました");
+                if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
+                    FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefQueueingList, player);
                 }
+                player.setItemInHand(null);
+                player.sendMessage("退出しました");
             }
         }
     }

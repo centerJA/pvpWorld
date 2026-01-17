@@ -202,16 +202,20 @@ public class Config extends JavaPlugin {
 
     public static boolean overLappingTrigger(Player player) {
         String playerName = player.getName();
-        if (SpleefActivities.spleefQueueingList.contains(playerName)) return true;
-        if (SumoActivities.sumoQueueingList.contains(playerName)) return true;
-        if (TopfightActivities.topfightQueueingList.contains(playerName)) return true;
-        if (SpeedRunSingleOnHoldList.contains(playerName)) return true;
-        if (FreePvpPlayerList.contains(playerName)) return true;
-        return false;
+        int i = 0;
+        if (SpleefActivities.spleefQueueingList.contains(playerName)) i = i + 1;
+        if (SumoActivities.sumoQueueingList.contains(playerName)) i = i + 1;
+        if (TopfightActivities.topfightQueueingList.contains(playerName)) i = i + 1;
+        if (SpeedRunSingleOnHoldList.contains(playerName)) i = i + 1;
+        if (FreePvpPlayerList.contains(playerName)) i = i + 1;
+
+        if (i == 0) {
+            return false;
+        } else return true;
     }
 
     public static void overLappingMessage(Player player) {
-        player.sendMessage("あなたは既に1v1ゲームスに参加しています!");
+        player.sendMessage("あなたは既に他のゲームに参加しています!");
         player.sendMessage("退出してからゲームに参加してください");
         player.teleport(Config.lobby);
     }

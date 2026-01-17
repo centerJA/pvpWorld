@@ -1,5 +1,6 @@
 package mark.tofu.pvpworld.utils.wellUtils;
 
+import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.yamlProperties.coinUtils;
 import mark.tofu.pvpworld.utils.yamlProperties.expUtils;
@@ -80,7 +81,8 @@ public class WellUtilities {
                 } else if (value <= 8100) {
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "100Gold" + ChatColor.WHITE + "を入手しました!!");
-                    player.sendTitle(ChatColor.BLUE + "スーパーレア", "", 20, 40, 20);
+                    player.sendTitle(ChatColor.BLUE + "ユニーク", "", 20, 40, 20);
+                    sendRareMessage(player, ChatColor.BLUE + "[ユニーク]", "100");
                     try {
                         coinUtils.playerSetCoin(player, 100);
                     } catch (IOException e) {
@@ -90,6 +92,7 @@ public class WellUtilities {
                     player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "200Gold" + ChatColor.WHITE + "を入手しました!!");
                     player.sendTitle(ChatColor.DARK_PURPLE + "エピック", "", 20, 40, 20);
+                    sendRareMessage(player, ChatColor.DARK_PURPLE + "[エピック]", "200");
                     try {
                         coinUtils.playerSetCoin(player, 400);
                     } catch (IOException e) {
@@ -98,7 +101,18 @@ public class WellUtilities {
                 } else if (value <= 8155) {
                     player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
                     player.sendMessage(ChatColor.GOLD + "700Gold" + ChatColor.WHITE + "を入手しました!!");
-                    player.sendTitle(ChatColor.DARK_PURPLE + "レジェンダリー", "", 20, 40, 20);
+                    player.sendTitle(ChatColor.GOLD + "レジェンダリー", "", 20, 40, 20);
+                    sendRareMessage(player, ChatColor.GOLD + "[レジェンダリー]", "700");
+                    try {
+                        coinUtils.playerSetCoin(player, 700);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (value <= 8156) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                    player.sendMessage(ChatColor.GOLD + "1000Gold" + ChatColor.WHITE + "を入手しました!!");
+                    player.sendTitle(ChatColor.BLACK + "インセイン", "", 20, 40, 20);
+                    sendRareMessage(player, ChatColor.BLACK + "[インセイン]", "1000");
                     try {
                         coinUtils.playerSetCoin(player, 700);
                     } catch (IOException e) {
@@ -112,5 +126,11 @@ public class WellUtilities {
                 }
             }
         }, 80L);
+    }
+
+    public static void sendRareMessage(Player player, String rare, String gold) {
+        for (String PlayerName: Config.WorldAllPlayerList) {
+            Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + player.getName() + ChatColor.WHITE + "さんが井戸で" + rare + ChatColor.GOLD + gold + "gold" + ChatColor.WHITE + "を入手しました!!");
+        }
     }
 }
