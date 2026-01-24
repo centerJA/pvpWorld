@@ -5,6 +5,7 @@ import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -35,6 +36,7 @@ public class OneVersusOneGames {
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
                 }
+                TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
             }
         }, 60L);
     }
@@ -75,6 +77,7 @@ public class OneVersusOneGames {
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
             encourageJoinGame(player);
+            TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
@@ -88,6 +91,7 @@ public class OneVersusOneGames {
                     e.setCancelled(true);
                     player.closeInventory();
                     player.sendMessage("相手が見つかりました!");
+                    TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
                     dividePlayer(arrayList, player, plugin);
                 }
             }
@@ -127,4 +131,10 @@ public class OneVersusOneGames {
     }
 
 
+    public static int OneVersusOneAllPlayer() {
+        int p = 0;
+        p = p + SumoActivities.sumoQueueingList.size();
+        p = p + TopfightActivities.topfightQueueingList.size();
+        return p;
+    }
 }

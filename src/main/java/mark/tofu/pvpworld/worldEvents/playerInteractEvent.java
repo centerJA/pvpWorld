@@ -12,6 +12,7 @@ import mark.tofu.pvpworld.utils.oneVersusOne.*;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import mark.tofu.pvpworld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -149,7 +150,8 @@ public class playerInteractEvent implements Listener {
                     Config.SpeedRunSingleList.remove(playerName);
                     SpeedRunTimer.stopTimer(player);
                     SpeedRunScheduledTimer.stopTimer(player);
-                    player.sendMessage(ChatColor.AQUA + "SpeedRunをキャンセルしました");
+                    player.sendMessage("SpeedRunをキャンセルしました");
+                    TextDisplayUtils.renameSpeedRun(Config.SpeedRunSingleList.size() + Config.SpeedRunSingleList.size());
                 }
                 StartTimerUtils.stopTimer(player);
                 TimeUpTimer.stopTimer(player);
@@ -199,8 +201,10 @@ public class playerInteractEvent implements Listener {
             } else if (block == Material.RED_DYE) {
                 if (SumoActivities.sumoQueueingList.contains(player.getName())) {
                     SumoActivities.sumoQueueingList.remove(player.getName());
+                    TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
                 } else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
                     TopfightActivities.topfightQueueingList.remove(player.getName());
+                    TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
                 }
                 if (player.getItemInHand().getType().equals(Material.RED_DYE)) {
                     player.setItemInHand(null);
@@ -209,6 +213,7 @@ public class playerInteractEvent implements Listener {
             } else if (block == Material.BLUE_DYE) {
                 if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
                     FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefQueueingList, player);
+                    TextDisplayUtils.renameFfaGamesSize(FfaGames.allFfaGamesPlayer());
                 }
                 player.setItemInHand(null);
                 player.sendMessage("退出しました");

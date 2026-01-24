@@ -3,6 +3,7 @@ package mark.tofu.pvpworld.utils.ffaGames;
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
 import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
+import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -29,6 +30,7 @@ public class FfaGames {
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
                 }
+                TextDisplayUtils.renameFfaGamesSize(allFfaGamesPlayer());
             }
         }, 60L);
     }
@@ -54,6 +56,7 @@ public class FfaGames {
             player.sendMessage("他の人を待っています...");
             player.sendMessage("参加をやめるには、インベントリの中の青色の染料を右クリックしてください");
             encourageJoinGame(player);
+            TextDisplayUtils.renameFfaGamesSize(allFfaGamesPlayer());
             player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
 //            ffaSuggestPlayerJoin(arrayList);
 //            ScoreBoardUtils.setFfaScoreBoard(player, 1000, false, arrayList);
@@ -71,6 +74,7 @@ public class FfaGames {
                     player.closeInventory();
                     player.sendMessage("相手が見つかりました!");
                     player.sendMessage("追加の人を探しています...");
+                    TextDisplayUtils.renameFfaGamesSize(allFfaGamesPlayer());
                     player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
                     mark.tofu.pvpworld.utils.ffaGames.StartTimerUtils.startTimer(player, plugin, arrayList);
                 }
@@ -135,5 +139,13 @@ public class FfaGames {
                 player2.sendMessage(ChatColor.YELLOW + "[Spleef]" + ChatColor.WHITE + base);
             }
         }
+    }
+
+    public static int allFfaGamesPlayer() {
+        int p = 0;
+        p = p + SpleefActivities.spleefQueueingList.size();
+        p = p + SpleefActivities.spleefPlayingList.size();
+
+        return p;
     }
 }
