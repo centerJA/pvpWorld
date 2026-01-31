@@ -50,6 +50,8 @@ public class WellUtilities {
         loreList.add(ChatColor.WHITE + "100Goldを使用して、レアアイテムや");
         loreList.add(ChatColor.WHITE + "Goldなどを入手できます!!");
         loreList.add(ChatColor.GREEN + "何がでるかはわかりません");
+        loreList.add(ChatColor.YELLOW + "⚠️注意:基本は損します");
+        loreList.add(ChatColor.YELLOW + "一攫千金です");
         loreList.add("");
         loreList.add(ChatColor.RED + "消費: " + ChatColor.GOLD + "100Gold");
         loreList.add(ChatColor.YELLOW + ">>右クリックして井戸から入手<<");

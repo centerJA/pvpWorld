@@ -2,6 +2,9 @@ package mark.tofu.pvpworld;
 
 import mark.tofu.pvpworld.pvpWorldCommand.pvpWorldCommand;
 import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
+import mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils;
+import mark.tofu.pvpworld.utils.yamlProperties.coinUtils;
+import mark.tofu.pvpworld.utils.yamlProperties.expUtils;
 import mark.tofu.pvpworld.worldEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -40,6 +43,9 @@ public final class PvpWorld extends JavaPlugin {
         playerCoinSetUp(this);
         playerAdminListSetup(this);
         Config.systemConfigSetUp(this);
+        expUtils.sortEntries();
+        coinUtils.sortEntries();
+        athleticTimeUtils.sortEntries();
         TextDisplayUtils.locationSetUp();
         Bukkit.getLogger().info("pvpWorld enabled!");
     }
