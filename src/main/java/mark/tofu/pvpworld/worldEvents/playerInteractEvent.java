@@ -2,8 +2,8 @@ package mark.tofu.pvpworld.worldEvents;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
-import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.ffaGames.FfaGames;
 import mark.tofu.pvpworld.utils.ffaGames.InventoryUtils;
 import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;

@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.utils.freePvp;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;

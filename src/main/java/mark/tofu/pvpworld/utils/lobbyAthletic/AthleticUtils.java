@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils.athletic;
+package mark.tofu.pvpworld.utils.lobbyAthletic;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
@@ -13,14 +13,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.playerLobbyAthleticTimeData;
 import static mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils.setPlayerLobbyAthleticTime;
 
 public class AthleticUtils {

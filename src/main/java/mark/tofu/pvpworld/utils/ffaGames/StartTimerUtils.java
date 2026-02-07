@@ -1,7 +1,6 @@
 package mark.tofu.pvpworld.utils.ffaGames;
 
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static mark.tofu.pvpworld.utils.athletic.AthleticTimer.tasks;
+import static mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.tasks;
 
 public class StartTimerUtils {
 

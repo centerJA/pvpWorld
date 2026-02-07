@@ -2,10 +2,9 @@ package mark.tofu.pvpworld.pvpWorldCommand;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticUtils;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticUtils;
 import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
-import mark.tofu.pvpworld.utils.scoreBoard.ScoreBoardUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;

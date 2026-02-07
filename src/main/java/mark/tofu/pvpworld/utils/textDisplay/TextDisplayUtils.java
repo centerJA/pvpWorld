@@ -1,5 +1,6 @@
 package mark.tofu.pvpworld.utils.textDisplay;
 
+import mark.tofu.pvpworld.utils.athletic.AthleticProperties;
 import mark.tofu.pvpworld.utils.yamlProperties.athleticTimeUtils;
 import mark.tofu.pvpworld.utils.yamlProperties.coinUtils;
 import mark.tofu.pvpworld.utils.yamlProperties.expUtils;
@@ -31,9 +32,15 @@ public class TextDisplayUtils {
         SpeedRunSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
         OneVersusOneSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
         FfaGamesSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
-        expRanking = new Location(world, -5.500, 8.000, 44.000);
-        coinRanking = new Location(world, 6.500, 8.000, 44.000);
-        athleticRanking = new Location(world, -5.500, 8.000, 55.000);
+        expRanking = new Location(world, -5.500, 6.000, 44.000);
+        coinRanking = new Location(world, 6.500, 6.000, 44.000);
+        athleticRanking = new Location(world, -5.500, 6.000, 55.000);
+
+        System.out.println("[PVPWORLD]loc setup finished");
+        latestRanking();
+    }
+
+    public static void latestRanking() {
         exp = new ArrayList<>();
         exp.add(ChatColor.GREEN + "EXP" + ChatColor.RED + "ランキング");
         exp.add(expUtils.getRanking(1));
@@ -76,7 +83,7 @@ public class TextDisplayUtils {
         athletic.add(athleticTimeUtils.getRanking(10));
         athletic.add(ChatColor.GREEN + "クリックして更新");
 
-        System.out.println("setup finished");
+        System.out.println("[PVPWORLD]ranking setup finished");
         showAllText();
     }
 
@@ -100,13 +107,13 @@ public class TextDisplayUtils {
     public static void showAllText() {
         removeAllText();
         ArmorStand armorStand = SpeedRun.getWorld().spawn(SpeedRun, ArmorStand.class);
-        armorStandSettings(armorStand, SpeedRunSize);
+        armorStandSettings(armorStand, SpeedRunSize, true);
 
         ArmorStand armorStand1 = OneVersusOne.getWorld().spawn(OneVersusOne, ArmorStand.class);
-        armorStandSettings(armorStand1, OneVersusOneSize);
+        armorStandSettings(armorStand1, OneVersusOneSize, true);
 
         ArmorStand armorStand2 = FfaGames.getWorld().spawn(FfaGames, ArmorStand.class);
-        armorStandSettings(armorStand2, FfaGamesSize);
+        armorStandSettings(armorStand2, FfaGamesSize, true);
 
         Location exploc = expRanking.clone();
         Location coinloc = coinRanking.clone();
@@ -115,22 +122,23 @@ public class TextDisplayUtils {
 
         for (String lines: exp) {
             ArmorStand as = exploc.getWorld().spawn(exploc, ArmorStand.class);
-            armorStandSettings(as, lines);
+            armorStandSettings(as, lines, false);
             exploc.add(0, -lineSpacing, 0);
         }
 
         for (String lines: coin) {
             ArmorStand as = coinloc.getWorld().spawn(coinloc, ArmorStand.class);
-            armorStandSettings(as, lines);
+            armorStandSettings(as, lines, false);
             coinloc.add(0, -lineSpacing, 0);
         }
 
         for (String lines: athletic) {
             ArmorStand as = athleticloc.getWorld().spawn(athleticloc, ArmorStand.class);
-            armorStandSettings(as, lines);
+            armorStandSettings(as, lines, false);
             athleticloc.add(0, -lineSpacing, 0);
         }
 
+        AthleticProperties.showAllText();
         System.out.println("showText");
     }
 
@@ -143,7 +151,7 @@ public class TextDisplayUtils {
         }
     }
 
-    public static void armorStandSettings(ArmorStand as, String text) {
+    public static void armorStandSettings(ArmorStand as, String text, boolean marker) {
         as.setBasePlate(false);
         as.setCustomNameVisible(true);
         as.setCustomName(text);
@@ -152,9 +160,6 @@ public class TextDisplayUtils {
         as.setInvulnerable(true);
         as.setCanPickupItems(false);
         as.setGravity(false);
-        as.setMarker(true);
-        System.out.println("armorSettings finished");
+        as.setMarker(marker);
     }
-
-
 }

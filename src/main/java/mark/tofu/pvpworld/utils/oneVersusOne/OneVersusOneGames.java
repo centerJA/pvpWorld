@@ -2,20 +2,13 @@ package mark.tofu.pvpworld.utils.oneVersusOne;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Objects;
 

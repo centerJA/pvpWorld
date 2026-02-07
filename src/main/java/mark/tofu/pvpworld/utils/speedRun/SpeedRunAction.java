@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.utils.speedRun;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer;
 import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
