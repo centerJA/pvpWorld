@@ -13,3 +13,8 @@
   ~~~
   git push
   ~~~
+  ~~~
+  git branch -c ""
+  ~~~
+  ---
+config: push.autoSetupRemote - true
