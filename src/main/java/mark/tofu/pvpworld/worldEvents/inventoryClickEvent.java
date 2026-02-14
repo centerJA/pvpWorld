@@ -8,6 +8,7 @@ import mark.tofu.pvpworld.utils.oneVersusOne.OneVersusOneGames;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunActionMulti;
 import mark.tofu.pvpworld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,9 +60,7 @@ public class inventoryClickEvent implements Listener {
             if (displayName.equals("SpeedRunシングルプレイ")) {
                 SpeedRunAction.singleOnHoldAction(player, plugin);
             } else if (displayName.equals("SpeedRunマルチプレイ")) {
-                player.sendMessage("まだアクセスできません");
-                e.setCancelled(true);
-                //SpeedRunAction.multiOnHoldAction(player, plugin);
+                SpeedRunActionMulti.multiOnHoldAction(player, plugin);
             }
             //test
         } else if (itemStack.getType() == Material.LEAD) {

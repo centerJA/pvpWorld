@@ -2,12 +2,14 @@ package mark.tofu.pvpworld.utils.speedRun;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import static mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.tasks;
 
@@ -30,16 +32,22 @@ public class SpeedRunTimerMulti {
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
                     player.sendMessage("aaa");
-                    //multistart
+                    SpeedRunActionMulti.startAction();
                     stopTimer(player);
                     SpeedRunTimer.getTaskId(player).cancel();
                     return;
                 }
                 if (elapsedTime <= 5) {
-                    sendMessage(player, elapsedTime);
+                    for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
+                        Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                        sendMessage(player, elapsedTime);
+                    }
                 }
                 playerTimes.put(player, elapsedTime);
-                player.setLevel(elapsedTime);
+                for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
+                    Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                    pl.setLevel(elapsedTime);
+                }
             }
         };
         tasks.put(player, timerTask.runTaskTimer(PvpWorld.getPlugin(PvpWorld.class), 0, 20));

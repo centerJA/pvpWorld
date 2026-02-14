@@ -10,6 +10,7 @@ import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
 import mark.tofu.pvpworld.utils.freePvp.FreePvpUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.*;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunActionMulti;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
@@ -104,8 +105,7 @@ public class playerInteractEvent implements Listener {
                         FreePvpUtils.ruleExplain(player);
                     }
                 }
-            }
-            if (block.getType() == Material.OAK_WALL_SIGN) {
+            } else if (block.getType() == Material.OAK_WALL_SIGN) {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 String[] lines = new String[4];
@@ -139,6 +139,8 @@ public class playerInteractEvent implements Listener {
                 }
             } else if (block.getType() == Material.END_PORTAL_FRAME) {
                 WellUtilities.openInventory(player);
+            } else if (block.getType() == Material.OAK_BUTTON) {
+                SpeedRunActionMulti.checkButton(block, player, plugin);
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             Material block = player.getInventory().getItemInMainHand().getType();
@@ -164,6 +166,9 @@ public class playerInteractEvent implements Listener {
                     Config.FreePvpPlayerList.remove(playerName);
                     Config.DoNotReceiveDamageList.add(playerName);
                     player.sendMessage("Free PVPを退出しました");
+                }
+                if (SpeedRunActionMulti.multiPlayingList.contains(playerName)) {
+                    SpeedRunActionMulti.playerLeaveAction(player);
                 }
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
