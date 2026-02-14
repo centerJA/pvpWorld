@@ -2,7 +2,7 @@ package mark.tofu.pvpworld.utils.speedRun;
 
 import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.athletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer;
 import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -140,11 +141,6 @@ public class SpeedRunAction {
         }
     }
 
-    //multi------------------
-    public static void multiOnHoldAction(Player player, PvpWorld plugin) {
-        player.sendMessage("まだアクセスできません!");
-    }
-
 
     //click------------------
     public static void clickedFeather(Player player) {
@@ -184,5 +180,18 @@ public class SpeedRunAction {
             player.setItemInHand(null);
             player.sendMessage("使用しました!");
         }
+    }
+
+
+    //multi------------------
+    public static void multiOnHoldAction(Player player, PvpWorld plugin) {
+        player.sendMessage("まだアクセスできません!");
+    }
+
+    public static void mutiMapSelecting(Player player) {
+        Inventory gameList = Bukkit.createInventory(null, 9, "SpeedRun: モード選択");
+        gameList.setItem(0, Config.itemMeta("SpeedRunシングルプレイ", Material.PAPER, 1));
+        gameList.setItem(1, Config.itemMeta("SpeedRunマルチプレイ", Material.PAPER, 1));
+        Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
     }
 }

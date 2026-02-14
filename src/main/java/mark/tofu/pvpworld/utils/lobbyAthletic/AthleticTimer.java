@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils.athletic;
+package mark.tofu.pvpworld.utils.lobbyAthletic;
 
 import mark.tofu.pvpworld.PvpWorld;
 import org.bukkit.ChatColor;
@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 
 public class AthleticTimer {
+
     // プレイヤーごとに実行中のタスクを保存するマップ
     public static HashMap<Player, BukkitTask> tasks = new HashMap<>();
 
@@ -24,7 +25,7 @@ public class AthleticTimer {
     public static void startTimer(Player player, PvpWorld plugin) {
         // 既にタイマーが動いていたら、一度停止してリセットする
         if (tasks.containsKey(player)) {
-            mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.stopTimer(player);
+            AthleticTimer.stopTimer(player);
         }
 
         // プレイヤーの時間を0に初期化
@@ -43,7 +44,7 @@ public class AthleticTimer {
                     player.sendMessage(ChatColor.AQUA + "時間制限です!");
 
                     // stopTimerを呼んで、タスクのキャンセルとマップからの削除を行う
-                    mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.stopTimer(player);
+                    AthleticTimer.stopTimer(player);
 
                     return; // run()メソッドを終了（これ以上レベル設定などをしない）
                 }

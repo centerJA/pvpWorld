@@ -1,8 +1,6 @@
 package mark.tofu.pvpworld.utils.oneVersusOne;
 
-import mark.tofu.pvpworld.Config;
 import mark.tofu.pvpworld.PvpWorld;
-import mark.tofu.pvpworld.utils.speedRun.SpeedRunAction;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
-import static mark.tofu.pvpworld.utils.athletic.AthleticTimer.tasks;
+import static mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.tasks;
 
 public class TimeUpTimer {
     private static BukkitRunnable timerTask;

@@ -1,4 +1,4 @@
-package mark.tofu.pvpworld.utils.athletic;
+package mark.tofu.pvpworld.utils.lobbyAthletic;
 
 import mark.tofu.pvpworld.Config;
 

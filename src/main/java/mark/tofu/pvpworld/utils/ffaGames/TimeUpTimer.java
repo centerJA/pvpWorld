@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
-import static mark.tofu.pvpworld.utils.athletic.AthleticTimer.tasks;
+import static mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.tasks;
 
 public class TimeUpTimer {
     private static BukkitRunnable timerTask;

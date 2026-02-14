@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import static mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer.tasks;
 
-public class SpeedRunTimer {
+public class SpeedRunTimerMulti {
     private static BukkitRunnable timerTask;
 
     public static int speedRunTime;
@@ -30,8 +30,7 @@ public class SpeedRunTimer {
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
                     player.sendMessage("aaa");
-                    SpeedRunAction.startSingleMode(player, plugin);
-                    Config.SpeedRunSingleOnHoldList.remove(player.getName());
+                    //multistart
                     stopTimer(player);
                     SpeedRunTimer.getTaskId(player).cancel();
                     return;
@@ -69,4 +68,4 @@ public class SpeedRunTimer {
         player.sendMessage(ChatColor.AQUA + String.valueOf(elapsedTime) + "秒!");
         player.sendTitle(String.valueOf(elapsedTime), "", 0, 20, 0);
     }
- }
+}
