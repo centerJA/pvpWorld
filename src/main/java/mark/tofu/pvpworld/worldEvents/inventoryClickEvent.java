@@ -65,21 +65,26 @@ public class inventoryClickEvent implements Listener {
             //test
         } else if (itemStack.getType() == Material.LEAD) {
             if (!displayName.equals(ChatColor.YELLOW + "sumo")) return;
+            Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
             if (!displayName.equals(ChatColor.RED + "topfight")) return;
+            Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
             if (!displayName.equals(ChatColor.GREEN + "spleef")) return;
+            Config.beforeGame(player);
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
             if (displayName.equals(ChatColor.RED + "小さな井戸")) {
                 e.setCancelled(true);
+                Config.beforeGame(player);
                 WellUtilities.rollItems(player, plugin);
             }
         } else if (itemStack.getType() == Material.GOLD_BLOCK) {
             if (displayName.equals(ChatColor.DARK_PURPLE + "大きな井戸")) {
                 e.setCancelled(true);
+                Config.beforeGame(player);
                 WellUtilities.rollItemsBIG(player, plugin);
             }
         }

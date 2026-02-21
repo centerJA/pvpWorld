@@ -146,30 +146,7 @@ public class playerInteractEvent implements Listener {
             Material block = player.getInventory().getItemInMainHand().getType();
             if (block == null) return;
             if (block == Material.RED_MUSHROOM) {
-                String playerName = player.getName();
-                if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
-                    Config.SpeedRunSingleOnHoldList.remove(playerName);
-                    Config.SpeedRunSingleList.remove(playerName);
-                    SpeedRunTimer.stopTimer(player);
-                    SpeedRunScheduledTimer.stopTimer(player);
-                    player.sendMessage("SpeedRunをキャンセルしました");
-                    TextDisplayUtils.renameSpeedRun(Config.SpeedRunSingleList.size() + Config.SpeedRunSingleList.size());
-                }
-                StartTimerUtils.stopTimer(player);
-                TimeUpTimer.stopTimer(player);
-                Config.clearInventory(player);
-                player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
-                player.teleport(Config.lobby);
-                player.setLevel(0);
-                AthleticTimer.stopTimer(player);
-                if (Config.FreePvpPlayerList.contains(playerName)) {
-                    Config.FreePvpPlayerList.remove(playerName);
-                    Config.DoNotReceiveDamageList.add(playerName);
-                    player.sendMessage("Free PVPを退出しました");
-                }
-                if (SpeedRunActionMulti.multiPlayingList.contains(playerName)) {
-                    SpeedRunActionMulti.playerLeaveAction(player);
-                }
+                Config.beforeGame(player);
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);

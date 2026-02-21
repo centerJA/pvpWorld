@@ -46,9 +46,11 @@ public class playerMoveEvent implements Listener {
             if (Config.overLappingTrigger(player)) {
                 Config.overLappingMessage(player);
                 player.teleport(Config.lobby);
-                return;
+                player.sendMessage("00101010101");
+            } else {
+                FreePvpUtils.joinAction(player, plugin);
+                player.sendMessage("111111111");
             }
-            FreePvpUtils.joinAction(player, plugin);
         } else if (type.equals(Material.WATER)) {
             if (SumoActivities.sumoQueueingList.contains(player.getName())) {
                 SumoActivities.sumoCloseAction(player, plugin);

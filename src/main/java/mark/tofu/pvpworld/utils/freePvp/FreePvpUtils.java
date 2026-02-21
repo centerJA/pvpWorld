@@ -24,6 +24,7 @@ public class FreePvpUtils {
     }
 
     public static void joinAction(Player player, PvpWorld plugin) {
+
         if (!Config.FreePvpPlayerList.contains(player.getName())) {
             AthleticTimer.stopTimer(player);
             Config.FreePvpPlayerList.add(player.getName());

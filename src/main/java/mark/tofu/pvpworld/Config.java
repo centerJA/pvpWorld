@@ -2,9 +2,15 @@ package mark.tofu.pvpworld;
 
 
 import mark.tofu.pvpworld.utils.ffaGames.SpleefActivities;
+import mark.tofu.pvpworld.utils.lobbyAthletic.AthleticTimer;
+import mark.tofu.pvpworld.utils.oneVersusOne.StartTimerUtils;
 import mark.tofu.pvpworld.utils.oneVersusOne.SumoActivities;
+import mark.tofu.pvpworld.utils.oneVersusOne.TimeUpTimer;
 import mark.tofu.pvpworld.utils.oneVersusOne.TopfightActivities;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunActionMulti;
 import mark.tofu.pvpworld.utils.speedRun.SpeedRunScheduledTimer;
+import mark.tofu.pvpworld.utils.speedRun.SpeedRunTimer;
+import mark.tofu.pvpworld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -199,20 +205,48 @@ public class Config extends JavaPlugin {
     public static boolean overLappingTrigger(Player player) {
         String playerName = player.getName();
         int i = 0;
+        if (AthleticTimer.playerTimes.get(player) != null) i = i + 1;
         if (SpleefActivities.spleefQueueingList.contains(playerName)) i = i + 1;
         if (SumoActivities.sumoQueueingList.contains(playerName)) i = i + 1;
         if (TopfightActivities.topfightQueueingList.contains(playerName)) i = i + 1;
         if (SpeedRunSingleOnHoldList.contains(playerName)) i = i + 1;
         if (FreePvpPlayerList.contains(playerName)) i = i + 1;
+        if (SpeedRunActionMulti.multiPlayingList.contains(playerName)) i = i + 1;
 
-        if (i == 0) {
-            return false;
-        } else return true;
+        return i != 0;
     }
 
     public static void overLappingMessage(Player player) {
         player.sendMessage("あなたは既に他のゲームに参加しています!");
         player.sendMessage("退出してからゲームに参加してください");
         player.teleport(Config.lobby);
+    }
+
+
+    public static void beforeGame(Player player) throws IOException {
+        String playerName = player.getName();
+        if (Config.SpeedRunSingleOnHoldList.contains(playerName) || Config.SpeedRunSingleList.contains(playerName)) {
+            Config.SpeedRunSingleOnHoldList.remove(playerName);
+            Config.SpeedRunSingleList.remove(playerName);
+            SpeedRunTimer.stopTimer(player);
+            SpeedRunScheduledTimer.stopTimer(player);
+            player.sendMessage("SpeedRunをキャンセルしました");
+            TextDisplayUtils.renameSpeedRun(Config.SpeedRunSingleList.size() + Config.SpeedRunSingleList.size());
+        }
+        StartTimerUtils.stopTimer(player);
+        TimeUpTimer.stopTimer(player);
+        Config.clearInventory(player);
+        player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+        player.teleport(Config.lobby);
+        player.setLevel(0);
+        AthleticTimer.stopTimer(player);
+        if (Config.FreePvpPlayerList.contains(playerName)) {
+            Config.FreePvpPlayerList.remove(playerName);
+            Config.DoNotReceiveDamageList.add(playerName);
+            player.sendMessage("Free PVPを退出しました");
+        }
+        if (SpeedRunActionMulti.multiPlayingList.contains(playerName)) {
+            SpeedRunActionMulti.playerLeaveAction(player);
+        }
     }
 }
