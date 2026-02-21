@@ -50,7 +50,7 @@ public class WellUtilities {
         loreList.add(ChatColor.WHITE + "100Goldを使用して、レアアイテムや");
         loreList.add(ChatColor.WHITE + "Goldなどを入手できます!!");
         loreList.add(ChatColor.GREEN + "何がでるかはわかりません");
-        loreList.add(ChatColor.YELLOW + "⚠️注意:基本は損します");
+        loreList.add(ChatColor.YELLOW + "⚠注意:基本は損します");
         loreList.add(ChatColor.YELLOW + "一攫千金です");
         loreList.add("");
         loreList.add(ChatColor.RED + "消費: " + ChatColor.GOLD + "100Gold");
@@ -64,6 +64,10 @@ public class WellUtilities {
 
     public static void rollItems(Player player, PvpWorld plugin) throws IOException {
         player.closeInventory();
+        if (coinUtils.getPlayerCoin(player) < 10) {
+            player.sendMessage(ChatColor.RED + "あなたは10coinを所持していません!");
+            return;
+        }
         coinUtils.playerSetCoin(player, -10);
         //soundを追加する
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -151,6 +155,10 @@ public class WellUtilities {
 
     public static void rollItemsBIG(Player player, PvpWorld plugin) throws IOException {
         player.closeInventory();
+        if (coinUtils.getPlayerCoin(player) < 100) {
+            player.sendMessage(ChatColor.RED + "あなたは100coinを所持していません!");
+            return;
+        }
         coinUtils.playerSetCoin(player, -100);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
