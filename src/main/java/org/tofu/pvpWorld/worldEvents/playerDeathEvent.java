@@ -1,0 +1,66 @@
+package org.tofu.pvpWorld.worldEvents;
+
+import org.tofu.pvpWorld.Config;
+import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.oneVersusOne.TopfightActivities;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.tofu.pvpWorld.utils.yamlProperties.coinUtils.playerSetCoin;
+import static org.tofu.pvpWorld.utils.yamlProperties.expUtils.playerSetExp;
+
+public class playerDeathEvent implements Listener {
+    PvpWorld plugin;
+
+    private World world;
+
+    public playerDeathEvent(PvpWorld plugin) {
+        this.plugin = plugin;
+        this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                world = Bukkit.getWorld("pvpWorld");
+            }
+        }, 10L);
+    }
+
+    @EventHandler
+    public void onPlayerDeathEvent(PlayerDeathEvent e) throws IOException {
+        Player player = e.getEntity();
+        String playerName = player.getName();
+        World world = player.getWorld();
+        if (this.world != world) return;
+        e.getDrops().clear();
+        player.teleport(Config.lobby);
+        if (Config.DoNotReceiveDamageList.contains(playerName)) {
+            e.getDrops().clear();
+        } else if (Config.FreePvpPlayerList.contains(playerName)) {
+            Player killedPlayer = e.getEntity().getKiller();
+            if (killedPlayer == null) {
+                player.sendMessage("死んでしまった!!");
+                Config.clearInventory(player);
+            } else {
+                for (String PlayerName: Config.FreePvpPlayerList) {
+                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + playerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
+                    playerSetExp(Bukkit.getPlayer(playerName), 1);
+                }
+                playerSetExp(killedPlayer, 3);
+                playerSetCoin(killedPlayer, 7);
+                killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
+                killedPlayer.sendMessage("金リンゴを入手しました");
+            }
+        } else if (TopfightActivities.topfightQueueingList.contains(playerName)) {
+
+        }
+    }
+}
