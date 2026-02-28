@@ -45,7 +45,7 @@ public class SpeedRunTimerMulti {
                 if (nextTime <= 0) {
                     player.setLevel(0);
                     player.sendMessage(ChatColor.RED + "タイムアップ！");
-                    SpeedRunActionMulti.startAction();
+                    SpeedRunActionMulti.startAction(plugin);
                     stopTimer(player);
                     return;
                 }

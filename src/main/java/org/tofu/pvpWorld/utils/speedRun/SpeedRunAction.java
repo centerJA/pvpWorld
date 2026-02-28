@@ -54,7 +54,7 @@ public class SpeedRunAction {
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
-                SpeedRunScheduledTimer.startTimer(player, plugin);
+                SpeedRunScheduledTimer.startTimer(player, plugin, false);
                 Config.SpeedRunSingleList.add(player.getName());
                 Config.speedRunSingleMap1UnderSandPoint.getBlock().setType(Material.AIR);
                 Config.speedRunSingleMap1UpSandPoint.getBlock().setType(Material.AIR);

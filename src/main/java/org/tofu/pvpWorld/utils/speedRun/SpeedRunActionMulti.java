@@ -173,11 +173,12 @@ public class SpeedRunActionMulti {
     }
 
 
-    public static void startAction() {
+    public static void startAction(PvpWorld plugin) {
         //ScheduledTimer
         fillBlock(wallLoc1, wallLoc2, Material.AIR);
         gamePlaying = true;
         canPressButton = true;
+        SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             pl.sendTitle(ChatColor.AQUA + "スタート!", "", 20, 20, 20);

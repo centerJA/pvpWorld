@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import org.bukkit.Bukkit;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import static org.tofu.pvpWorld.utils.lobbyAthletic.AthleticTimer.tasks;
 
@@ -17,7 +19,7 @@ public class SpeedRunScheduledTimer {
 
     public static HashMap<Player, Integer> playerTimes = new HashMap<>();
 
-    public static void startTimer(Player player, PvpWorld plugin) {
+    public static void startTimer(Player player, PvpWorld plugin, boolean multi) {
         if (playerTimes.containsKey(player)) {
             SpeedRunTimer.stopTimer(player);
         }
@@ -29,8 +31,15 @@ public class SpeedRunScheduledTimer {
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
                     player.sendMessage("aaa");
-                    SpeedRunAction.randomEvent(player, plugin);
-                    SpeedRunScheduledTimer.startTimer(player, plugin);
+                    if (multi) {
+                        for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
+                            Player player1 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                            SpeedRunAction.randomEvent(player1, plugin);
+                        }
+                    } else {
+                        SpeedRunAction.randomEvent(player, plugin);
+                    }
+                    SpeedRunScheduledTimer.startTimer(player, plugin, multi);
                     return;
                 }
                 playerTimes.put(player, elapsedTime);
