@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,14 +34,14 @@ public class AthleticProperties {
         boxDescription = new Location(Config.world, 79.500, 6.000, 145.500);
         boxRankingLoc = new Location(Config.world, 75.500, 6.000, 145.500);
         boxDesc.add("箱の中でアスレチックをします!");
-        boxDesc.add("難易度: " + ChatColor.GREEN + "低");
+        boxDesc.add("難易度: <green>低</green>");
 
         updateRanking();
     }
 
     public static void updateRanking() {
         boxRanking = new ArrayList<>();
-        boxRanking.add(ChatColor.YELLOW + "Box");
+        boxRanking.add("<yellow>Box");
 
         showAllText();
     }
@@ -102,7 +103,7 @@ public class AthleticProperties {
     public static void armorStandSettings(ArmorStand as, String text) {
         as.setBasePlate(false);
         as.setCustomNameVisible(true);
-        as.setCustomName(text);
+        as.customName(textComponent.parse(text));
         as.setArms(false);
         as.setVisible(false);
         as.setInvulnerable(true);

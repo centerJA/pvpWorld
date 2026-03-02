@@ -121,9 +121,11 @@ public class playerInteractEvent implements Listener {
                 }
 
                 if (Objects.equals(lines[0], "SpeedRunTest")) { //SpeedRunのメニューを表示させる
+                    player.sendMessage("eeeeeeeeee");
                     SpeedRunAction.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
+                    player.sendMessage("bbbbbbjnbbjjb");
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
                     player.sendMessage("test1u124u12894");
                     InventoryUtils.openGameListInventory(player);

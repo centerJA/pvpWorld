@@ -1,11 +1,14 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
+import org.bukkit.inventory.InventoryHolder;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.lobbyAthletic.AthleticTimer;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,16 +17,19 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.Objects;
 import java.util.Random;
 
+
 public class SpeedRunAction {
     public static void openGameListInventory(Player player) {
-        Inventory gameList = Bukkit.createInventory(null, 9, "SpeedRun: モード選択");
+        Inventory gameList = Bukkit.createInventory(null, 9, Component.text("SpeedRun: モード選択"));
         gameList.setItem(0, Config.itemMeta("SpeedRunシングルプレイ", Material.PAPER, 1));
         gameList.setItem(1, Config.itemMeta("SpeedRunマルチプレイ", Material.PAPER, 1));
         Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
+        player.sendMessage("test0000");
     }
 
     //single------------
@@ -31,11 +37,11 @@ public class SpeedRunAction {
     public static void singleOnHoldAction(Player player, PvpWorld plugin) {
         AthleticTimer.stopTimer(player);
         if (!Config.SpeedRunSingleOnHoldList.isEmpty()) { //誰かがプレイしている最中
-            player.sendMessage(ChatColor.AQUA + "既に誰かがプレイしています!");
-            player.sendMessage(ChatColor.AQUA + "少々お待ちください");
+            player.sendMessage(textComponent.parse("<aqua>既に誰かがプレイしています!</aqua>"));
+            player.sendMessage(textComponent.parse("<aqua>少々お待ちください</aqua>"));
             return;
         } else { //タイマーを発動させる
-            player.sendMessage(ChatColor.AQUA + "誰もプレイしていなかったので、開始します");
+            player.sendMessage(textComponent.parse("<aqua>誰もプレイしていなかったので、開始します</aqua>"));
             player.teleport(Config.speedRunSingleOnholdRoom);
             player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
             Config.SpeedRunSingleOnHoldList.add(player.getName());
@@ -58,7 +64,7 @@ public class SpeedRunAction {
                 Config.SpeedRunSingleList.add(player.getName());
                 Config.speedRunSingleMap1UnderSandPoint.getBlock().setType(Material.AIR);
                 Config.speedRunSingleMap1UpSandPoint.getBlock().setType(Material.AIR);
-                player.sendMessage(ChatColor.AQUA + "スタート!!!");
+                player.sendMessage(textComponent.parse("<aqua>スタート!!!</aqua>"));
             }
         }, delay);
     }
@@ -71,8 +77,8 @@ public class SpeedRunAction {
             Block originalBlock = playerLocation.getBlock();
             Material material = originalBlock.getType();
             playerLocation.getBlock().setType(Material.COBWEB);
-            player.sendMessage(ChatColor.RED + "神からの天罰");
-            player.sendMessage(ChatColor.RED + "蜘蛛の巣に引っかかってしまった!");
+            player.sendMessage(textComponent.parse("<red>神からの天罰</red>"));
+            player.sendMessage(textComponent.parse("<red>蜘蛛の巣に引っかかってしまった!</red>"));
             player.sendMessage(String.valueOf(material));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
@@ -84,8 +90,8 @@ public class SpeedRunAction {
         } else if (ran == 2) { //プレイヤーにスピードを3秒間与える
             PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 60, 2);
             player.addPotionEffect(speed);
-            player.sendMessage(ChatColor.GREEN + "天使からのささやかな贈り物");
-            player.sendMessage(ChatColor.GREEN + "3秒間歩くスピードが速くなった!");
+            player.sendMessage(textComponent.parse("<green>天使からのささやかな贈り物</green>"));
+            player.sendMessage(textComponent.parse("<green>3秒間歩くスピードが速くなった!</green>"));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -95,12 +101,12 @@ public class SpeedRunAction {
         } else if (ran == 3) { //プレイヤーにジャンプを3秒間与える
             PotionEffect jump = new PotionEffect(PotionEffectType.JUMP_BOOST, 60, 2);
             player.addPotionEffect(jump);
-            player.sendMessage(ChatColor.GREEN + "天使からのささやかな贈り物");
-            player.sendMessage(ChatColor.GREEN + "3秒間ジャンプする高さが高くなった!");
+            player.sendMessage(textComponent.parse("<green>天使からのささやかな贈り物</green>"));
+            player.sendMessage(textComponent.parse("<green>3秒間ジャンプする高さが高くなった!</green>"));
         } else if (ran == 4) { //3秒間プレイヤーを動かなくする
             Config.NoWalkList.add(player.getName());
-            player.sendMessage(ChatColor.RED + "宇宙人の攻撃");
-            player.sendMessage(ChatColor.RED + "3秒間動けなくなってしまった!");
+            player.sendMessage(textComponent.parse("<red>宇宙人の攻撃</red>"));
+            player.sendMessage(textComponent.parse("<red>3秒間動けなくなってしまった!</red>"));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -108,16 +114,16 @@ public class SpeedRunAction {
                 }
             }, 60L);
         } else if (ran == 5) { //5秒間浮遊できるアイテムを渡す
-            player.getInventory().addItem(Config.itemMeta("浮遊する", Material.FEATHER, 1));
-            player.sendMessage(ChatColor.GREEN + "空からの贈り物");
-            player.sendMessage(ChatColor.GREEN + "5秒間浮遊できるアイテムをゲットした!");
+            player.getInventory().addItem(Objects.requireNonNull(Config.itemMeta("浮遊する", Material.FEATHER, 1)));
+            player.sendMessage(textComponent.parse("<green>空からの贈り物</green>"));
+            player.sendMessage(textComponent.parse("<green>5秒間浮遊できるアイテムをゲットした!</green>"));
         } else if (ran == 6) { //5秒間盲目になる
             PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
             player.addPotionEffect(blindness);
-            player.sendMessage(ChatColor.RED + "地球の怒り");
-            player.sendMessage(ChatColor.RED + "5秒間盲目になってしまった!");
+            player.sendMessage(textComponent.parse("<red>地球の怒り</red>"));
+            player.sendMessage(textComponent.parse("<red>5秒間盲目になってしまった!</red>"));
         } else if (ran == 7) { //問題を出して、間違えたらリタイア、8秒をすぎてもリタイア
-            player.sendMessage(ChatColor.GOLD + "神からの挑戦状");
+            player.sendMessage(textComponent.parse("<gold>神からの挑戦状</gold>"));
             Config.NoWalkList.add(player.getName());
             Config.setInt(player);
         } else if (ran == 8) { //プレイヤーにランダムな方向にノックバックをかける
@@ -128,13 +134,13 @@ public class SpeedRunAction {
             Vector direction = new Vector(x, y, z);
             direction.normalize().multiply(1);
             player.setVelocity(direction);
-            player.sendMessage(ChatColor.YELLOW + "知らない人からのちょっかい");
-            player.sendMessage(ChatColor.YELLOW + "ノックバックを受けてしまった!");
+            player.sendMessage(textComponent.parse("<yellow>知らない人からのちょっかい</yellow>"));
+            player.sendMessage(textComponent.parse("<yellow>ノックバックを受けてしまった!</yellow>"));
         } else if (ran == 9) { //1/2ラッキーブロックをあげる
-            player.getInventory().addItem(Config.itemMeta("ラックーブロック", Material.GOLD_BLOCK, 1));
-            player.sendMessage(ChatColor.YELLOW + "運試し");
-            player.sendMessage(ChatColor.YELLOW + "1/2ラッキーブロックを入手した!");
-            player.sendMessage("右クリックすると半分の確率で良いものを得られ、半分の確率で悪い効果を受けます");
+            player.getInventory().addItem(Objects.requireNonNull(Config.itemMeta("ラックーブロック", Material.GOLD_BLOCK, 1)));
+            player.sendMessage(textComponent.parse("<yellow>運試し</yellow>"));
+            player.sendMessage(textComponent.parse("<yellow>1/2ラッキーブロックを入手した!</yellow>"));
+            player.sendMessage(textComponent.parse("右クリックすると半分の確率で良いものを得られ、半分の確率で悪い効果を受けます"));
         } else if (ran == 10) { //
             player.sendMessage("エラー");
         }
@@ -155,17 +161,17 @@ public class SpeedRunAction {
         Random random = new Random();
         int randomInt = random.nextInt(2) + 1;
         if (randomInt == 1) { //良い
-            player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
-            player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
+            player.showTitle(titleMaker.title(textComponent.parse("<gold>当たり!</gold>"), Component.empty(), 20, 40, 20));
+            player.getInventory().addItem(Objects.requireNonNull(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1)));
             player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
             if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
                 player.setItemInHand(null);
             }
         } else {
-            player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
+            player.showTitle(titleMaker.title(textComponent.parse("はずれ"), Component.empty(), 20, 40, 20));
             PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 1);
             player.addPotionEffect(confusion);
-            player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
+            player.sendMessage(textComponent.parse("<red>5秒間視界が歪むようになってしまった!</red>"));
             if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
                 player.setItemInHand(null);
             }
@@ -188,7 +194,7 @@ public class SpeedRunAction {
     }
 
     public static void mutiMapSelecting(Player player) {
-        Inventory gameList = Bukkit.createInventory(null, 9, "SpeedRun: モード選択");
+        Inventory gameList = Bukkit.createInventory(null, 9, textComponent.parse("<red>speedRun multi</red>"));
         gameList.setItem(0, Config.itemMeta("SpeedRunシングルプレイ", Material.PAPER, 1));
         gameList.setItem(1, Config.itemMeta("SpeedRunマルチプレイ", Material.PAPER, 1));
         Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
