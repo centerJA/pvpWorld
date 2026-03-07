@@ -1,11 +1,14 @@
 package org.tofu.pvpWorld.utils.ffaGames;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +64,7 @@ public class StartTimerUtils {
             @Override
             public void run() {
                 if (ffaGamesTime == 0) {
-                    player.sendMessage(ChatColor.AQUA + "test");
+                    player.sendMessage(textComponent.parse("<aqua>test"));
                     return;
                 }
                 player.setLevel(ffaGamesTime);
@@ -76,7 +79,7 @@ public class StartTimerUtils {
     }
 
     public static void sendMessage(Player player, int elapsedTime) {
-        player.sendMessage(ChatColor.AQUA + String.valueOf(elapsedTime) + "秒!");
-        player.sendTitle(String.valueOf(elapsedTime), "", 0, 20, 0);
+        player.sendMessage(textComponent.parse("<aqua>" + elapsedTime + "秒!"));
+        player.showTitle(titleMaker.title(textComponent.parse(String.valueOf(elapsedTime)), textComponent.parse(""), 0, 20 ,0));
     }
 }

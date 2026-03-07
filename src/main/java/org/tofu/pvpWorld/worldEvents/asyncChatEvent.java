@@ -1,27 +1,20 @@
 package org.tofu.pvpWorld.worldEvents;
 
-import org.tofu.pvpWorld.Config;
-import org.tofu.pvpWorld.PvpWorld;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.tofu.pvpWorld.Config;
+import org.tofu.pvpWorld.PvpWorld;
 
-import java.util.Random;
-
-
-public class asyncPlayerChatEvent implements Listener {
+public class asyncChatEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
 
-    public static Random random;
-
-    public static int random1, random2, result;
-
-    public asyncPlayerChatEvent(PvpWorld plugin) {
+    public asyncChatEvent(PvpWorld plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -33,11 +26,11 @@ public class asyncPlayerChatEvent implements Listener {
     }
 
     @EventHandler
-    public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+    public void onAsyncChatEvent(AsyncChatEvent e) {
         Player player = e.getPlayer();
         World world = player.getWorld();
-        String comment = e.toString();
         if (this.world != world) return;
+        String comment = e.toString();
         if (Config.NoWalkList.contains(player.getName())) {
             Config.compair(player, comment);
         }

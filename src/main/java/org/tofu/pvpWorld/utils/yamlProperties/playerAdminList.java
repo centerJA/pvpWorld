@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.yamlProperties;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -7,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,14 +39,14 @@ public class playerAdminList extends JavaPlugin {
             uuidList.add(playerUUID);
             playerAdminListData.set("uuids", uuidList);
         } else {
-            player.sendMessage(player.getName() + "はすでに権限を持っています");
+            player.sendMessage(textComponent.parse(player.getName() + "はすでに権限を持っています"));
         }
         try {
             playerAdminListData.save(playerAdminListFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendMessage(player.getName() + ": 正常に追加されました");
+        player.sendMessage(textComponent.parse(player.getName() + ": 正常に追加されました"));
     }
 
     public static boolean playerHasAdmin(Player player) {
@@ -60,22 +62,22 @@ public class playerAdminList extends JavaPlugin {
             uuidList.remove(playerUUID);
             playerAdminListData.set("uuids", uuidList);
         } else {
-            player.sendMessage(player.getName() + "は権限を持っていません");
+            player.sendMessage(textComponent.parse(player.getName() + "は権限を持っていません"));
         }
         try {
             playerAdminListData.save(playerAdminListFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendMessage(player.getName() + ": 正常に削除しました");
+        player.sendMessage(textComponent.parse(player.getName() + ": 正常に削除しました"));
     }
 
     public static void printAllAdminPlayers(Player player) {
         List<String> uuidList = playerAdminListData.getStringList("uuids");
         if (uuidList.isEmpty()) {
-            player.sendMessage("誰もいません");
+            player.sendMessage(textComponent.parse("誰もいません"));
         } else {
-            player.sendMessage("一覧");
+            player.sendMessage(textComponent.parse("一覧"));
             for (String uuid: uuidList) {
                 try {
                     UUID uuidFull = UUID.fromString(uuid);

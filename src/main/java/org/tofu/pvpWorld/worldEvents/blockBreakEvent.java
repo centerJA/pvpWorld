@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.tofu.pvpWorld.utils.textComponent;
 
 public class blockBreakEvent implements Listener {
     PvpWorld plugin;
@@ -48,7 +49,7 @@ public class blockBreakEvent implements Listener {
             }
         } else {
             e.setCancelled(true);
-            player.sendMessage("地形は破壊できません!");
+            player.sendMessage(textComponent.parse("地形は破壊できません!"));
         }
     }
 }

@@ -35,7 +35,7 @@ public final class PvpWorld extends JavaPlugin {
         new inventoryClickEvent(this);
         new blockPlaceEvent(this);
         new playerMoveEvent(this);
-        new asyncPlayerChatEvent(this);
+        new asyncChatEvent(this);
         new playerInteractAtEntityEvent(this);
         Objects.requireNonNull(getCommand("pvpworld")).setExecutor(new pvpWorldCommand());
         World world = Bukkit.getWorld("pvpWorld");
@@ -51,7 +51,7 @@ public final class PvpWorld extends JavaPlugin {
         athleticTimeUtils.sortEntries();
         AthleticProperties.setup();
         TextDisplayUtils.locationSetUp();
-        Bukkit.getLogger().info("pvpWorld enabled!");
+        getLogger().info("pvpWorld enabled!");
     }
 
     @Override

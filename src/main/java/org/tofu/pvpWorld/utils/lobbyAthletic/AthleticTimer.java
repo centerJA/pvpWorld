@@ -1,10 +1,12 @@
 package org.tofu.pvpWorld.utils.lobbyAthletic;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.util.HashMap;
 
@@ -41,7 +43,7 @@ public class AthleticTimer {
 
                 if (elapsedTime > 500) {
                     // 時間制限に達した場合
-                    player.sendMessage(ChatColor.AQUA + "時間制限です!");
+                    player.sendMessage(textComponent.parse("<aqua>時間制限です!"));
 
                     // stopTimerを呼んで、タスクのキャンセルとマップからの削除を行う
                     AthleticTimer.stopTimer(player);

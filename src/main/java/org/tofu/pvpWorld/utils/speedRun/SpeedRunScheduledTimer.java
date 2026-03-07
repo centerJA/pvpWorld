@@ -1,11 +1,13 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -30,7 +32,6 @@ public class SpeedRunScheduledTimer {
                 int elapsedTime = playerTimes.get(player) - 1; //残り時間
                 if (elapsedTime == 0) { //cancel
                     player.setLevel(0);
-                    player.sendMessage("aaa");
                     if (multi) {
                         for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
                             Player player1 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
@@ -54,7 +55,7 @@ public class SpeedRunScheduledTimer {
             @Override
             public void run() {
                 if (speedRunTime == 0) {
-                    player.sendMessage(ChatColor.AQUA + "test");
+                    player.sendMessage(textComponent.parse("<aqua>test"));
                     return;
                 }
                 player.setLevel(speedRunTime);

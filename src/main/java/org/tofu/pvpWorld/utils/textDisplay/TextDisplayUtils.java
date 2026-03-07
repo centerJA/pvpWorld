@@ -1,11 +1,12 @@
 package org.tofu.pvpWorld.utils.textDisplay;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.utils.athletic.AthleticProperties;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.yamlProperties.athleticTimeUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -17,9 +18,9 @@ import java.util.List;
 public class TextDisplayUtils {
     public static Location SpeedRun, OneVersusOne, FfaGames, expRanking, coinRanking, athleticRanking;
 
-    public static String SpeedRunSize, OneVersusOneSize, FfaGamesSize;
+    public static Component SpeedRunSize, OneVersusOneSize, FfaGamesSize;
 
-    public static List<String> exp, coin, athletic;
+    public static List<Component> exp, coin, athletic;
 
     private static World world;
 
@@ -28,9 +29,9 @@ public class TextDisplayUtils {
         SpeedRun = new Location(world, -18.500, 7.000, -0.500);
         OneVersusOne = new Location(world, 0.500, 7.000, -19.500);
         FfaGames = new Location(world, 0.500, 7.000, 18.500);
-        SpeedRunSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
-        OneVersusOneSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
-        FfaGamesSize = ChatColor.GOLD + "0" + ChatColor.WHITE + "人がプレイ中!";
+        SpeedRunSize = textComponent.parse("<gold>0<white>人がプレイ中!");
+        OneVersusOneSize = textComponent.parse("<gold>0<white>人がプレイ中!");
+        FfaGamesSize = textComponent.parse("<gold>0<white>人がプレイ中!");
         expRanking = new Location(world, -5.500, 6.000, 44.000);
         coinRanking = new Location(world, 6.500, 6.000, 44.000);
         athleticRanking = new Location(world, -5.500, 6.000, 55.000);
@@ -41,7 +42,7 @@ public class TextDisplayUtils {
 
     public static void latestRanking() {
         exp = new ArrayList<>();
-        exp.add(ChatColor.GREEN + "EXP" + ChatColor.RED + "ランキング");
+        exp.add(textComponent.parse("<green>EXP<red>ランキング"));
         exp.add(expUtils.getRanking(1));
         exp.add(expUtils.getRanking(2));
         exp.add(expUtils.getRanking(3));
@@ -52,10 +53,10 @@ public class TextDisplayUtils {
         exp.add(expUtils.getRanking(8));
         exp.add(expUtils.getRanking(9));
         exp.add(expUtils.getRanking(10));
-        exp.add(ChatColor.GREEN + "クリックして更新");
+        exp.add(textComponent.parse("<green>クリックして更新"));
 
         coin = new ArrayList<>();
-        coin.add(ChatColor.GOLD + "COIN" + ChatColor.RED + "ランキング");
+        coin.add(textComponent.parse("<gold>COIN<red>ランキング"));
         coin.add(coinUtils.getRanking(1));
         coin.add(coinUtils.getRanking(2));
         coin.add(coinUtils.getRanking(3));
@@ -66,10 +67,10 @@ public class TextDisplayUtils {
         coin.add(coinUtils.getRanking(8));
         coin.add(coinUtils.getRanking(9));
         coin.add(coinUtils.getRanking(10));
-        coin.add(ChatColor.GREEN + "クリックして更新");
+        coin.add(textComponent.parse("<green>クリックして更新"));
 
         athletic = new ArrayList<>();
-        athletic.add(ChatColor.YELLOW + "Athletic" + ChatColor.RED + "ランキング");
+        athletic.add(textComponent.parse("<yellow>Athletic<red>ランキング"));
         athletic.add(athleticTimeUtils.getRanking(1));
         athletic.add(athleticTimeUtils.getRanking(2));
         athletic.add(athleticTimeUtils.getRanking(3));
@@ -80,28 +81,26 @@ public class TextDisplayUtils {
         athletic.add(athleticTimeUtils.getRanking(8));
         athletic.add(athleticTimeUtils.getRanking(9));
         athletic.add(athleticTimeUtils.getRanking(10));
-        athletic.add(ChatColor.GREEN + "クリックして更新");
+        athletic.add(textComponent.parse("<green>クリックして更新"));
 
         System.out.println("[PVPWORLD]ranking setup finished");
         showAllText();
     }
 
     public static void renameSpeedRun(int size) {
-        SpeedRunSize = ChatColor.GOLD + String.valueOf(size) + ChatColor.WHITE + "人がプレイ中!";
+        SpeedRunSize = textComponent.parse("<gold>" + size + "<white>人がプレイ中!");
         showAllText();
     }
 
     public static void renameOneVersusOneSize(int size) {
-        OneVersusOneSize = ChatColor.GOLD + String.valueOf(size) + ChatColor.WHITE + "人がプレイ中!";
+        OneVersusOneSize = textComponent.parse("<gold>" + size + "<white>人がプレイ中!");
         showAllText();
     }
 
     public static void renameFfaGamesSize(int size) {
-        FfaGamesSize = ChatColor.GOLD + String.valueOf(size) + ChatColor.WHITE + "人がプレイ中!";
+        FfaGamesSize = textComponent.parse("<gold>" + size + "<white>人がプレイ中!");
         showAllText();
     }
-
-
 
     public static void showAllText() {
         removeAllText();
@@ -119,19 +118,19 @@ public class TextDisplayUtils {
         Location athleticloc = athleticRanking.clone();
         double lineSpacing = 0.25;
 
-        for (String lines: exp) {
+        for (Component lines: exp) {
             ArmorStand as = exploc.getWorld().spawn(exploc, ArmorStand.class);
             armorStandSettings(as, lines, false);
             exploc.add(0, -lineSpacing, 0);
         }
 
-        for (String lines: coin) {
+        for (Component lines: coin) {
             ArmorStand as = coinloc.getWorld().spawn(coinloc, ArmorStand.class);
             armorStandSettings(as, lines, false);
             coinloc.add(0, -lineSpacing, 0);
         }
 
-        for (String lines: athletic) {
+        for (Component lines: athletic) {
             ArmorStand as = athleticloc.getWorld().spawn(athleticloc, ArmorStand.class);
             armorStandSettings(as, lines, false);
             athleticloc.add(0, -lineSpacing, 0);
@@ -141,7 +140,6 @@ public class TextDisplayUtils {
         System.out.println("showText");
     }
 
-
     public static void removeAllText() {
         for (Entity entity: world.getEntities()) {
             if (entity instanceof ArmorStand) {
@@ -150,10 +148,10 @@ public class TextDisplayUtils {
         }
     }
 
-    public static void armorStandSettings(ArmorStand as, String text, boolean marker) {
+    public static void armorStandSettings(ArmorStand as, Component text, boolean marker) {
         as.setBasePlate(false);
         as.setCustomNameVisible(true);
-        as.setCustomName(text);
+        as.customName(text);
         as.setArms(false);
         as.setVisible(false);
         as.setInvulnerable(true);

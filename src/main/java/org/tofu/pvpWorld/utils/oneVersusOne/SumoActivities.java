@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.oneVersusOne;
 
+import net.kyori.adventure.title.Title;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.Bukkit;
@@ -7,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,11 +49,11 @@ public class SumoActivities {
         Config.DoNotReceiveDamageList.addAll(SumoActivities.sumoQueueingList);
         Config.TeleportToLobbyList.addAll(SumoActivities.sumoQueueingList);
         SumoActivities.sumoQueueingList.remove(player.getName());
-        player.sendTitle(ChatColor.RED + "敗北", ChatColor.YELLOW + "もう一度挑戦しよう", 0, 60, 0);
-        Player winner = Bukkit.getPlayer(SumoActivities.sumoQueueingList.get(0));
+        player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう!"), 0, 40, 0));
+        Player winner = Bukkit.getPlayer(SumoActivities.sumoQueueingList.getFirst());
         if (winner == null) return;
         SumoActivities.sumoQueueingList.remove(winner.getName());
-        winner.sendTitle(ChatColor.GREEN + "勝利", ChatColor.YELLOW + "すごい!!", 0, 60, 0);
+        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"),0, 60, 0));
         OneVersusOneGames.gameCloseAction(plugin);
     }
 }

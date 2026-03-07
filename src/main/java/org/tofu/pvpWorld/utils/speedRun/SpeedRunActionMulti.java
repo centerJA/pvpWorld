@@ -1,7 +1,10 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.bukkit.*;
@@ -181,7 +184,7 @@ public class SpeedRunActionMulti {
         SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            pl.sendTitle(ChatColor.AQUA + "スタート!", "", 20, 20, 20);
+            pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));
             pl.setLevel(0);
         }
     }
@@ -197,14 +200,14 @@ public class SpeedRunActionMulti {
     public static void promoteGames() {
         for (String PlayerName: Config.WorldAllPlayerList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            player.sendMessage(ChatColor.GOLD + "[SpeedRun Multi]" + ChatColor.WHITE + "1人が対戦相手を募集中です!");
+            player.sendMessage(textComponent.parse("<gold>[SpeedRun Multi] <white>1人が対戦相手を募集中です!"));
         }
     }
 
     public static void noticeToPlayer() {
         for (String PlayerName: multiPlayingList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            player.sendMessage("対戦相手が見つかったため、カウントダウンを開始します!");
+            player.sendMessage(textComponent.parse("<white>対戦相手が見つかったため、カウントダウンを開始します!"));
         }
     }
 
@@ -214,7 +217,7 @@ public class SpeedRunActionMulti {
         for (String PlayerName: multiPlayingList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             int size = multiPlayingList.size();
-            player.sendMessage(size + "人目が参加したため、10秒追加しました!");
+            player.sendMessage(textComponent.parse("<white>" + size + "人目が参加したため、10秒追加しました!"));
         }
     }
 }

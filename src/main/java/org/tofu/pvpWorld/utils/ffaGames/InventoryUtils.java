@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.ffaGames;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,25 +28,25 @@ public class InventoryUtils {
         int size = 1;
         ItemStack item = new ItemStack(Material.DIAMOND_SHOVEL, size);
         ItemMeta meta = item.getItemMeta();
-        List<String> loreList = new ArrayList<>();
-        loreList.add(ChatColor.GREEN + "相手を下に落とします!");
-        loreList.add(ChatColor.WHITE + "ルール:");
-        loreList.add(ChatColor.WHITE + "雪は掘れる!");
-        loreList.add(ChatColor.WHITE + "掘ると雪玉が手に入る!");
-        loreList.add(ChatColor.WHITE + "落ちたら負け!");
-        meta.setLore(loreList);
-        meta.setDisplayName(ChatColor.GREEN + "spleef");
+        List<Component> loreList = new ArrayList<>();
+        loreList.add(textComponent.parse("<green>相手を下に落とします!"));
+        loreList.add(textComponent.parse("<white>ルール:"));
+        loreList.add(textComponent.parse("<white>雪は掘れる!"));
+        loreList.add(textComponent.parse("<white>掘ると雪玉が手に入る!"));
+        loreList.add(textComponent.parse("<white>落ちたら負け!"));
+        meta.lore(loreList);
+        meta.displayName(textComponent.parse("<green>spleef"));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }
 
     public static void replaceInventoryCheck(Player player) {
-        String target = ChatColor.BOLD + "" + ChatColor.GREEN + "FFAゲームス";
+        Component target = textComponent.parse("<b><green>spleef");
         for (String PlayerName : Config.WorldAllPlayerList) {
             Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             InventoryView inventoryView = player2.getOpenInventory();
-            if (inventoryView == null || !inventoryView.getTitle().equals(target)) return;
+            if (inventoryView == null || !inventoryView.title().equals(target)) return;
             player.closeInventory();
             openGameListInventory(player);
         }

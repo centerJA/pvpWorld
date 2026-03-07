@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.tofu.pvpWorld.utils.textComponent;
 
 public class blockPlaceEvent implements Listener {
     PvpWorld plugin;
@@ -34,11 +35,11 @@ public class blockPlaceEvent implements Listener {
         if (Config.WorldAllPlayerList.contains(playerName)) {
             if (!Config.AdminBuildModeList.contains(playerName)) {
                 e.setCancelled(true);
-                player.sendMessage("ブロックは置けません!");
+                player.sendMessage(textComponent.parse("ブロックは置けません!"));
             }
 
         } else {
-            player.sendMessage("エラーが発生しました");
+            player.sendMessage(textComponent.parse("エラーが発生しました"));
         }
 
     }

@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.io.IOException;
 
@@ -45,10 +47,10 @@ public class playerMoveEvent implements Listener {
             if (Config.overLappingTrigger(player)) {
                 Config.overLappingMessage(player);
                 player.teleport(Config.lobby);
-                player.sendMessage("00101010101");
+                player.sendMessage(Component.text("00101010101"));
             } else {
                 FreePvpUtils.joinAction(player, plugin);
-                player.sendMessage("111111111");
+                player.sendMessage(textComponent.parse("111111111"));
             }
         } else if (type.equals(Material.WATER)) {
             if (SumoActivities.sumoQueueingList.contains(player.getName())) {

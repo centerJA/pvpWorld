@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.yamlProperties;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.tofu.pvpWorld.utils.textComponent;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +50,7 @@ public class   coinUtils extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendMessage(ChatColor.GOLD + "+" + coin + "Coin");
+        player.sendMessage(textComponent.parse("<gold>+" + coin + "Coin"));
         ScoreBoardUtils.updateScoreBoard(player);
     }
 
@@ -62,15 +64,15 @@ public class   coinUtils extends JavaPlugin {
 
 
 
-    public static String getRanking(int x) {
+    public static Component getRanking(int x) {
         int index = x - 1;
         if (index >= 0 && index < entryList.size()) {
             Map.Entry<String, Integer> entry = entryList.get(index);
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey()));
             String playerName = offlinePlayer.getName();
-            return ChatColor.GOLD + String.valueOf(x) + "位 - " + ChatColor.WHITE + playerName + ": " + ChatColor.GOLD + entry.getValue();
+            return textComponent.parse("<gold>" + x + "位 - <white>" + playerName + ": <gold>" + entry.getValue());
         } else {
-            return ChatColor.GOLD + String.valueOf(x) + "位 - " + ChatColor.WHITE + "N/A";
+            return textComponent.parse("<gold>" + x + "位 - <white>N/A");
         }
     }
 }

@@ -2,6 +2,8 @@ package org.tofu.pvpWorld.utils.ffaGames;
 
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.bukkit.*;
@@ -51,7 +53,7 @@ public class SpleefActivities {
         for (String PlayerName: spleefPlayingList) {
             Player player = Bukkit.getPlayer(PlayerName);
             if (player == null) return;
-            player.sendTitle(ChatColor.GREEN + "勝利", ChatColor.YELLOW + "おめでとう!!!", 0, 60, 0);
+            titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!!"), 0, 60, 0);
             expUtils.playerSetExp(player, 10);
             coinUtils.playerSetCoin(player, 10);
         }
@@ -66,7 +68,7 @@ public class SpleefActivities {
 
     public static void voidAction(Player player, PvpWorld plugin) throws IOException {
         spleefPlayingList.remove(player.getName());
-        player.sendTitle(ChatColor.RED + "敗北", ChatColor.YELLOW + "もう一度挑戦しよう!", 0, 60, 0);
+        titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう!"), 0, 60, 0);
         winnerChecker(player, plugin);
         Config.clearInventory(player);
         expUtils.playerSetExp(player, 5);
