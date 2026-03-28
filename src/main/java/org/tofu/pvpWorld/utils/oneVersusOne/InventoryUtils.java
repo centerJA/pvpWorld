@@ -23,6 +23,7 @@ public class InventoryUtils {
         gameList.setItem(10, sumoSetProperties());
         gameList.setItem(11, topfightSetProperties());
         Objects.requireNonNull(player.getPlayer()).openInventory(gameList);
+        player.sendMessage("テスト11111");
     }
 
     public static ItemStack sumoSetProperties() {

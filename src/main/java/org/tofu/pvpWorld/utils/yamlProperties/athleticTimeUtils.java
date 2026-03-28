@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
