@@ -46,11 +46,11 @@ public class TopfightActivities {
         Config.DoNotReceiveDamageList.addAll(topfightQueueingList);
         Config.TeleportToLobbyList.addAll(topfightQueueingList);
         topfightQueueingList.remove(player.getName());
-        player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう"), 0, 60, 0));
+        player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう"), 0, 3000, 0));
         Player winner = Bukkit.getPlayer(topfightQueueingList.getFirst());
         if (winner == null) return;
         topfightQueueingList.remove(winner.getName());
-        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"), 0, 60, 0));
+        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"), 0, 3000, 0));
         OneVersusOneGames.gameCloseAction(plugin);
     }
 }

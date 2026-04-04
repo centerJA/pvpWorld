@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class InventoryUtils {
     public static void openGameListInventory(Player player) {
-        Inventory gameList = Bukkit.createInventory(null, 54, ChatColor.BOLD + "" + ChatColor.GREEN + "FFAゲームス");
+        Inventory gameList = Bukkit.createInventory(null, 54, textComponent.parse("<b><green>FFAゲームス"));
         gameList.setItem(10, spleefSetProperties());
         player.openInventory(gameList);
     }

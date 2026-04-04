@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.FfaGames;
@@ -12,7 +13,6 @@ import org.tofu.pvpWorld.utils.speedRun.SpeedRunActionMulti;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
@@ -48,9 +48,8 @@ public class inventoryClickEvent implements Listener {
         ItemStack itemStack = e.getCurrentItem();
         if (this.world != world) return;
         if (itemStack == null) return;
-        String displayName = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
-        if (!(entity instanceof Player)) return;
-        Player player = (Player) entity;
+        Component displayName = Objects.requireNonNull(itemStack.getItemMeta()).displayName();
+        if (!(entity instanceof Player player)) return;
         if (itemStack.getType() == Material.PAPER) {
             if (Config.overLappingTrigger(player)) {
                 Config.overLappingMessage(player);

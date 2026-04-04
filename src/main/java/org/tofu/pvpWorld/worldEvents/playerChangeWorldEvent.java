@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.scoreBoard.ScoreBoardUtils;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.bukkit.Bukkit;
@@ -82,7 +83,7 @@ public class playerChangeWorldEvent implements Listener {
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
                     ScoreBoardUtils.updateScoreBoard(player);
                 }
             }, 10L);

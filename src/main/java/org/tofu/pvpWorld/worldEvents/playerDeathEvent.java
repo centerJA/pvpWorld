@@ -3,6 +3,7 @@ package org.tofu.pvpWorld.worldEvents;
 import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.oneVersusOne.TopfightActivities;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.bukkit.Bukkit;
@@ -57,7 +58,7 @@ public class playerDeathEvent implements Listener {
                 }
                 playerSetExp(killedPlayer, 3);
                 playerSetCoin(killedPlayer, 7);
-                killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
+                killedPlayer.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("<white>金リンゴ"), Material.GOLDEN_APPLE, 1));
                 killedPlayer.sendMessage(textComponent.parse("金リンゴを入手しました"));
             }
         } else if (TopfightActivities.topfightQueueingList.contains(playerName)) {

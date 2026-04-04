@@ -2,7 +2,6 @@ package org.tofu.pvpWorld.utils.speedRun;
 
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -68,6 +67,6 @@ public class SpeedRunTimer {
 
     public static void sendMessage(Player player, int elapsedTime) {
         player.sendMessage(textComponent.parse("<aqua>" + elapsedTime + "秒!"));
-        player.showTitle(titleMaker.title(textComponent.parse(String.valueOf(elapsedTime)), textComponent.parse(""), 0, 20 ,0));
+        player.showTitle(titleMaker.title(textComponent.parse(String.valueOf(elapsedTime)), textComponent.parse(""), 0, 1000 ,0));
     }
  }

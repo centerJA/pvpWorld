@@ -48,7 +48,7 @@ public class AthleticUtils {
         int playerScoreInt = player.getLevel();
         setPlayerLobbyAthleticTime(player, playerScoreInt, false);
         ScoreBoardUtils.updateScoreBoard(player);
-        player.showTitle(titleMaker.title(textComponent.parse("<aqua>おめでとう!"), textComponent.parse("<aqua>" + playerScore + "秒でした!"), 20, 40, 20));
+        player.showTitle(titleMaker.title(textComponent.parse("<aqua>おめでとう!"), textComponent.parse("<aqua>" + playerScore + "秒でした!"), 1000, 2000, 1000));
         AthleticTimer.stopTimer(player);
         player.sendMessage(textComponent.parse("<white>あなたの記録は<aqua>" + playerScore + "秒<white>でした!"));
         if (playerScoreInt <= 40) {

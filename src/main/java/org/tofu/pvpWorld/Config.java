@@ -2,6 +2,7 @@ package org.tofu.pvpWorld;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
 import org.tofu.pvpWorld.utils.lobbyAthletic.AthleticTimer;
@@ -56,18 +57,7 @@ public class Config extends JavaPlugin {
 
     public static ItemStack serverSelect, worldSelect, quit;
 
-    public static ItemStack itemMeta(String displayName, Material material, int i) {
-        Bukkit.getLogger().info("called itemMeta!");
-        ItemStack itemStack = new ItemStack(material, i);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) {
-            Bukkit.getLogger().info("itemMeta is null");
-            return null;
-        }
-        itemMeta.displayName(textComponent.parse("<!i>" + displayName));
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
+
 
     public static String worldUpdateNotice() {
         String notice = "Free PVPスペースが解放されました!!";
@@ -138,7 +128,7 @@ public class Config extends JavaPlugin {
             Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(1));
             player.showTitle(Title.title(textComponent.parse("<red>脱落"), textComponent.parse("<aqua>再挑戦しよう!"), times));
             Config.clearInventory(player);
-            player.getInventory().setItem(0, itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+            player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
             SpeedRunSingleList.remove(player.getName());
             NoWalkList.remove(player.getName());
             SpeedRunScheduledTimer.stopTimer(player);
@@ -228,7 +218,7 @@ public class Config extends JavaPlugin {
         StartTimerUtils.stopTimer(player);
         TimeUpTimer.stopTimer(player);
         Config.clearInventory(player);
-        player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+        player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
         player.teleport(Config.lobby);
         player.setLevel(0);
         AthleticTimer.stopTimer(player);

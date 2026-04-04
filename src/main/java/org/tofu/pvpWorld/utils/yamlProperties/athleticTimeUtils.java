@@ -10,12 +10,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class athleticTimeUtils extends JavaPlugin {
+public class athleticTimeUtils {
     public static File playerLobbyAthleticTimeFile;
     public static FileConfiguration playerLobbyAthleticTimeData;
 
@@ -31,6 +32,7 @@ public class athleticTimeUtils extends JavaPlugin {
             }
         }
         playerLobbyAthleticTimeData = YamlConfiguration.loadConfiguration(playerLobbyAthleticTimeFile);
+        sortEntries();
     }
 
     public static int getPlayerLobbyAthleticTime(Player player) {
@@ -46,19 +48,26 @@ public class athleticTimeUtils extends JavaPlugin {
             playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
             try {
                 playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
+                sortEntries();
                 ScoreBoardUtils.updateScoreBoard(player);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            TextDisplayUtils.latestRanking();
         } else {
             if (getPlayerLobbyAthleticTime(player) > playerScore) {
                 playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
+                player.sendMessage("upload");
                 try {
                     playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
+                    player.sendMessage("upload finish");
+                    sortEntries();
                     ScoreBoardUtils.updateScoreBoard(player);
+                    player.sendMessage("updated");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                TextDisplayUtils.latestRanking();
             }
         }
     }

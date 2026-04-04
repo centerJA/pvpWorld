@@ -41,7 +41,7 @@ public class StartTimerUtils {
                     for (String PlayerName: arrayList) {
                         Player player = Bukkit.getPlayer(PlayerName);
                         if (player == null) return;
-                        player.showTitle(titleMaker.title(textComponent.parse("<red>" + elapsedTime), textComponent.parse(""), 0, 20 ,0));
+                        player.showTitle(titleMaker.title(textComponent.parse("<red>" + elapsedTime), textComponent.parse(""), 0, 1000 ,0));
                         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
                     }
                 }

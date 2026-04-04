@@ -2,6 +2,7 @@ package org.tofu.pvpWorld.utils.freePvp;
 
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.lobbyAthletic.AthleticTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,13 +35,13 @@ public class FreePvpUtils {
                 @Override
                 public void run() {
                     Config.DoNotReceiveDamageList.remove(player.getName());
-                    player.getInventory().setItem(0, Config.itemMeta("聖なる剣", Material.IRON_SWORD, 1));
-                    player.getInventory().setItem(1, Config.itemMeta("弓", Material.BOW, 1));
-                    player.getInventory().setItem(8, Config.itemMeta("矢", Material.ARROW, 8));
-                    player.getInventory().setItem(38, Config.itemMeta("チェストプレート", Material.CHAINMAIL_CHESTPLATE, 1));
-                    player.getInventory().setItem(37, Config.itemMeta("レギンス", Material.CHAINMAIL_LEGGINGS, 1));
-                    player.getInventory().setItem(36, Config.itemMeta("ブーツ", Material.CHAINMAIL_BOOTS, 1));
-                    player.getInventory().setItem(12, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("聖なる剣"), Material.IRON_SWORD, 1));
+                    player.getInventory().setItem(1, itemStackMaker.createItem(textComponent.parse("弓"), Material.BOW, 1));
+                    player.getInventory().setItem(8, itemStackMaker.createItem(textComponent.parse("矢"), Material.ARROW, 8));
+                    player.getInventory().setItem(38, itemStackMaker.createItem(textComponent.parse("チェストプレート"), Material.CHAINMAIL_CHESTPLATE, 1));
+                    player.getInventory().setItem(37, itemStackMaker.createItem(textComponent.parse("レギンス"), Material.CHAINMAIL_LEGGINGS, 1));
+                    player.getInventory().setItem(36, itemStackMaker.createItem(textComponent.parse("ブーツ"), Material.CHAINMAIL_BOOTS, 1));
+                    player.getInventory().setItem(12, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 }
             }, 60L);
             for (String PlayerName: Config.WorldAllPlayerList) {

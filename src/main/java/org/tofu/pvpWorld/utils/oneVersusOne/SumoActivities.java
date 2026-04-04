@@ -49,11 +49,11 @@ public class SumoActivities {
         Config.DoNotReceiveDamageList.addAll(SumoActivities.sumoQueueingList);
         Config.TeleportToLobbyList.addAll(SumoActivities.sumoQueueingList);
         SumoActivities.sumoQueueingList.remove(player.getName());
-        player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう!"), 0, 40, 0));
+        player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう!"), 0, 2000, 0));
         Player winner = Bukkit.getPlayer(SumoActivities.sumoQueueingList.getFirst());
         if (winner == null) return;
         SumoActivities.sumoQueueingList.remove(winner.getName());
-        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"),0, 60, 0));
+        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"),0, 3000, 0));
         OneVersusOneGames.gameCloseAction(plugin);
     }
 }

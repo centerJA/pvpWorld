@@ -9,6 +9,7 @@ import org.tofu.pvpWorld.utils.ffaGames.FfaGames;
 import org.tofu.pvpWorld.utils.ffaGames.InventoryUtils;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
 import org.tofu.pvpWorld.utils.freePvp.FreePvpUtils;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.lobbyAthletic.AthleticUtils;
 import org.tofu.pvpWorld.utils.oneVersusOne.*;
 import org.tofu.pvpWorld.utils.speedRun.SpeedRunAction;
@@ -167,7 +168,7 @@ public class playerInteractEvent implements Listener {
 
                 if (randomInt == 1) {
                     player.showTitle(Title.title(textComponent.parse("<green>当たり!"), Component.empty(), titleTimes));
-                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
+                    player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("<white>スピード"), Material.GOLD_BLOCK, 1));
                     player.sendMessage(Component.text("右クリックで5秒間のスピードの効果を得られます!"));
                     if (player.getInventory().getItemInMainHand().getType().equals(Material.GOLD_BLOCK)) {
                         player.getInventory().setItemInMainHand(null);

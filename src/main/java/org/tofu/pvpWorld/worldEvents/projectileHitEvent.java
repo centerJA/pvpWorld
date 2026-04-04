@@ -33,8 +33,7 @@ public class projectileHitEvent implements Listener {
         World world = e.getEntity().getWorld();
         if (this.world != world) return;
         if (!(e.getEntity() instanceof Snowball)) return;
-        if (!(e.getEntity().getShooter() instanceof Player)) return;
-        Player player = (Player) e.getEntity().getShooter();
+        if (!(e.getEntity().getShooter() instanceof Player player)) return;
         if (Config.AdminBuildModeList.contains(player.getName())) return;
         if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
             if (e.getHitEntity() != null && e.getHitEntity() instanceof Player) {

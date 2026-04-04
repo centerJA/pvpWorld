@@ -3,6 +3,7 @@ package org.tofu.pvpWorld.utils.oneVersusOne;
 import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
@@ -27,7 +28,7 @@ public class OneVersusOneGames {
                     StartTimerUtils.stopTimer(player);
                     TimeUpTimer.stopTimer(player);
                     player.teleport(Config.lobby);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 }
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
@@ -41,7 +42,7 @@ public class OneVersusOneGames {
         for (String PlayerName: arrayList) {
             Player player = Bukkit.getPlayer(PlayerName);
             if (player == null) return;
-            player.showTitle(titleMaker.title(textComponent.parse("<yellow>引き分け"), textComponent.parse("<yellow>勝利までもう少し!!"), 0, 60, 0));
+            player.showTitle(titleMaker.title(textComponent.parse("<yellow>引き分け"), textComponent.parse("<yellow>勝利までもう少し!!"), 0, 3000, 0));
             Config.TeleportToLobbyList.addAll(arrayList);
             gameCloseAction(plugin);
         }
@@ -74,7 +75,7 @@ public class OneVersusOneGames {
             player.sendMessage(textComponent.parse("<white>参加をやめるには、インベントリの中の赤色の染料を右クリックしてください"));
             encourageJoinGame(player);
             TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
-            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
+            player.getInventory().setItem(8, itemStackMaker.createItem(textComponent.parse("<white>ゲームをやめる"), Material.RED_DYE, 1));
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
                 if (PlayerName.equals(player.getName())) {

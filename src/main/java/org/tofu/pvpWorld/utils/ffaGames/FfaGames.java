@@ -3,6 +3,7 @@ package org.tofu.pvpWorld.utils.ffaGames;
 import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.oneVersusOne.TimeUpTimer;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
@@ -28,7 +29,7 @@ public class FfaGames {
                     StartTimerUtils.stopTimer(player);
                     TimeUpTimer.stopTimer(player);
                     player.teleport(Config.lobby);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 }
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
@@ -60,7 +61,7 @@ public class FfaGames {
             player.sendMessage(textComponent.parse("参加をやめるには、インベントリの中の青色の染料を右クリックしてください"));
             encourageJoinGame(player);
             TextDisplayUtils.renameFfaGamesSize(allFfaGamesPlayer());
-            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
+            player.getInventory().setItem(8, itemStackMaker.createItem(textComponent.parse("ゲームをやめる"), Material.BLUE_DYE, 1));
 //            ffaSuggestPlayerJoin(arrayList);
 //            ScoreBoardUtils.setFfaScoreBoard(player, 1000, false, arrayList);
         } else if (arrayList.size() == 1) {
@@ -78,7 +79,7 @@ public class FfaGames {
                     player.sendMessage(textComponent.parse("相手が見つかりました!"));
                     player.sendMessage(textComponent.parse("追加の人を探しています..."));
                     TextDisplayUtils.renameFfaGamesSize(allFfaGamesPlayer());
-                    player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.BLUE_DYE, 1));
+                    player.getInventory().setItem(8, itemStackMaker.createItem(textComponent.parse("ゲームをやめる"), Material.BLUE_DYE, 1));
                     org.tofu.pvpWorld.utils.ffaGames.StartTimerUtils.startTimer(player, plugin, arrayList);
                 }
             }
@@ -118,7 +119,7 @@ public class FfaGames {
         if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
                 Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-                player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>対戦相手が放棄しました"), 0, 60, 0));
+                player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>対戦相手が放棄しました"), 0, 3000, 0));
                 arrayList.remove(PlayerName);
                 gameCloseAction(plugin);
             }
