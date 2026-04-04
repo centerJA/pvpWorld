@@ -1,20 +1,22 @@
 package org.tofu.pvpWorld.utils.yamlProperties;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.scoreBoard.ScoreBoardUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class athleticTimeUtils extends JavaPlugin {
+public class athleticTimeUtils {
     public static File playerLobbyAthleticTimeFile;
     public static FileConfiguration playerLobbyAthleticTimeData;
 
@@ -30,6 +32,7 @@ public class athleticTimeUtils extends JavaPlugin {
             }
         }
         playerLobbyAthleticTimeData = YamlConfiguration.loadConfiguration(playerLobbyAthleticTimeFile);
+        sortEntries();
     }
 
     public static int getPlayerLobbyAthleticTime(Player player) {
@@ -45,19 +48,26 @@ public class athleticTimeUtils extends JavaPlugin {
             playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
             try {
                 playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
+                sortEntries();
                 ScoreBoardUtils.updateScoreBoard(player);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            TextDisplayUtils.latestRanking();
         } else {
             if (getPlayerLobbyAthleticTime(player) > playerScore) {
                 playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
+                player.sendMessage("upload");
                 try {
                     playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
+                    player.sendMessage("upload finish");
+                    sortEntries();
                     ScoreBoardUtils.updateScoreBoard(player);
+                    player.sendMessage("updated");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                TextDisplayUtils.latestRanking();
             }
         }
     }
@@ -73,15 +83,15 @@ public class athleticTimeUtils extends JavaPlugin {
 
 
 
-    public static String getRanking(int x) {
+    public static Component getRanking(int x) {
         int index = x - 1;
         if (index >= 0 && index < entryList.size()) {
             Map.Entry<String, Integer> entry = entryList.get(index);
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey()));
             String playerName = offlinePlayer.getName();
-            return ChatColor.GOLD + String.valueOf(x) + "位 - " + ChatColor.WHITE + playerName + ": " + ChatColor.RED + entry.getValue();
+            return textComponent.parse("<gold>" + x + "位 - <white>" + playerName + ": <red>" + entry.getValue());
         } else {
-            return ChatColor.GOLD + String.valueOf(x) + "位 - " + ChatColor.WHITE + "N/A";
+            return textComponent.parse("<gold>" + x + "位 - <white>N/A");
         }
     }
 }

@@ -1,7 +1,12 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.bukkit.*;
@@ -55,7 +60,7 @@ public class SpeedRunActionMulti {
                 player.sendMessage("誰もプレイしていません");
                 player.sendMessage("プレイするには最低2人が必要です!");
                 Config.clearInventory(player);
-                player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
             } else if (multiPlayingList.size() == 1) {
                 player.teleport(startLocation);
                 noticeToPlayer();
@@ -64,7 +69,7 @@ public class SpeedRunActionMulti {
                 player.sendMessage("現在2人が参加しています!");
                 player.sendMessage("追加の参加者を募集しています...");
                 Config.clearInventory(player);
-                player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 SpeedRunTimerMulti.startTimer(player, plugin);
                 promoteGames();
             } else {
@@ -73,7 +78,7 @@ public class SpeedRunActionMulti {
                 player.sendMessage("参加しました");
                 Config.clearInventory(player);
                 plusExtraTime();
-                player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
             }
         }
     }
@@ -117,7 +122,7 @@ public class SpeedRunActionMulti {
 
     public static void winAction(Player player, PvpWorld plugin) throws IOException {
         canPressButton = false;
-        player.sendTitle(ChatColor.GREEN + " 勝利", ChatColor.YELLOW + "おめでとう!!", 0, 60, 0);
+        player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!"), 0, 60, 0));
         backToLobbyList.addAll(multiPlayingList);
         multiPlayingList.remove(player.getName());
         fillBlock(wallLoc1, wallLoc2, Material.GLASS);
@@ -140,7 +145,7 @@ public class SpeedRunActionMulti {
     public static void loseAction() throws IOException {
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            pl.sendTitle(ChatColor.RED + " 敗北", ChatColor.YELLOW + "次は頑張ろう!!", 0, 60, 0);
+            pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次は頑張ろう!!"), 0, 60, 0));
             expUtils.playerSetExp(pl, 15);
             coinUtils.playerSetCoin(pl, 13);
             gamePlaying = false;
@@ -173,14 +178,15 @@ public class SpeedRunActionMulti {
     }
 
 
-    public static void startAction() {
+    public static void startAction(PvpWorld plugin) {
         //ScheduledTimer
         fillBlock(wallLoc1, wallLoc2, Material.AIR);
         gamePlaying = true;
         canPressButton = true;
+        SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            pl.sendTitle(ChatColor.AQUA + "スタート!", "", 20, 20, 20);
+            pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));
             pl.setLevel(0);
         }
     }
@@ -196,14 +202,14 @@ public class SpeedRunActionMulti {
     public static void promoteGames() {
         for (String PlayerName: Config.WorldAllPlayerList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            player.sendMessage(ChatColor.GOLD + "[SpeedRun Multi]" + ChatColor.WHITE + "1人が対戦相手を募集中です!");
+            player.sendMessage(textComponent.parse("<gold>[SpeedRun Multi] <white>1人が対戦相手を募集中です!"));
         }
     }
 
     public static void noticeToPlayer() {
         for (String PlayerName: multiPlayingList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            player.sendMessage("対戦相手が見つかったため、カウントダウンを開始します!");
+            player.sendMessage(textComponent.parse("<white>対戦相手が見つかったため、カウントダウンを開始します!"));
         }
     }
 
@@ -213,7 +219,7 @@ public class SpeedRunActionMulti {
         for (String PlayerName: multiPlayingList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             int size = multiPlayingList.size();
-            player.sendMessage(size + "人目が参加したため、10秒追加しました!");
+            player.sendMessage(textComponent.parse("<white>" + size + "人目が参加したため、10秒追加しました!"));
         }
     }
 }

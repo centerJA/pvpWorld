@@ -1,14 +1,13 @@
 package org.tofu.pvpWorld.utils.scoreBoard;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.scoreboard.*;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.yamlProperties.athleticTimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.io.File;
 import java.util.*;
@@ -22,7 +21,7 @@ public class ScoreBoardUtils {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         if (manager == null) return null;
         Scoreboard scoreboard = manager.getNewScoreboard();
-        Objective objective = scoreboard.registerNewObjective("lobby", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + "==PVPWORLD==");
+        Objective objective = scoreboard.registerNewObjective("lobby", Criteria.DUMMY, textComponent.parse("<b><yellow>==PVPWORLD=="));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         return scoreboard;
     }
@@ -38,53 +37,70 @@ public class ScoreBoardUtils {
             player.sendMessage("error");
             return;
         }
+
         Objective objective = scoreBoard.getObjective("lobby");
         if (objective == null) return;
 
-        String playerName = ChatColor.AQUA + player.getName() + "さん";
-        objective.getScore(ChatColor.UNDERLINE + playerName).setScore(12);
+        Score score12 = objective.getScore("line12");
+        score12.setScore(12);
+        score12.customName(textComponent.parse("<u><aqua>" + player.getName() + "さん"));
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET).setScore(11);
+        Score score11 = objective.getScore("line11");
+        score11.setScore(11);
+        score11.customName(Component.empty());
 
-        String exp = ChatColor.WHITE + "EXP: " + ChatColor.GREEN + getPlayerExp(player);
-        objective.getScore(exp).setScore(10);
+        Score score10 = objective.getScore("line10");
+        score10.setScore(10);
+        score10.customName(textComponent.parse("<white>EXP: <green>" + getPlayerExp(player)));
 
-        String coin = ChatColor.WHITE + "Coin: " + ChatColor.GOLD + getPlayerCoin(player);
-        objective.getScore(coin).setScore(9);
+        Score score9 = objective.getScore("line9");
+        score9.setScore(9);
+        score9.customName(textComponent.parse("<white>Coin: <gold>" + getPlayerCoin(player)));
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.BLACK).setScore(8);
+        Score score8 = objective.getScore("line8");
+        score8.setScore(8);
+        score8.customName(Component.empty());
 
-        String athletic = ChatColor.WHITE + "アスレチックのランキング";
-        objective.getScore(athletic).setScore(7);
+        Score score7 = objective.getScore("line7");
+        score7.setScore(7);
+        score7.customName(textComponent.parse("<white>アスレチックのランキング"));
 
-        String yourScore = ChatColor.WHITE + "あなたのスコア: " + getPlayerLobbyAthleticTime(player);
-        objective.getScore(yourScore).setScore(6);
+        Score score6 = objective.getScore("line6");
+        score6.setScore(6);
+        score6.customName(textComponent.parse("<white>あなたのスコア: " + getPlayerLobbyAthleticTime(player)));
 
         for (String playerName2 : athleticTimeUtils.playerLobbyAthleticTimeData.getKeys(false)) {
             int time = athleticTimeUtils.playerLobbyAthleticTimeData.getInt(playerName2);
             TimesMap.put(playerName2, time);
         }
 
-        String firstScore = ChatColor.WHITE + "1番の人のスコア: " +ChatColor.GOLD +  getSortedInteger(TimesMap);
-        objective.getScore(firstScore).setScore(5);
+        Score score5 = objective.getScore("line5");
+        score5.setScore(5);
+        score5.customName(textComponent.parse("<white>1番の人のスコア: <gold>" + getSortedInteger(TimesMap)));
 
-        String firstPlayer = ChatColor.WHITE + "名前: " + ChatColor.GOLD + getSortedKey(TimesMap);
-        objective.getScore(firstPlayer).setScore(4);
+        Score score4 = objective.getScore("line4");
+        score4.setScore(4);
+        score4.customName(textComponent.parse("<white>名前: <gold>" + getSortedKey(TimesMap)));
 
-        objective.getScore(ChatColor.WHITE.toString() + ChatColor.RESET + ChatColor.STRIKETHROUGH).setScore(3);
+        Score score3 = objective.getScore("line3");
+        score3.setScore(3);
+        score3.customName(Component.empty());
 
-        String contact = ChatColor.WHITE + "分からないことがあったら...";
-        objective.getScore(contact).setScore(2);
+        Score score2 = objective.getScore("line2");
+        score2.setScore(2);
+        score2.customName(textComponent.parse("<white>分からないことがあったら..."));
 
-        String contact2 = ChatColor.AQUA + "" + ChatColor.BOLD + "/pvpworld help";
-        objective.getScore(contact2).setScore(1);
+        Score score1 = objective.getScore("line1");
+        score1.setScore(1);
+        score1.customName(textComponent.parse("<aqua><bold>/pvpworld help"));
+
         player.setScoreboard(scoreBoard);
     }
 
     public static void removeScoreBoard(Player player) {
         ScoreboardManager manager = player.getServer().getScoreboardManager();
         if (manager == null) {
-            player.sendMessage("error");
+            player.sendMessage(textComponent.parse("<white>error"));
             return;
         }
 
@@ -95,13 +111,13 @@ public class ScoreBoardUtils {
     public static Integer getSortedInteger(Map<String, Integer> map) {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(map.entrySet());
         sortedEntries.sort(Map.Entry.comparingByValue());
-        return sortedEntries.get(0).getValue();
+        return sortedEntries.getFirst().getValue();
     }
 
     public static String getSortedKey(Map<String, Integer> map) {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(map.entrySet());
         sortedEntries.sort(Map.Entry.comparingByValue());
-        String playerUUID = sortedEntries.get(0).getKey();
+        String playerUUID = sortedEntries.getFirst().getKey();
         UUID uuid = UUID.fromString(playerUUID);
         return Bukkit.getOfflinePlayer(uuid).getName();
     }

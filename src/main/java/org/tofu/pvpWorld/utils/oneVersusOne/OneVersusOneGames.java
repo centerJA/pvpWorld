@@ -1,13 +1,17 @@
 package org.tofu.pvpWorld.utils.oneVersusOne;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -24,7 +28,7 @@ public class OneVersusOneGames {
                     StartTimerUtils.stopTimer(player);
                     TimeUpTimer.stopTimer(player);
                     player.teleport(Config.lobby);
-                    player.getInventory().setItem(0, Config.itemMeta("ロビーに戻る", Material.RED_MUSHROOM, 1));
+                    player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 }
                 for (String PlayerName: Config.TeleportToLobbyList) {
                     Config.TeleportToLobbyList.remove(PlayerName);
@@ -38,7 +42,7 @@ public class OneVersusOneGames {
         for (String PlayerName: arrayList) {
             Player player = Bukkit.getPlayer(PlayerName);
             if (player == null) return;
-            player.sendTitle(ChatColor.YELLOW + "引き分け", ChatColor.YELLOW + "勝利までもう少し!!", 0, 60, 0);
+            player.showTitle(titleMaker.title(textComponent.parse("<yellow>引き分け"), textComponent.parse("<yellow>勝利までもう少し!!"), 0, 3000, 0));
             Config.TeleportToLobbyList.addAll(arrayList);
             gameCloseAction(plugin);
         }
@@ -67,23 +71,23 @@ public class OneVersusOneGames {
             arrayList.add(player.getName());
             e.setCancelled(true);
             player.closeInventory();
-            player.sendMessage("他の人を待っています...");
-            player.sendMessage("参加をやめるには、インベントリの中の赤色の染料を右クリックしてください");
+            player.sendMessage(textComponent.parse("<white>他の人を待っています..."));
+            player.sendMessage(textComponent.parse("<white>参加をやめるには、インベントリの中の赤色の染料を右クリックしてください"));
             encourageJoinGame(player);
             TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
-            player.getInventory().setItem(8, Config.itemMeta("ゲームをやめる", Material.RED_DYE, 1));
+            player.getInventory().setItem(8, itemStackMaker.createItem(textComponent.parse("<white>ゲームをやめる"), Material.RED_DYE, 1));
         } else if (arrayList.size() == 1) {
             for (String PlayerName: arrayList) {
                 if (PlayerName.equals(player.getName())) {
                     e.setCancelled(true);
                     player.closeInventory();
-                    player.sendMessage("既に参加しています!");
-                    player.sendMessage("退出するにはインベントリ内の赤い染料を右クリックしてください");
+                    player.sendMessage(textComponent.parse("<white>既に参加しています!"));
+                    player.sendMessage(textComponent.parse("<white>退出するにはインベントリ内の赤い染料を右クリックしてください"));
                 } else {
                     arrayList.add(player.getName());
                     e.setCancelled(true);
                     player.closeInventory();
-                    player.sendMessage("相手が見つかりました!");
+                    player.sendMessage(textComponent.parse("<white>相手が見つかりました!"));
                     TextDisplayUtils.renameOneVersusOneSize(OneVersusOneAllPlayer());
                     dividePlayer(arrayList, player, plugin);
                 }
@@ -91,7 +95,7 @@ public class OneVersusOneGames {
         } else {
             e.setCancelled(true);
             player.closeInventory();
-            player.sendMessage("既に誰かがプレイ中です");
+            player.sendMessage(textComponent.parse("<white>既に誰かがプレイ中です"));
         }
     }
 
@@ -103,7 +107,7 @@ public class OneVersusOneGames {
             TopfightActivities.topfightStartAction(player, plugin);
         }
         else {
-            player.sendMessage("エラー");
+            player.sendMessage(textComponent.parse("<white>エラー"));
         }
     }
 
@@ -112,13 +116,13 @@ public class OneVersusOneGames {
         if (SumoActivities.sumoQueueingList.contains(player.getName())) {
             for (String PlayerName: Config.WorldAllPlayerList) {
                 Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-                player2.sendMessage(ChatColor.YELLOW + "[Sumo] " + ChatColor.WHITE + base);
+                player2.sendMessage(textComponent.parse("<yellow>[Sump] <white>" + base));
             }
         }
         else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
             for (String PlayerName: Config.WorldAllPlayerList) {
                 Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-                player2.sendMessage(ChatColor.RED + "[TopFight] " + ChatColor.WHITE + base);
+                player2.sendMessage("<red>[TopFight] <white>" + base);
             }
         }
     }

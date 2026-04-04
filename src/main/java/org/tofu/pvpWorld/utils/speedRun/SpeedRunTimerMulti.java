@@ -1,11 +1,14 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -44,8 +47,8 @@ public class SpeedRunTimerMulti {
                 // 終了判定
                 if (nextTime <= 0) {
                     player.setLevel(0);
-                    player.sendMessage(ChatColor.RED + "タイムアップ！");
-                    SpeedRunActionMulti.startAction();
+                    player.sendMessage(textComponent.parse("<red>タイムアップ！"));
+                    SpeedRunActionMulti.startAction(plugin);
                     stopTimer(player);
                     return;
                 }
@@ -103,8 +106,8 @@ public class SpeedRunTimerMulti {
     public static void sendMessage(Player player, int elapsedTime) {
         for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
             Player player1 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            player1.sendMessage(ChatColor.AQUA + String.valueOf(elapsedTime) + "秒!");
-            player1.sendTitle(ChatColor.RED + String.valueOf(elapsedTime), "", 0, 20, 0);
+            player1.sendMessage(textComponent.parse("<aqua>" + elapsedTime + "秒!"));
+            player1.showTitle(titleMaker.title(textComponent.parse(String.valueOf(elapsedTime)), textComponent.parse(""), 0, 20 ,0));
         }
     }
 }

@@ -1,9 +1,9 @@
 package org.tofu.pvpWorld.worldEvents;
 
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -30,13 +30,12 @@ public class playerInteractAtEntityEvent implements Listener {
 
     @EventHandler
     public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent e) {
-        if (e.getRightClicked() instanceof ArmorStand) {
-            ArmorStand as = (ArmorStand) e.getRightClicked();
+        if (e.getRightClicked() instanceof ArmorStand as) {
             Location location = as.getLocation();
             if (location.equals(TextDisplayUtils.expRanking) || location.equals(TextDisplayUtils.coinRanking) || location.equals(TextDisplayUtils.athleticRanking)) {
                 Player player = e.getPlayer();
                 TextDisplayUtils.latestRanking();
-                player.sendMessage(ChatColor.GREEN + "スコアボードを更新しました");
+                player.sendMessage(textComponent.parse("<green>スコアボードを更新しました"));
             }
         }
     }

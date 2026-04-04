@@ -1,19 +1,23 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.FfaGames;
 import org.tofu.pvpWorld.utils.ffaGames.InventoryUtils;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
 import org.tofu.pvpWorld.utils.freePvp.FreePvpUtils;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.lobbyAthletic.AthleticUtils;
 import org.tofu.pvpWorld.utils.oneVersusOne.*;
 import org.tofu.pvpWorld.utils.speedRun.SpeedRunAction;
 import org.tofu.pvpWorld.utils.speedRun.SpeedRunActionMulti;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.tofu.pvpWorld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -27,6 +31,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Random;
 
@@ -54,23 +59,24 @@ public class playerInteractEvent implements Listener {
         World world = player.getWorld();
         if (this.world != world) return;
         if (Config.AdminBuildModeList.contains(player.getName())) return;
+
         if (e.getAction().equals(Action.PHYSICAL)) {
             if(Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
                 if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticFinish.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticFinish.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.lobbyAthleticFinish.getZ())) {
                     if (player.getLevel() == 0) {
-                        player.sendMessage(ChatColor.AQUA + "あなたのタイムは現在0です。");
-                        player.sendMessage(ChatColor.AQUA + "もう一度アスレチックに挑戦しましょう!");
+                        player.sendMessage(textComponent.parse("<aqua>あなたのタイムは現在0です。"));
+                        player.sendMessage(textComponent.parse("<aqua>もう一度アスレチックに挑戦しましょう!"));
                         return;
                     }
                     if (Config.lobbyAthleticFinish.getWorld() == null) {
-                        player.sendMessage("問題が発生しました");
+                        player.sendMessage(Component.text("問題が発生しました"));
                     }
                     AthleticUtils.stopAthleticAction(player);
                 }
 
                 else if (Math.floor(e.getClickedBlock().getLocation().getX()) == Math.floor(Config.lobbyAthleticStart.getX()) && Math.floor(e.getClickedBlock().getLocation().getY()) == Math.floor(Config.lobbyAthleticStart.getY()) && Math.floor(e.getClickedBlock().getZ()) == Math.floor(Config.lobbyAthleticStart.getZ())) {
                     if(Config.lobbyAthleticStart.getWorld() == null) {
-                        player.sendMessage("問題が発生しました");
+                        player.sendMessage(Component.text("問題が発生しました"));
                     }
                     AthleticUtils.startAthleticAction(player, plugin);
                 }
@@ -79,24 +85,25 @@ public class playerInteractEvent implements Listener {
             if (Config.AdminBuildModeList.contains(player.getName())) return;
             Block block = e.getClickedBlock();
             if (block == null) return;
+
             if (block.getType() == Material.OAK_SIGN) {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 String[] lines = new String[4];
                 for (int i = 0; i < 4; i++) {
-                    lines[i] = sign.getLine(i);
+                    lines[i] = PlainTextComponentSerializer.plainText().serialize(sign.line(i));
                 }
 
                 if (Objects.equals(lines[0], "ルール説明")) {
                     if (Objects.equals(lines[1], "SpeedRun")) {
-                        if (Objects.equals(lines[2], "シングルプレイ")) { //SpeedRun Single内の待機所のルール説明
-                            player.sendMessage(ChatColor.AQUA + "-----SpeedRunシングルプレイ-----");
-                            player.sendMessage("このゲームは、アスレチックを走り抜けてゴールにあるボタンを押す速さを争うゲームです!");
-                            player.sendMessage("でも、ただアスレチックをするだけではありません!");
-                            player.sendMessage(ChatColor.YELLOW + "10秒に1回ランダムでイベントが発生します!!");
-                            player.sendMessage(ChatColor.GREEN + "歩く速さが速く" + ChatColor.WHITE + "なったり、" + ChatColor.RED + "周りが見えなく" + ChatColor.WHITE + "なったり...");
-                            player.sendMessage("リーダーボードも作る予定です!");
-                            player.sendMessage(ChatColor.AQUA + "---------------------------");
+                        if (Objects.equals(lines[2], "シングルプレイ")) {
+                            player.sendMessage(textComponent.parse("<aqua>-----SpeedRunシングルプレイ-----"));
+                            player.sendMessage(Component.text("このゲームは、アスレチックを走り抜けてゴールにあるボタンを押す速さを争うゲームです!"));
+                            player.sendMessage(Component.text("でも、ただアスレチックをするだけではありません!"));
+                            player.sendMessage(textComponent.parse("<yellow>10秒に1回ランダムでイベントが発生します!!"));
+                            player.sendMessage(textComponent.parse("<green>歩く速さが速く<white>なったり、<red>周りが見えなく<white>なったり..."));
+                            player.sendMessage(Component.text("リーダーボードも作る予定です!"));
+                            player.sendMessage(textComponent.parse("<aqua>---------------------------"));
                         }
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
@@ -107,7 +114,7 @@ public class playerInteractEvent implements Listener {
                 if (sign == null) return;
                 String[] lines = new String[4];
                 for (int i = 0; i < 4; i++) {
-                    lines[i] = sign.getLine(i);
+                    lines[i] = PlainTextComponentSerializer.plainText().serialize(sign.line(i));
                 }
 
                 if (Config.overLappingTrigger(player)) {
@@ -117,15 +124,17 @@ public class playerInteractEvent implements Listener {
 
                 if (e.getItem() != null && e.getItem().getType().name().endsWith("_DYE")) {
                     e.setCancelled(true);
-                    player.sendMessage("染料以外のアイテムや、素手で看板をクリックしてください!");
+                    player.sendMessage(Component.text("染料以外のアイテムや、素手で看板をクリックしてください!"));
                 }
 
-                if (Objects.equals(lines[0], "SpeedRunTest")) { //SpeedRunのメニューを表示させる
+                if (Objects.equals(lines[0], "SpeedRunTest")) {
+                    player.sendMessage(Component.text("eeeeeeeeee"));
                     SpeedRunAction.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
+                    player.sendMessage(Component.text("bbbbbbjnbbjjb"));
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
-                    player.sendMessage("test1u124u12894");
+                    player.sendMessage(Component.text("test1u124u12894"));
                     InventoryUtils.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "右クリックして")) {
                     if (Objects.equals(lines[1], "あなたのスコアを")) {
@@ -142,40 +151,43 @@ public class playerInteractEvent implements Listener {
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             Material block = player.getInventory().getItemInMainHand().getType();
             if (block == null) return;
+
             if (block == Material.RED_MUSHROOM) {
                 Config.beforeGame(player);
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);
-                if (player.getItemInHand().getType().equals(Material.FEATHER)) {
-                    player.setItemInHand(null);
-                    player.sendMessage("使用しました!");
+                if (player.getInventory().getItemInMainHand().getType().equals(Material.FEATHER)) {
+                    player.getInventory().setItemInMainHand(null);
+                    player.sendMessage(Component.text("使用しました!"));
                 }
             } else if (block == Material.GOLD_BLOCK) {
                 Random random = new Random();
                 int randomInt = random.nextInt(2) + 1;
-                if (randomInt == 1) { //良い
-                    player.sendTitle(ChatColor.GREEN + "当たり!", "", 20, 40, 20);
-                    player.getInventory().addItem(Config.itemMeta("スピード", Material.GOLD_BLOCK, 1));
-                    player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
-                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.setItemInHand(null);
+                Title.Times titleTimes = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(2), Duration.ofSeconds(1));
+
+                if (randomInt == 1) {
+                    player.showTitle(Title.title(textComponent.parse("<green>当たり!"), Component.empty(), titleTimes));
+                    player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("<white>スピード"), Material.GOLD_BLOCK, 1));
+                    player.sendMessage(Component.text("右クリックで5秒間のスピードの効果を得られます!"));
+                    if (player.getInventory().getItemInMainHand().getType().equals(Material.GOLD_BLOCK)) {
+                        player.getInventory().setItemInMainHand(null);
                     }
                 } else {
-                    player.sendTitle(ChatColor.RED + "はずれ", "", 20, 40, 20);
+                    player.showTitle(Title.title(textComponent.parse("<red>はずれ"), Component.empty(), titleTimes));
                     PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 1);
                     player.addPotionEffect(confusion);
-                    player.sendMessage(ChatColor.RED + "5秒間視界が歪むようになってしまった!");
-                    if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.setItemInHand(null);
+                    player.sendMessage(textComponent.parse("<red>5秒間視界が歪むようになってしまった!"));
+                    if (player.getInventory().getItemInMainHand().getType().equals(Material.GOLD_BLOCK)) {
+                        player.getInventory().setItemInMainHand(null);
                     }
                 }
             } else if (block == Material.NETHER_STAR) {
                 PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
                 player.addPotionEffect(speed);
-                if (player.getItemInHand().getType().equals(Material.NETHER_STAR)) {
-                    player.setItemInHand(null);
-                    player.sendMessage("使用しました!");
+                if (player.getInventory().getItemInMainHand().getType().equals(Material.NETHER_STAR)) {
+                    player.getInventory().setItemInMainHand(null);
+                    player.sendMessage(Component.text("使用しました!"));
                 }
             } else if (block == Material.RED_DYE) {
                 if (SumoActivities.sumoQueueingList.contains(player.getName())) {
@@ -185,17 +197,17 @@ public class playerInteractEvent implements Listener {
                     TopfightActivities.topfightQueueingList.remove(player.getName());
                     TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
                 }
-                if (player.getItemInHand().getType().equals(Material.RED_DYE)) {
-                    player.setItemInHand(null);
-                    player.sendMessage("退出しました");
+                if (player.getInventory().getItemInMainHand().getType().equals(Material.RED_DYE)) {
+                    player.getInventory().setItemInMainHand(null);
+                    player.sendMessage(Component.text("退出しました"));
                 }
             } else if (block == Material.BLUE_DYE) {
                 if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
                     FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefQueueingList, player);
                     TextDisplayUtils.renameFfaGamesSize(FfaGames.allFfaGamesPlayer());
                 }
-                player.setItemInHand(null);
-                player.sendMessage("退出しました");
+                player.getInventory().setItemInMainHand(null);
+                player.sendMessage(Component.text("退出しました"));
             }
         }
     }

@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.oneVersusOne;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +8,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.titleMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +33,6 @@ public class StartTimerUtils {
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1;
                 if (elapsedTime == 0) {
-                    player.sendMessage("test888");
                     stopTimer(player);
                     StartTimerUtils.getTaskId(player);
                     return;
@@ -39,7 +41,7 @@ public class StartTimerUtils {
                     for (String PlayerName: arrayList) {
                         Player player = Bukkit.getPlayer(PlayerName);
                         if (player == null) return;
-                        player.sendTitle(ChatColor.RED + String.valueOf(elapsedTime), "", 0, 20, 0);
+                        player.showTitle(titleMaker.title(textComponent.parse("<red>" + elapsedTime), textComponent.parse(""), 0, 1000 ,0));
                         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
                     }
                 }
@@ -54,7 +56,7 @@ public class StartTimerUtils {
             @Override
             public void run() {
                 if (oneVersusOneTime == 0) {
-                    player.sendMessage(ChatColor.AQUA + "test");
+                    player.sendMessage(textComponent.parse("<aqua>test"));
                     return;
                 }
                 oneVersusOneTime--;

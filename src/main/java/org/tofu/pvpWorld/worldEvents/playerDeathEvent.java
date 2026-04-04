@@ -1,10 +1,12 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
+import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.oneVersusOne.TopfightActivities;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -47,17 +49,17 @@ public class playerDeathEvent implements Listener {
         } else if (Config.FreePvpPlayerList.contains(playerName)) {
             Player killedPlayer = e.getEntity().getKiller();
             if (killedPlayer == null) {
-                player.sendMessage("死んでしまった!!");
+                player.sendMessage(textComponent.parse("死んでしまった!!"));
                 Config.clearInventory(player);
             } else {
                 for (String PlayerName: Config.FreePvpPlayerList) {
-                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(ChatColor.GOLD + playerName + ChatColor.WHITE + "は" + killedPlayer.getName() + "に殺されてしまった!!");
+                    Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).sendMessage(textComponent.parse("<gold>" + playerName + "<white>は" + killedPlayer.getName() + "に殺されてしまった!!"));
                     playerSetExp(Bukkit.getPlayer(playerName), 1);
                 }
                 playerSetExp(killedPlayer, 3);
                 playerSetCoin(killedPlayer, 7);
-                killedPlayer.getInventory().addItem(Config.itemMeta("金リンゴ", Material.GOLDEN_APPLE, 1));
-                killedPlayer.sendMessage("金リンゴを入手しました");
+                killedPlayer.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("<white>金リンゴ"), Material.GOLDEN_APPLE, 1));
+                killedPlayer.sendMessage(textComponent.parse("金リンゴを入手しました"));
             }
         } else if (TopfightActivities.topfightQueueingList.contains(playerName)) {
 

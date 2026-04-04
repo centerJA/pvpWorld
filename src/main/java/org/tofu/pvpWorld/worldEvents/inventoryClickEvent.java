@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.FfaGames;
@@ -9,9 +10,9 @@ import org.tofu.pvpWorld.utils.oneVersusOne.SumoActivities;
 import org.tofu.pvpWorld.utils.oneVersusOne.TopfightActivities;
 import org.tofu.pvpWorld.utils.speedRun.SpeedRunAction;
 import org.tofu.pvpWorld.utils.speedRun.SpeedRunActionMulti;
+import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.wellUtils.WellUtilities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
@@ -47,9 +48,8 @@ public class inventoryClickEvent implements Listener {
         ItemStack itemStack = e.getCurrentItem();
         if (this.world != world) return;
         if (itemStack == null) return;
-        String displayName = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
-        if (!(entity instanceof Player)) return;
-        Player player = (Player) entity;
+        Component displayName = Objects.requireNonNull(itemStack.getItemMeta()).displayName();
+        if (!(entity instanceof Player player)) return;
         if (itemStack.getType() == Material.PAPER) {
             if (Config.overLappingTrigger(player)) {
                 Config.overLappingMessage(player);
@@ -64,25 +64,25 @@ public class inventoryClickEvent implements Listener {
             }
             //test
         } else if (itemStack.getType() == Material.LEAD) {
-            if (!displayName.equals(ChatColor.YELLOW + "sumo")) return;
+            if (!displayName.equals(textComponent.parse("<yellow>sumo"))) return;
             Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
-            if (!displayName.equals(ChatColor.RED + "topfight")) return;
+            if (!displayName.equals(textComponent.parse("<red>topfight"))) return;
             Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
-            if (!displayName.equals(ChatColor.GREEN + "spleef")) return;
+            if (!displayName.equals(textComponent.parse("<green>spleef"))) return;
             Config.beforeGame(player);
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
-            if (displayName.equals(ChatColor.RED + "小さな井戸")) {
+            if (displayName.equals(textComponent.parse("<red>小さな井戸"))) {
                 e.setCancelled(true);
                 Config.beforeGame(player);
                 WellUtilities.rollItems(player, plugin);
             }
         } else if (itemStack.getType() == Material.GOLD_BLOCK) {
-            if (displayName.equals(ChatColor.DARK_PURPLE + "大きな井戸")) {
+            if (displayName.equals(textComponent.parse("<dark_purple>大きな井戸"))) {
                 e.setCancelled(true);
                 Config.beforeGame(player);
                 WellUtilities.rollItemsBIG(player, plugin);

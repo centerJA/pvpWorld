@@ -14,7 +14,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.yamlProperties.playerAdminList;
 
+import javax.swing.text.JTextComponent;
 import java.io.IOException;
 
 import static org.tofu.pvpWorld.utils.yamlProperties.coinUtils.getPlayerCoin;
@@ -34,66 +37,67 @@ public class pvpWorldCommand implements CommandExecutor {
         World world = player.getWorld();
         if (command.getName().equalsIgnoreCase("pvpworld")) { //pvpworld
             if (args.length == 0) {
-                player.sendMessage("PVP WORLDへようこそ");
-                player.sendMessage(ChatColor.RED + ">" + ChatColor.DARK_PURPLE + ">" + ChatColor.DARK_RED + ">" + "コマンド一覧" + ChatColor.DARK_RED + "<" + ChatColor.DARK_PURPLE + "<" + ChatColor.RED + "<");
+                player.sendMessage(textComponent.parse("PVP WORLDへようこそ"));
+                player.sendMessage(textComponent.parse("<red>></red><dark_purple>></dark_purple><dark_red>></dark_red>コマンド一覧<dark_red><</dark_red><dark_purple><</dark_purple><red><</red>"));
+//                player.sendMessage(ChatColor.RED + ">" + ChatColor.DARK_PURPLE + ">" + ChatColor.DARK_RED + ">" + "コマンド一覧" + ChatColor.DARK_RED + "<" + ChatColor.DARK_PURPLE + "<" + ChatColor.RED + "<");
 
                 return true;
             } else if (args[0].equals("op")) {//pvpworld op
                 if (playerHasAdmin(player)) {
-                    player.sendMessage("playerAdminListに登録されています");
+                    player.sendMessage(textComponent.parse("playerAdminListに登録されています"));
                 } else {
-                    player.sendMessage("playerAdminListに登録されていません");
+                    player.sendMessage(textComponent.parse("playerAdminListに登録されていません"));
                 }
-                if (playerName.equals("markcs11") || playerName.equals("InfInc") || playerName.equals("m1n_Dry_Eye") || playerName.equals("10000m")) {
+                if (playerAdminList.playerHasAdmin(player)) {
                     if (args[1].equals("bm")) { //pvpworld op bm
                         if(args[2].equals("true")) { //pvpworld op bm true
                             if (!Config.AdminBuildModeList.contains(playerName)) {
                                 Config.AdminBuildModeList.add(playerName);
-                                player.sendMessage("ビルドモードに切り替えました");
+                                player.sendMessage(textComponent.parse("ビルドモードに切り替えました"));
                                 return true;
                             } else {
-                                player.sendMessage("既にビルドモードです");
+                                player.sendMessage(textComponent.parse("既にビルドモードです"));
                                 return true;
                             }
                         } else if (args[2].equals("false")) { //pvpworld op bm false
                             Config.AdminBuildModeList.remove(playerName);
-                            player.sendMessage("ノーマルモードに切り替えました");
+                            player.sendMessage(textComponent.parse("ノーマルモードに切り替えました"));
                             return true;
                         }
                     } else if (args[1].equals("gm")) { //pvpworld op gm
                         if (args[2].equals("c")) {//pvpworld op gm c
                             player.setGameMode(GameMode.CREATIVE);
-                            player.sendMessage("クリエイティブモードに切り替えました");
+                            player.sendMessage(textComponent.parse("クリエイティブモードに切り替えました"));
                             return true;
                         } else if (args[2].equals("s")) { //pvpworld op gm s
                             player.setGameMode(GameMode.SURVIVAL);
-                            player.sendMessage("サバイバルモードに切り替えました");
+                            player.sendMessage(textComponent.parse("サバイバルモードに切り替えました"));
                             return true;
                         }
                     } else if (args[1].equals("info")) { //pvpworld op info
-                        player.sendMessage("WorldAllPlayerList");
-                        player.sendMessage(String.valueOf(Config.WorldAllPlayerList));
-                        player.sendMessage("DoNotReceiveDamageList");
-                        player.sendMessage(String.valueOf(Config.DoNotReceiveDamageList));
-                        player.sendMessage("AdminBuildModeList");
-                        player.sendMessage(String.valueOf(Config.AdminBuildModeList));
-                        player.sendMessage("SpeedRunSingleOnHoldList");
-                        player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
-                        player.sendMessage("SpeedRunSingleList");
-                        player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
-                        player.sendMessage("YourExp Score");
-                        player.sendMessage(String.valueOf(getPlayerExp(player)));
-                        player.sendMessage("YourCoin Score");
-                        player.sendMessage(String.valueOf(getPlayerCoin(player)));
-                        player.sendMessage("FreePvpPlayerList");
-                        player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
-                        player.sendMessage("sumoQueueingList");
-                        player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
-                        player.sendMessage("spleefQueueingList");
-                        player.sendMessage(String.valueOf(SpleefActivities.spleefQueueingList));
-                        player.sendMessage("speedrunMultiList");
-                        player.sendMessage(String.valueOf(SpeedRunActionMulti.multiPlayingList));
-                        printAllAdminPlayers(player);
+                        player.sendMessage(textComponent.parse("WorldAllPlayerList"));
+                        player.sendMessage(textComponent.parse(String.valueOf(Config.WorldAllPlayerList)));
+//                        player.sendMessage("DoNotReceiveDamageList");
+//                        player.sendMessage(String.valueOf(Config.DoNotReceiveDamageList));
+//                        player.sendMessage("AdminBuildModeList");
+//                        player.sendMessage(String.valueOf(Config.AdminBuildModeList));
+//                        player.sendMessage("SpeedRunSingleOnHoldList");
+//                        player.sendMessage(String.valueOf(Config.SpeedRunSingleOnHoldList));
+//                        player.sendMessage("SpeedRunSingleList");
+//                        player.sendMessage(String.valueOf(Config.SpeedRunSingleList));
+//                        player.sendMessage("YourExp Score");
+//                        player.sendMessage(String.valueOf(getPlayerExp(player)));
+//                        player.sendMessage("YourCoin Score");
+//                        player.sendMessage(String.valueOf(getPlayerCoin(player)));
+//                        player.sendMessage("FreePvpPlayerList");
+//                        player.sendMessage(String.valueOf(Config.FreePvpPlayerList));
+//                        player.sendMessage("sumoQueueingList");
+//                        player.sendMessage(String.valueOf(SumoActivities.sumoQueueingList));
+//                        player.sendMessage("spleefQueueingList");
+//                        player.sendMessage(String.valueOf(SpleefActivities.spleefQueueingList));
+//                        player.sendMessage("speedrunMultiList");
+//                        player.sendMessage(String.valueOf(SpeedRunActionMulti.multiPlayingList));
+//                        printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
                         try {
                             playerSetExp(player, 5);
@@ -107,7 +111,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         Location location = new Location(world, x, y, z);
                         Block block = location.getBlock();
                         block.setType(Material.AIR);
-                        player.sendMessage("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました");
+                        player.sendMessage(textComponent.parse("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました"));
                     } else if (args[1].equals("getcoin")) {
                         try {
                             playerSetCoin(player, Integer.parseInt(args[2]));
@@ -116,11 +120,11 @@ public class pvpWorldCommand implements CommandExecutor {
                         }
                     }
                 } else {
-                    player.sendMessage(ChatColor.AQUA + "ADMINユーザーのみ使用できます!");
+                    player.sendMessage(textComponent.parse("<aqua>ADMINユーザーのみ使用できます!</aqua>"));
                     return true;
                 }
             } else if (args[0].equals("notice")) { //pvpworld notice
-                player.sendMessage(ChatColor.AQUA + Config.worldUpdateNotice());
+                player.sendMessage(textComponent.parse(Config.worldUpdateNotice()));
                 return true;
             } else if (args[0].equals("actions")) {
                 if (args[1].equals("lobbyAthletic")) {
@@ -129,20 +133,16 @@ public class pvpWorldCommand implements CommandExecutor {
                     }
                 }
             } else if (args[0].equals("help")) {
-                TextComponent showCommandList = new TextComponent(ChatColor.AQUA + "・コマンド一覧を表示する");
-                showCommandList.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pvpworld command"));
-                TextComponent sendHomePage = new TextComponent(ChatColor.AQUA + "・ホームページにアクセスする(現在アクセスできません)");
-                sendHomePage.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://google.com"));
-                player.sendMessage("ヘルプが必要ですか？");
-                player.sendMessage("押すと、それに応じたヘルプが表示されます");
-                player.spigot().sendMessage(showCommandList);
-                player.spigot().sendMessage(sendHomePage);
+                player.sendMessage(textComponent.parse("<click:run_command:'/pvpworld command'><aqua>・コマンド一覧を表示する</click>"));
+                player.sendMessage(textComponent.parse("<click:open_url:'https://google.com'><aqua>・ホームページにアクセスする(現在アクセスできません)</click>"));
+                player.sendMessage(textComponent.parse("ヘルプが必要ですか？"));
+                player.sendMessage(textComponent.parse("押すと、それに応じたヘルプが表示されます"));
             } else if (args[0].equals("command")) {
-                player.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "-----PVP WORLD-----");
-                player.sendMessage("/pvpworld -このワールドについてを表示します");
-                player.sendMessage("/pvpworld help -ヘルプを表示します");
-                player.sendMessage("/pvpworld command -コマンドのリストを表示します");
-                player.sendMessage("/pvpworld notice -お知らせを表示します");
+                player.sendMessage(textComponent.parse("<b><yellow>-----PVP WORLD-----</yellow></b>"));
+                player.sendMessage(textComponent.parse("<click:run_command:'/pvpworld'>/pvpworld -このワールドについてを表示します</click>"));
+                player.sendMessage("<click:run_command:'/pvpworld help'>/pvpworld help -ヘルプを表示します</click>");
+                player.sendMessage("<click:run_command:'/pvpworld command'>/pvpworld command -コマンドのリストを表示します</click>");
+                player.sendMessage("<click:run_command:'/pvpworld notice'>/pvpworld notice -お知らせを表示します</click>");
             }
         }
         return false;
