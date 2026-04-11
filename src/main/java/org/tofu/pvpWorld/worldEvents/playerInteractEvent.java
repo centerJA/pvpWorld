@@ -90,6 +90,12 @@ public class playerInteractEvent implements Listener {
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 String[] lines = new String[4];
+                if (e.getItem() != null) {
+                    Material material = e.getItem().getType();
+                    boolean isDye = material.name().endsWith("_DYE");
+                    boolean isInk = (material == Material.INK_SAC || material == Material.GLOW_INK_SAC);
+                    if (isInk || isDye) e.setCancelled(true);
+                }
                 for (int i = 0; i < 4; i++) {
                     lines[i] = PlainTextComponentSerializer.plainText().serialize(sign.line(i));
                 }
@@ -110,8 +116,16 @@ public class playerInteractEvent implements Listener {
                     }
                 }
             } else if (block.getType() == Material.OAK_WALL_SIGN) {
+                player.sendMessage(textComponent.parse("お"));
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
+                if (e.getItem() != null) {
+                    Material material = e.getItem().getType();
+                    boolean isDye = material.name().endsWith("_DYE");
+                    boolean isInk = (material == Material.INK_SAC || material == Material.GLOW_INK_SAC);
+                    if (isInk || isDye) e.setCancelled(true);
+                    player.sendMessage(textComponent.parse("染料以外のアイテムか素手でクリックしてください!"));
+                }
                 String[] lines = new String[4];
                 for (int i = 0; i < 4; i++) {
                     lines[i] = PlainTextComponentSerializer.plainText().serialize(sign.line(i));
@@ -121,12 +135,6 @@ public class playerInteractEvent implements Listener {
                     Config.overLappingMessage(player);
                     return;
                 }
-
-                if (e.getItem() != null && e.getItem().getType().name().endsWith("_DYE")) {
-                    e.setCancelled(true);
-                    player.sendMessage(Component.text("染料以外のアイテムや、素手で看板をクリックしてください!"));
-                }
-
                 if (Objects.equals(lines[0], "SpeedRunTest")) {
                     player.sendMessage(Component.text("eeeeeeeeee"));
                     SpeedRunAction.openGameListInventory(player);
@@ -154,6 +162,7 @@ public class playerInteractEvent implements Listener {
 
             if (block == Material.RED_MUSHROOM) {
                 Config.beforeGame(player);
+                player.teleport(Config.lobby);
             } else if (block == Material.FEATHER) {
                 PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
                 player.addPotionEffect(levitation);

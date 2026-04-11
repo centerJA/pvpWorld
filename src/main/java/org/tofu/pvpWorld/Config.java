@@ -217,9 +217,11 @@ public class Config extends JavaPlugin {
         }
         StartTimerUtils.stopTimer(player);
         TimeUpTimer.stopTimer(player);
+        if (Config.overLappingTrigger(player)) {
+            
+        }
         Config.clearInventory(player);
         player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
-        player.teleport(Config.lobby);
         player.setLevel(0);
         AthleticTimer.stopTimer(player);
         if (Config.FreePvpPlayerList.contains(playerName)) {

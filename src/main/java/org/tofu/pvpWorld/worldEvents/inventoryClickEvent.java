@@ -47,7 +47,7 @@ public class inventoryClickEvent implements Listener {
         World world = e.getWhoClicked().getWorld();
         ItemStack itemStack = e.getCurrentItem();
         if (this.world != world) return;
-        if (itemStack == null) return;
+        if (itemStack == null && !itemStack.hasItemMeta() && !itemStack.getItemMeta().hasDisplayName()) return;
         Component displayName = Objects.requireNonNull(itemStack.getItemMeta()).displayName();
         if (!(entity instanceof Player player)) return;
         if (itemStack.getType() == Material.PAPER) {
@@ -57,32 +57,34 @@ public class inventoryClickEvent implements Listener {
                 player.closeInventory();
                 return;
             }
-            if (displayName.equals("SpeedRunシングルプレイ")) {
+            e.setCancelled(true);
+            player.closeInventory();
+            if (displayName.equals(textComponent.parse("SpeedRunシングルプレイ"))) {
                 SpeedRunAction.singleOnHoldAction(player, plugin);
-            } else if (displayName.equals("SpeedRunマルチプレイ")) {
+            } else if (displayName.equals(textComponent.parse("SpeedRunマルチプレイ"))) {
                 SpeedRunActionMulti.multiOnHoldAction(player, plugin);
             }
             //test
         } else if (itemStack.getType() == Material.LEAD) {
-            if (!displayName.equals(textComponent.parse("<yellow>sumo"))) return;
+            if (displayName != null && !displayName.equals(textComponent.parse("<yellow>sumo"))) return;
             Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, SumoActivities.sumoQueueingList);
         } else if (itemStack.getType() == Material.IRON_BLOCK) {
-            if (!displayName.equals(textComponent.parse("<red>topfight"))) return;
+            if (displayName != null && displayName.equals(textComponent.parse("<red>topfight"))) return;
             Config.beforeGame(player);
             OneVersusOneGames.queueingActivities(player, e, plugin, TopfightActivities.topfightQueueingList);
         } else if (itemStack.getType() == Material.DIAMOND_SHOVEL) {
-            if (!displayName.equals(textComponent.parse("<green>spleef"))) return;
+            if (displayName != null && !displayName.equals(textComponent.parse("<green>spleef"))) return;
             Config.beforeGame(player);
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
-            if (displayName.equals(textComponent.parse("<red>小さな井戸"))) {
+            if (displayName != null && displayName.equals(textComponent.parse("<red>小さな井戸"))) {
                 e.setCancelled(true);
                 Config.beforeGame(player);
                 WellUtilities.rollItems(player, plugin);
             }
         } else if (itemStack.getType() == Material.GOLD_BLOCK) {
-            if (displayName.equals(textComponent.parse("<dark_purple>大きな井戸"))) {
+            if (displayName != null && displayName.equals(textComponent.parse("<dark_purple>大きな井戸"))) {
                 e.setCancelled(true);
                 Config.beforeGame(player);
                 WellUtilities.rollItemsBIG(player, plugin);
