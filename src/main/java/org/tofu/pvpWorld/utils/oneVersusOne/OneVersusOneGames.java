@@ -134,4 +134,18 @@ public class OneVersusOneGames {
         p = p + TopfightActivities.topfightQueueingList.size();
         return p;
     }
+
+    public static void clickedRed_Dye(Player player) {
+        if (SumoActivities.sumoQueueingList.contains(player.getName())) {
+            SumoActivities.sumoQueueingList.remove(player.getName());
+            TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
+        } else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
+            TopfightActivities.topfightQueueingList.remove(player.getName());
+            TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
+        }
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.RED_DYE)) {
+            player.getInventory().setItemInMainHand(null);
+            player.sendMessage(Component.text("退出しました"));
+        }
+    }
 }

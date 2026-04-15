@@ -152,4 +152,13 @@ public class FfaGames {
 
         return p;
     }
+
+    public static void clickedBlue_Dye(Player player) {
+        if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
+            FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefQueueingList, player);
+            TextDisplayUtils.renameFfaGamesSize(FfaGames.allFfaGamesPlayer());
+        }
+        player.getInventory().setItemInMainHand(null);
+        player.sendMessage(Component.text("退出しました"));
+    }
 }

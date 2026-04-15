@@ -103,13 +103,7 @@ public class playerInteractEvent implements Listener {
                 if (Objects.equals(lines[0], "ルール説明")) {
                     if (Objects.equals(lines[1], "SpeedRun")) {
                         if (Objects.equals(lines[2], "シングルプレイ")) {
-                            player.sendMessage(textComponent.parse("<aqua>-----SpeedRunシングルプレイ-----"));
-                            player.sendMessage(Component.text("このゲームは、アスレチックを走り抜けてゴールにあるボタンを押す速さを争うゲームです!"));
-                            player.sendMessage(Component.text("でも、ただアスレチックをするだけではありません!"));
-                            player.sendMessage(textComponent.parse("<yellow>10秒に1回ランダムでイベントが発生します!!"));
-                            player.sendMessage(textComponent.parse("<green>歩く速さが速く<white>なったり、<red>周りが見えなく<white>なったり..."));
-                            player.sendMessage(Component.text("リーダーボードも作る予定です!"));
-                            player.sendMessage(textComponent.parse("<aqua>---------------------------"));
+                            SpeedRunAction.ruleDescription(player);
                         }
                     } else if (Objects.equals(lines[1], "FreePVP")) {
                         FreePvpUtils.ruleExplain(player);
@@ -164,59 +158,15 @@ public class playerInteractEvent implements Listener {
                 Config.beforeGame(player);
                 player.teleport(Config.lobby);
             } else if (block == Material.FEATHER) {
-                PotionEffect levitation = new PotionEffect(PotionEffectType.LEVITATION, 100, 1);
-                player.addPotionEffect(levitation);
-                if (player.getInventory().getItemInMainHand().getType().equals(Material.FEATHER)) {
-                    player.getInventory().setItemInMainHand(null);
-                    player.sendMessage(Component.text("使用しました!"));
-                }
+                SpeedRunAction.clickedFeather(player);
             } else if (block == Material.GOLD_BLOCK) {
-                Random random = new Random();
-                int randomInt = random.nextInt(2) + 1;
-                Title.Times titleTimes = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(2), Duration.ofSeconds(1));
-
-                if (randomInt == 1) {
-                    player.showTitle(Title.title(textComponent.parse("<green>当たり!"), Component.empty(), titleTimes));
-                    player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("<white>スピード"), Material.GOLD_BLOCK, 1));
-                    player.sendMessage(Component.text("右クリックで5秒間のスピードの効果を得られます!"));
-                    if (player.getInventory().getItemInMainHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.getInventory().setItemInMainHand(null);
-                    }
-                } else {
-                    player.showTitle(Title.title(textComponent.parse("<red>はずれ"), Component.empty(), titleTimes));
-                    PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 1);
-                    player.addPotionEffect(confusion);
-                    player.sendMessage(textComponent.parse("<red>5秒間視界が歪むようになってしまった!"));
-                    if (player.getInventory().getItemInMainHand().getType().equals(Material.GOLD_BLOCK)) {
-                        player.getInventory().setItemInMainHand(null);
-                    }
-                }
+                SpeedRunAction.clickedGoldBlock(player);
             } else if (block == Material.NETHER_STAR) {
-                PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 100, 1);
-                player.addPotionEffect(speed);
-                if (player.getInventory().getItemInMainHand().getType().equals(Material.NETHER_STAR)) {
-                    player.getInventory().setItemInMainHand(null);
-                    player.sendMessage(Component.text("使用しました!"));
-                }
+                SpeedRunAction.clickedNetherStar(player);
             } else if (block == Material.RED_DYE) {
-                if (SumoActivities.sumoQueueingList.contains(player.getName())) {
-                    SumoActivities.sumoQueueingList.remove(player.getName());
-                    TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
-                } else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {
-                    TopfightActivities.topfightQueueingList.remove(player.getName());
-                    TextDisplayUtils.renameOneVersusOneSize(OneVersusOneGames.OneVersusOneAllPlayer());
-                }
-                if (player.getInventory().getItemInMainHand().getType().equals(Material.RED_DYE)) {
-                    player.getInventory().setItemInMainHand(null);
-                    player.sendMessage(Component.text("退出しました"));
-                }
+                OneVersusOneGames.clickedRed_Dye(player);
             } else if (block == Material.BLUE_DYE) {
-                if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
-                    FfaGames.playerQuitByBlueDyeAction(SpleefActivities.spleefQueueingList, player);
-                    TextDisplayUtils.renameFfaGamesSize(FfaGames.allFfaGamesPlayer());
-                }
-                player.getInventory().setItemInMainHand(null);
-                player.sendMessage(Component.text("退出しました"));
+                FfaGames.clickedBlue_Dye(player);
             }
         }
     }
