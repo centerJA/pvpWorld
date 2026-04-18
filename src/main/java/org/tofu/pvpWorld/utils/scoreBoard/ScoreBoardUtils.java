@@ -27,10 +27,6 @@ public class ScoreBoardUtils {
     }
 
     public static void updateScoreBoard(Player player) {
-        File playerExpFile = new File("./playerExp.yml");
-        File playerCoinFile = new File("./playerCoin.yml");
-        YamlConfiguration playerExpYml = YamlConfiguration.loadConfiguration(playerExpFile);
-        YamlConfiguration playerCoinYml = YamlConfiguration.loadConfiguration(playerCoinFile);
         Scoreboard scoreBoard = createScoreBoard();
         Map<String, Integer> TimesMap = new HashMap<>();
         if (scoreBoard == null) {
@@ -109,16 +105,23 @@ public class ScoreBoardUtils {
     }
 
     public static Integer getSortedInteger(Map<String, Integer> map) {
+        if (map.isEmpty()) return 0;
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(map.entrySet());
         sortedEntries.sort(Map.Entry.comparingByValue());
         return sortedEntries.getFirst().getValue();
     }
 
     public static String getSortedKey(Map<String, Integer> map) {
+        if (map.isEmpty()) return "N/A";
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(map.entrySet());
         sortedEntries.sort(Map.Entry.comparingByValue());
         String playerUUID = sortedEntries.getFirst().getKey();
-        UUID uuid = UUID.fromString(playerUUID);
-        return Bukkit.getOfflinePlayer(uuid).getName();
+        try {
+            UUID uuid = UUID.fromString(playerUUID);
+            String name = Bukkit.getOfflinePlayer(uuid).getName();
+            return name != null ? name : "Unknown";
+        } catch (IllegalArgumentException e) {
+            return "N/A";
+        }
     }
 }

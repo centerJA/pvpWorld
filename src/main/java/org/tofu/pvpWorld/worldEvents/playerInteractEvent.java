@@ -117,7 +117,10 @@ public class playerInteractEvent implements Listener {
                     Material material = e.getItem().getType();
                     boolean isDye = material.name().endsWith("_DYE");
                     boolean isInk = (material == Material.INK_SAC || material == Material.GLOW_INK_SAC);
-                    if (isInk || isDye) e.setCancelled(true);
+                    if (isInk || isDye) {
+                        if (Config.AdminBuildModeList.contains(player.getName())) return;
+                        e.setCancelled(true);
+                    }
                     player.sendMessage(textComponent.parse("染料以外のアイテムか素手でクリックしてください!"));
                 }
                 String[] lines = new String[4];
@@ -130,13 +133,10 @@ public class playerInteractEvent implements Listener {
                     return;
                 }
                 if (Objects.equals(lines[0], "SpeedRunTest")) {
-                    player.sendMessage(Component.text("eeeeeeeeee"));
                     SpeedRunAction.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "1v1test")) {
                     openGameListInventory(player);
-                    player.sendMessage(Component.text("bbbbbbjnbbjjb"));
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
-                    player.sendMessage(Component.text("test1u124u12894"));
                     InventoryUtils.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "右クリックして")) {
                     if (Objects.equals(lines[1], "あなたのスコアを")) {

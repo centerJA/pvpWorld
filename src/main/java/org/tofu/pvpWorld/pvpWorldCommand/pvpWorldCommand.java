@@ -15,6 +15,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
+import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.playerAdminList;
 
 import javax.swing.text.JTextComponent;
@@ -99,11 +101,7 @@ public class pvpWorldCommand implements CommandExecutor {
 //                        player.sendMessage(String.valueOf(SpeedRunActionMulti.multiPlayingList));
 //                        printAllAdminPlayers(player);
                     } else if (args[1].equals("getexp")) { //pvpworld op getexp
-                        try {
-                            playerSetExp(player, 5);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                        expUtils.playerSetExp(player, 5);
                     } else if (args[1].equals("fill")) {
                         double x = Integer.parseInt(args[2]);
                         double y = Integer.parseInt(args[3]);
@@ -113,11 +111,7 @@ public class pvpWorldCommand implements CommandExecutor {
                         block.setType(Material.AIR);
                         player.sendMessage(textComponent.parse("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました"));
                     } else if (args[1].equals("getcoin")) {
-                        try {
-                            playerSetCoin(player, Integer.parseInt(args[2]));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                        coinUtils.playerSetCoin(player, Integer.parseInt(args[2]));
                     }
                 } else {
                     player.sendMessage(textComponent.parse("<aqua>ADMINユーザーのみ使用できます!</aqua>"));
