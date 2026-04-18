@@ -1,6 +1,7 @@
 package org.tofu.pvpWorld.worldEvents;
 
 import net.kyori.adventure.text.Component;
+import org.checkerframework.checker.units.qual.A;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
@@ -13,14 +14,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.tofu.pvpWorld.utils.speedRun.SpeedRunActionMulti;
 import org.tofu.pvpWorld.utils.textComponent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class playerMoveEvent implements Listener {
     PvpWorld plugin;
 
     private World world;
+
+    private ArrayList<String> freePvpException = new ArrayList<>();
 
     public playerMoveEvent(PvpWorld plugin) {
         this.plugin = plugin;
@@ -44,11 +49,20 @@ public class playerMoveEvent implements Listener {
         if (Config.AdminBuildModeList.contains(player.getName())) return;
         Material type = player.getLocation().getBlock().getType();
         if (type.equals(Material.TRIPWIRE)) {
+            if (SpeedRunActionMulti.multiPlayingList.contains(player.getName())) return;
             if (Config.overLappingTrigger(player)) {
+                if (freePvpException.contains(player.getName())) return;
                 Config.overLappingMessage(player);
                 player.teleport(Config.lobby);
             } else {
                 FreePvpUtils.joinAction(player, plugin);
+                freePvpException.add(player.getName());
+                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        freePvpException.remove(player.getName());
+                    }
+                }, 20L);
             }
         } else if (type.equals(Material.WATER)) {
             if (SumoActivities.sumoQueueingList.contains(player.getName())) {
