@@ -78,10 +78,12 @@ public class inventoryClickEvent implements Listener {
             Config.beforeGame(player);
             FfaGames.ffaQueueingActivities(player, SpleefActivities.spleefQueueingList, plugin, e);
         } else if (itemStack.getType() == Material.GOLD_INGOT) {
+            player.sendMessage(textComponent.parse("niceeee"));
             if (displayName != null && displayName.equals(textComponent.parse("<red>小さな井戸"))) {
                 e.setCancelled(true);
                 Config.beforeGame(player);
                 WellUtilities.rollItems(player, plugin);
+                player.sendMessage("tutiti");
             }
         } else if (itemStack.getType() == Material.GOLD_BLOCK) {
             if (displayName != null && displayName.equals(textComponent.parse("<dark_purple>大きな井戸"))) {

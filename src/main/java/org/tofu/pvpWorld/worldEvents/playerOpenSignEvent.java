@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 
 public class playerOpenSignEvent implements Listener {
@@ -31,6 +32,7 @@ public class playerOpenSignEvent implements Listener {
         Player player = e.getPlayer();
         World world = player.getWorld();
         if (this.world != world) return;
+        if (Config.AdminBuildModeList.contains(player.getName())) return;
         e.setCancelled(true);
     }
 

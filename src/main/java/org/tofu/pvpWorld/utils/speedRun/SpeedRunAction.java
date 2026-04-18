@@ -147,6 +147,16 @@ public class SpeedRunAction {
         }
     }
 
+    public static void ruleDescription(Player player) {
+        player.sendMessage(textComponent.parse("<aqua>-----SpeedRunシングルプレイ-----"));
+        player.sendMessage(Component.text("このゲームは、アスレチックを走り抜けてゴールにあるボタンを押す速さを争うゲームです!"));
+        player.sendMessage(Component.text("でも、ただアスレチックをするだけではありません!"));
+        player.sendMessage(textComponent.parse("<yellow>10秒に1回ランダムでイベントが発生します!!"));
+        player.sendMessage(textComponent.parse("<green>歩く速さが速く<white>なったり、<red>周りが見えなく<white>なったり..."));
+        player.sendMessage(Component.text("リーダーボードも作る予定です!"));
+        player.sendMessage(textComponent.parse("<aqua>---------------------------"));
+    }
+
 
     //click------------------
     public static void clickedFeather(Player player) {

@@ -8,7 +8,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 
@@ -26,6 +25,7 @@ public class athleticTimeUtils {
         playerLobbyAthleticTimeFile = new File(plugin.getDataFolder(), "playerAthleticTime.yml");
         if (!playerLobbyAthleticTimeFile.exists()) {
             try {
+                plugin.getDataFolder().mkdirs();
                 playerLobbyAthleticTimeFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -36,52 +36,45 @@ public class athleticTimeUtils {
     }
 
     public static int getPlayerLobbyAthleticTime(Player player) {
-        if (playerLobbyAthleticTimeData.contains(String.valueOf(player.getUniqueId()))) {
-            return playerLobbyAthleticTimeData.getInt(String.valueOf(player.getUniqueId()));
+        String uuid = player.getUniqueId().toString();
+        if (playerLobbyAthleticTimeData.contains(uuid)) {
+            return playerLobbyAthleticTimeData.getInt(uuid);
         } else {
             return 10000;
         }
     }
 
     public static void setPlayerLobbyAthleticTime(Player player, int playerScore, boolean hasForce) {
-        if (hasForce) {
-            playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
+        String uuid = player.getUniqueId().toString();
+
+        if (hasForce || getPlayerLobbyAthleticTime(player) > playerScore) {
+            if (!hasForce) player.sendMessage("upload");
+
+            playerLobbyAthleticTimeData.set(uuid, playerScore);
+
             try {
                 playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
-                sortEntries();
-                ScoreBoardUtils.updateScoreBoard(player);
+                if (!hasForce) player.sendMessage("upload finish");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            sortEntries();
             TextDisplayUtils.latestRanking();
-        } else {
-            if (getPlayerLobbyAthleticTime(player) > playerScore) {
-                playerLobbyAthleticTimeData.set(String.valueOf(player.getUniqueId()), playerScore);
-                player.sendMessage("upload");
-                try {
-                    playerLobbyAthleticTimeData.save(playerLobbyAthleticTimeFile);
-                    player.sendMessage("upload finish");
-                    sortEntries();
-                    ScoreBoardUtils.updateScoreBoard(player);
-                    player.sendMessage("updated");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                TextDisplayUtils.latestRanking();
-            }
+            ScoreBoardUtils.updateScoreBoard(player);
+
+            if (!hasForce) player.sendMessage("updated");
         }
     }
 
-
     public static void sortEntries() {
+        entryList.clear();
         for (String uuid : playerLobbyAthleticTimeData.getKeys(false)) {
             int time = playerLobbyAthleticTimeData.getInt(uuid);
             entryList.add(new AbstractMap.SimpleEntry<>(uuid, time));
         }
-        entryList.sort((a, b) -> a.getValue().compareTo(b.getValue()));
+        entryList.sort(Map.Entry.comparingByValue());
     }
-
-
 
     public static Component getRanking(int x) {
         int index = x - 1;
