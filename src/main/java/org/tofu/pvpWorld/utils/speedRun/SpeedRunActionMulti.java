@@ -128,7 +128,7 @@ public class SpeedRunActionMulti {
         fillBlock(wallLoc1, wallLoc2, Material.GLASS);
         loseAction();
         expUtils.playerSetExp(player, 20);
-        coinUtils.playerSetCoin(player, 25);
+        coinUtils.playerSetCoin(player, 28);
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
@@ -145,8 +145,8 @@ public class SpeedRunActionMulti {
     public static void loseAction() throws IOException {
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次は頑張ろう!!"), 0, 60, 0));
-            expUtils.playerSetExp(pl, 15);
+            pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次はも頑張ろう!!"), 0, 60, 0));
+            expUtils.playerSetExp(pl, 10);
             coinUtils.playerSetCoin(pl, 13);
             gamePlaying = false;
         }
@@ -158,7 +158,6 @@ public class SpeedRunActionMulti {
         World world = loc1.getWorld();
         if (world == null || !world.equals(loc2.getWorld())) return;
 
-        // どちらの座標が大きくても正しくループできるよう、最小値と最大値を特定
         int minX = Math.min(loc1.getBlockX(), loc2.getBlockX());
         int maxX = Math.max(loc1.getBlockX(), loc2.getBlockX());
         int minY = Math.min(loc1.getBlockY(), loc2.getBlockY());
@@ -166,11 +165,9 @@ public class SpeedRunActionMulti {
         int minZ = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
         int maxZ = Math.max(loc1.getBlockZ(), loc2.getBlockZ());
 
-        // 3重ループで範囲内の全座標を走査
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    // ブロックを設置
                     world.getBlockAt(x, y, z).setType(material);
                 }
             }
@@ -184,6 +181,7 @@ public class SpeedRunActionMulti {
         gamePlaying = true;
         canPressButton = true;
         SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
+
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));

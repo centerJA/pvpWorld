@@ -112,6 +112,11 @@ public class pvpWorldCommand implements CommandExecutor {
                         player.sendMessage(textComponent.parse("x: " + args[2] + "y: " + args[3] + "z: " + args[4] + "を正常にクリアしました"));
                     } else if (args[1].equals("getcoin")) {
                         coinUtils.playerSetCoin(player, Integer.parseInt(args[2]));
+                    } else if (args[1].equals("tp")) {
+                        if (args[2] == null) return false;
+                        Player player2 = Bukkit.getPlayer(args[2]);
+                        if (player2 == null) return false;
+                        player2.teleport(player.getLocation());
                     }
                 } else {
                     player.sendMessage(textComponent.parse("<aqua>ADMINユーザーのみ使用できます!</aqua>"));

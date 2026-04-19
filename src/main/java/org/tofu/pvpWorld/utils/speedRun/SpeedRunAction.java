@@ -80,12 +80,10 @@ public class SpeedRunAction {
             playerLocation.getBlock().setType(Material.COBWEB);
             player.sendMessage(textComponent.parse("<red>神からの天罰</red>"));
             player.sendMessage(textComponent.parse("<red>蜘蛛の巣に引っかかってしまった!</red>"));
-            player.sendMessage(String.valueOf(material));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
                     playerLocation.getBlock().setType(material);
-                    player.sendMessage("aawwwww");
                 }
             }, 60L);
         } else if (ran == 2) { //プレイヤーにスピードを3秒間与える
@@ -180,7 +178,7 @@ public class SpeedRunAction {
             }
         } else {
             player.showTitle(titleMaker.title(textComponent.parse("はずれ"), Component.empty(), 1000, 2000, 1000));
-            PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 1);
+            PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 10);
             player.addPotionEffect(confusion);
             player.sendMessage(textComponent.parse("<red>5秒間視界が歪むようになってしまった!</red>"));
             if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
