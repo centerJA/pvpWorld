@@ -60,6 +60,7 @@ public class SpeedRunActionMulti {
                 player.sendMessage("誰もプレイしていません");
                 player.sendMessage("プレイするには最低2人が必要です!");
                 Config.clearInventory(player);
+                promoteGames();
                 player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
             } else if (multiPlayingList.size() == 1) {
                 player.teleport(startLocation);
@@ -71,7 +72,6 @@ public class SpeedRunActionMulti {
                 Config.clearInventory(player);
                 player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 SpeedRunTimerMulti.startTimer(player, plugin);
-                promoteGames();
             } else {
                 player.teleport(startLocation);
                 multiPlayingList.add(player.getName());
@@ -103,7 +103,7 @@ public class SpeedRunActionMulti {
             }
         } else {
             if (multiPlayingList.size() == 1) {
-                SpeedRunTimerMulti.stopTimer(centrifugalPlayer);
+                SpeedRunTimerMulti.stopTimer(SpeedRunActionMulti.multiPlayingList);
                 for (String PlayerName: multiPlayingList) {
                     Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
                     pl.sendMessage(player.getName() + "さんが退出しました");
@@ -177,22 +177,30 @@ public class SpeedRunActionMulti {
 
     public static void startAction(PvpWorld plugin) {
         //ScheduledTimer
+        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
         fillBlock(wallLoc1, wallLoc2, Material.AIR);
         gamePlaying = true;
         canPressButton = true;
+        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
         SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
-
+        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));
             pl.setLevel(0);
         }
+        centrifugalPlayer.sendMessage("its okay");
+        SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
+        centrifugalPlayer.sendMessage("its okay nice");
     }
 
     public static void checkButton(Block block, Player player, PvpWorld plugin) throws IOException {
         if (block.getLocation().equals(buttonLoc)) {
+            player.sendMessage(textComponent.parse("wowowoowwwwwwwwww"));
             if (!canPressButton) return;
+            player.sendMessage(textComponent.parse("wonwon"));
             winAction(player, plugin);
+            player.sendMessage(textComponent.parse("you won"));
         }
     }
 

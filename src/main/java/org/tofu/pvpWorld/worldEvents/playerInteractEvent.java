@@ -105,7 +105,6 @@ public class playerInteractEvent implements Listener {
                     }
                 }
             } else if (block.getType() == Material.OAK_WALL_SIGN) {
-                player.sendMessage(textComponent.parse("お"));
                 Sign sign = (Sign) block.getState();
                 if (sign == null) return;
                 if (e.getItem() != null) {
@@ -151,7 +150,9 @@ public class playerInteractEvent implements Listener {
 
             if (block == Material.RED_MUSHROOM) {
                 Config.beforeGame(player);
+                player.sendMessage(textComponent.parse("okay11"));
                 player.teleport(Config.lobby);
+                player.sendMessage(textComponent.parse("okay11"));
             } else if (block == Material.FEATHER) {
                 SpeedRunAction.clickedFeather(player);
             } else if (block == Material.GOLD_BLOCK) {
