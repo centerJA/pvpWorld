@@ -176,23 +176,23 @@ public class SpeedRunActionMulti {
 
 
     public static void startAction(PvpWorld plugin) {
-        //ScheduledTimer
-        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
         fillBlock(wallLoc1, wallLoc2, Material.AIR);
         gamePlaying = true;
         canPressButton = true;
-        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
-        SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
-        centrifugalPlayer.sendMessage(textComponent.parse("okay"));
+
         for (String PlayerName: multiPlayingList) {
-            Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-            pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));
-            pl.setLevel(0);
+            Player pl = Bukkit.getPlayerExact(PlayerName);
+            if (pl != null) {
+                pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 20, 20, 20));
+                pl.setLevel(0);
+            }
         }
-        centrifugalPlayer.sendMessage("its okay");
+
+        // 【修正】複数回呼び出されていたのを1回のみに変更
         SpeedRunScheduledTimer.startTimer(centrifugalPlayer, plugin, true);
-        centrifugalPlayer.sendMessage("its okay nice");
     }
+
+
 
     public static void checkButton(Block block, Player player, PvpWorld plugin) throws IOException {
         if (block.getLocation().equals(buttonLoc)) {

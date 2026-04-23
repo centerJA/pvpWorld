@@ -1,72 +1,77 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.tofu.pvpWorld.PvpWorld;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.tofu.pvpWorld.utils.textComponent;
+import org.tofu.pvpWorld.PvpWorld;
 
 import java.util.HashMap;
-import java.util.Objects;
-
-import static org.tofu.pvpWorld.utils.lobbyAthletic.AthleticTimer.tasks;
 
 public class SpeedRunScheduledTimer {
-    private static BukkitRunnable timerTask;
 
-    public static int speedRunTime;
-
+    // 【修正】AthleticTimer等の他のタスクと干渉しないよう独自のマップで管理
+    public static HashMap<Player, BukkitTask> scheduledTasks = new HashMap<>();
     public static HashMap<Player, Integer> playerTimes = new HashMap<>();
 
     public static void startTimer(Player player, PvpWorld plugin, boolean multi) {
-        if (playerTimes.containsKey(player)) {
-            SpeedRunTimer.stopTimer(player);
-        }
+        // 既存のタイマーが動いていれば確実に止める
+        stopTimer(player);
+
         playerTimes.put(player, 11);
-        timerTask = new BukkitRunnable() {
+
+        BukkitTask timerTask = new BukkitRunnable() {
             @Override
             public void run() {
-                int elapsedTime = playerTimes.get(player) - 1; //残り時間
-                if (elapsedTime == 0) { //cancel
+                if (!player.isOnline()) {
+                    this.cancel();
+                    stopTimer(player);
+                    return;
+                }
+
+                int elapsedTime = playerTimes.getOrDefault(player, 11) - 1; //残り時間
+
+                if (elapsedTime <= 0) { //cancel
+                    this.cancel();
                     player.setLevel(0);
                     if (multi) {
                         for (String PlayerName: SpeedRunActionMulti.multiPlayingList) {
-                            Player player1 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-                            SpeedRunAction.randomEvent(player1, plugin);
+                            Player player1 = Bukkit.getPlayerExact(PlayerName);
+                            if (player1 != null) {
+                                SpeedRunAction.randomEvent(player1, plugin);
+                            }
                         }
                     } else {
                         SpeedRunAction.randomEvent(player, plugin);
                     }
+                    // 新しいイベント発生後に再帰的にタイマーをスタート
                     SpeedRunScheduledTimer.startTimer(player, plugin, multi);
                     return;
                 }
+
                 playerTimes.put(player, elapsedTime);
                 player.setLevel(elapsedTime);
+
+                // 【修正】マルチプレイの場合、参加者全員のEXPバーを同期させる処理を追加
+                if (multi) {
+                    for (String playerName : SpeedRunActionMulti.multiPlayingList) {
+                        Player p = Bukkit.getPlayerExact(playerName);
+                        if (p != null) {
+                            p.setLevel(elapsedTime);
+                        }
+                    }
+                }
             }
-        };
-        tasks.put(player, timerTask.runTaskTimer(PvpWorld.getPlugin(PvpWorld.class), 0, 20));
+        }.runTaskTimer(plugin, 0, 20);
+
+        scheduledTasks.put(player, timerTask);
     }
 
-    public static BukkitTask getTaskId(Player player) {
-        return PvpWorld.getPlugin(PvpWorld.class).getServer().getScheduler().runTaskTimer(PvpWorld.getPlugin(PvpWorld.class), new Runnable() {
-            @Override
-            public void run() {
-                if (speedRunTime == 0) {
-                    player.sendMessage(textComponent.parse("<aqua>test"));
-                    return;
-                }
-                player.setLevel(speedRunTime);
-                speedRunTime--;
-            }
-        }, 0, 10);
-    }
     public static void stopTimer(Player player) {
-        if (tasks.get(player) != null) {
-            getTaskId(player).cancel();
-            tasks.get(player).cancel();
+        if (scheduledTasks.containsKey(player)) {
+            scheduledTasks.get(player).cancel();
+            scheduledTasks.remove(player);
         }
+        playerTimes.remove(player);
     }
 }
