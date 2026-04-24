@@ -149,41 +149,7 @@ public class Config extends JavaPlugin {
         quit = player.getInventory().getItem(11);
     }
 
-    public static void systemConfigSetUp(PvpWorld plugin) {
-        systemConfigFile = new File(plugin.getDataFolder(), "systemConfig.yml");
-        if (!systemConfigFile.exists()) {
-            try {
-                systemConfigFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        systemConfig = YamlConfiguration.loadConfiguration(systemConfigFile);
-    }
 
-    public static String systemConfigGetItem(String request) {
-        if (request.equals("athleticTime")) {
-            long nowTime = System.currentTimeMillis();
-            long before = systemConfig.getLong("systemConfig.athleticTime");
-            long difference = nowTime - before;
-            long twoWeek = 24L * 60 * 60 * 1000 * 14;
-            if (twoWeek > difference) {
-                return "false";
-            } else {
-                return "true";
-            }
-        }
-        else return null;
-    }
-
-    public static void setSystemConfigAthleticTime(long time) {
-        systemConfig.set("Config.athleticTime", time);
-        try {
-            systemConfig.save(systemConfigFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static boolean overLappingTrigger(Player player) {
         String playerName = player.getName();

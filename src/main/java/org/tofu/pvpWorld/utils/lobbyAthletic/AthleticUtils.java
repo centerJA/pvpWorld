@@ -1,5 +1,6 @@
 package org.tofu.pvpWorld.utils.lobbyAthletic;
 
+import net.kyori.adventure.text.Component;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.scoreBoard.ScoreBoardUtils;
@@ -14,6 +15,7 @@ import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.tofu.pvpWorld.utils.yamlProperties.systemConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -51,8 +53,10 @@ public class AthleticUtils {
         player.showTitle(titleMaker.title(textComponent.parse("<aqua>おめでとう!"), textComponent.parse("<aqua>" + playerScore + "秒でした!"), 1000, 2000, 1000));
         AthleticTimer.stopTimer(player);
         player.sendMessage(textComponent.parse("<white>あなたの記録は<aqua>" + playerScore + "秒<white>でした!"));
-        if (playerScoreInt <= 40) {
-            player.sendMessage(textComponent.parse("<aqua>40秒を切るなんてすごいです!"));
+        if (playerScoreInt <= 40 && playerScoreInt >= 36) {
+            if (systemConfig.getValueWithPlayerInfoBOOLEAN("reward.athletic.40", player)) return;
+            systemConfig.setValueWithPlayerInfoLIST("reward.athletic.40s", player);
+            player.sendMessage(textComponent.parse("testだぜ"));
         }
         for (String playerName2 : athleticTimeUtils.playerLobbyAthleticTimeData.getKeys(false)) {
             int time = athleticTimeUtils.playerLobbyAthleticTimeData.getInt(playerName2);

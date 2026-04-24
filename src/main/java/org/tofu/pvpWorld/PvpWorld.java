@@ -6,6 +6,7 @@ import org.tofu.pvpWorld.utils.textDisplay.TextDisplayUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.athleticTimeUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
+import org.tofu.pvpWorld.utils.yamlProperties.systemConfig;
 import org.tofu.pvpWorld.worldEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -45,7 +46,7 @@ public final class PvpWorld extends JavaPlugin {
         lobbyAthleticSetUp(this);
         playerCoinSetUp(this);
         playerAdminListSetup(this);
-        Config.systemConfigSetUp(this);
+        systemConfig.systemConfigSetUp(this);
         expUtils.sortEntries();
         coinUtils.sortEntries();
         athleticTimeUtils.sortEntries();
