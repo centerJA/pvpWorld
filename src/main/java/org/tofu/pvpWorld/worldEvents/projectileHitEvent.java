@@ -6,11 +6,13 @@ import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.tofu.pvpWorld.utils.speedRun.SpeedRunActionMulti;
 
 public class projectileHitEvent implements Listener {
     PvpWorld plugin;
@@ -29,21 +31,32 @@ public class projectileHitEvent implements Listener {
     }
 
     @EventHandler
-    public void ProjectileHitEvent(ProjectileHitEvent e) {
-        World world = e.getEntity().getWorld();
-        if (this.world != world) return;
-        if (!(e.getEntity() instanceof Snowball)) return;
+    public void onProjectileHit(ProjectileHitEvent e) {
+        World hitWorld = e.getEntity().getWorld();
+        if (this.world != hitWorld) return;
+
         if (!(e.getEntity().getShooter() instanceof Player player)) return;
-        if (Config.AdminBuildModeList.contains(player.getName())) return;
-        if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
-            if (e.getHitEntity() != null && e.getHitEntity() instanceof Player) {
-            } else if (e.getHitBlock() != null && e.getHitEntity() == null) {
-                Material material = e.getHitBlock().getType();
-                if (material == Material.SNOW_BLOCK) {
-                    e.getHitBlock().setType(Material.AIR);
-                    SpleefActivities.locationList.add(e.getHitBlock().getLocation());
+
+        if (e.getEntity() instanceof Snowball) {
+            if (Config.AdminBuildModeList.contains(player.getName())) return;
+            if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
+                if (e.getHitEntity() != null && e.getHitEntity() instanceof Player) {
+                    // 何もしない
+                } else if (e.getHitBlock() != null && e.getHitEntity() == null) {
+                    Material material = e.getHitBlock().getType();
+                    if (material == Material.SNOW_BLOCK) {
+                        e.getHitBlock().setType(Material.AIR);
+                        SpleefActivities.locationList.add(e.getHitBlock().getLocation());
+                    }
+                }
+            } else if (SpeedRunActionMulti.multiPlayingList.contains(player.getName())) {
+                Block hitBlock = e.getHitBlock();
+                if (hitBlock != null && hitBlock.getType() == Material.TARGET) {
+                    e.getEntity().remove();
+                    SpeedRunActionMulti.checkSnowBallInfo(e.getHitBlock().getLocation(), player, plugin);
                 }
             }
+            return;
         }
     }
 }

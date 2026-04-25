@@ -2,6 +2,7 @@ package org.tofu.pvpWorld.worldEvents;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.inventory.ItemStack;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.FfaGames;
@@ -121,22 +122,32 @@ public class playerInteractEvent implements Listener {
                 for (int i = 0; i < 4; i++) {
                     lines[i] = PlainTextComponentSerializer.plainText().serialize(sign.line(i));
                 }
-
-                if (Config.overLappingTrigger(player)) {
-                    Config.overLappingMessage(player);
-                    return;
-                }
                 if (Objects.equals(lines[0], "SpeedRunTest")) {
+                    if (Config.overLappingTrigger(player)) {
+                        Config.overLappingMessage(player);
+                        return;
+                    }
                     SpeedRunAction.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "1v1test")) {
+                    if (Config.overLappingTrigger(player)) {
+                        Config.overLappingMessage(player);
+                        return;
+                    }
                     openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "FFA Games test")) {
+                    if (Config.overLappingTrigger(player)) {
+                        Config.overLappingMessage(player);
+                        return;
+                    }
                     InventoryUtils.openGameListInventory(player);
                 } else if (Objects.equals(lines[0], "右クリックして")) {
                     if (Objects.equals(lines[1], "あなたのスコアを")) {
                         if (Objects.equals(lines[2], "リセットします")) {
                             AthleticUtils.sendClearAthleticTimeRequest(player);
                         }
+                    } else if (Objects.equals(lines[1], "弓と矢をゲット")) {
+                        ItemStack snowBall = new ItemStack(Material.SNOWBALL, 1);
+                        player.getInventory().addItem(snowBall);
                     }
                 }
             } else if (block.getType() == Material.END_PORTAL_FRAME) {

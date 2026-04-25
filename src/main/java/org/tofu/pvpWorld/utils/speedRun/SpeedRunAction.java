@@ -1,8 +1,6 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
-import org.bukkit.inventory.InventoryHolder;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.itemStackMaker;
@@ -101,7 +99,7 @@ public class SpeedRunAction {
             PotionEffect jump = new PotionEffect(PotionEffectType.JUMP_BOOST, 60, 2);
             player.addPotionEffect(jump);
             player.sendMessage(textComponent.parse("<green>天使からのささやかな贈り物</green>"));
-            player.sendMessage(textComponent.parse("<green>3秒間ジャンプする高さが高くなった!</green>"));
+            player.sendMessage(textComponent.parse("<green>3秒間ジャンプしたときの高さが高くなった!</green>"));
         } else if (ran == 4) { //3秒間プレイヤーを動かなくする
             Config.NoWalkList.add(player.getName());
             player.sendMessage(textComponent.parse("<red>宇宙人の攻撃</red>"));
@@ -171,14 +169,14 @@ public class SpeedRunAction {
         int randomInt = random.nextInt(2) + 1;
         if (randomInt == 1) { //良い
             player.showTitle(titleMaker.title(textComponent.parse("<gold>当たり!</gold>"), Component.empty(), 1000, 2000, 1000));
-            player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("スピード"), Material.GOLD_BLOCK, 1));
+            player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("スピード"), Material.NETHER_STAR, 1));
             player.sendMessage("右クリックで5秒間のスピードの効果を得られます!");
             if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
                 player.setItemInHand(null);
             }
         } else {
             player.showTitle(titleMaker.title(textComponent.parse("はずれ"), Component.empty(), 1000, 2000, 1000));
-            PotionEffect confusion = new PotionEffect(PotionEffectType.NAUSEA, 100, 10);
+            PotionEffect confusion = new PotionEffect(PotionEffectType.DARKNESS, 100, 10);
             player.addPotionEffect(confusion);
             player.sendMessage(textComponent.parse("<red>5秒間視界が歪むようになってしまった!</red>"));
             if (player.getItemInHand().getType().equals(Material.GOLD_BLOCK)) {
@@ -194,12 +192,6 @@ public class SpeedRunAction {
             player.setItemInHand(null);
             player.sendMessage("使用しました!");
         }
-    }
-
-
-    //multi------------------
-    public static void multiOnHoldAction(Player player, PvpWorld plugin) {
-        player.sendMessage("まだアクセスできません!");
     }
 
     public static void mutiMapSelecting(Player player) {

@@ -34,6 +34,7 @@ public class asyncChatEvent implements Listener {
         String comment = PlainTextComponentSerializer.plainText().serialize(e.message()).trim();
         if (Config.NoWalkList.contains(player.getName())) {
             Config.compair(player, comment);
+            e.setCancelled(true);
         }
     }
 }

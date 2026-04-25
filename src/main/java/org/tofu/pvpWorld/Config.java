@@ -2,6 +2,8 @@ package org.tofu.pvpWorld;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.tofu.pvpWorld.utils.itemStackMaker;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
@@ -19,7 +21,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -126,13 +127,9 @@ public class Config extends JavaPlugin {
             player.sendMessage(textComponent.parse("<red>間違えてしまった!"));
             player.sendMessage(Component.text(String.valueOf(result)));
             Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(1));
-            player.showTitle(Title.title(textComponent.parse("<red>脱落"), textComponent.parse("<aqua>再挑戦しよう!"), times));
-            Config.clearInventory(player);
-            player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("<white>ロビーに戻る"), Material.RED_MUSHROOM, 1));
-            SpeedRunSingleList.remove(player.getName());
-            NoWalkList.remove(player.getName());
-            SpeedRunScheduledTimer.stopTimer(player);
-            player.setExp(0);
+            player.showTitle(Title.title(textComponent.parse("<red>ペナルティ"), textComponent.parse("鈍足"), times));
+            PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 100, 10);
+            player.addPotionEffect(slowness);
         }
     }
 
