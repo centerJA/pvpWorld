@@ -116,7 +116,7 @@ public class OneVersusOneGames {
         if (SumoActivities.sumoQueueingList.contains(player.getName())) {
             for (String PlayerName: Config.WorldAllPlayerList) {
                 Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
-                player2.sendMessage(textComponent.parse("<yellow>[Sump] <white>" + base));
+                player2.sendMessage(textComponent.parse("<yellow>[Sumo] <white>" + base));
             }
         }
         else if (TopfightActivities.topfightQueueingList.contains(player.getName())) {

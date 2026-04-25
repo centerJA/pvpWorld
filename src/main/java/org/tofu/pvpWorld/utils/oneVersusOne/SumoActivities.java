@@ -1,18 +1,18 @@
 package org.tofu.pvpWorld.utils.oneVersusOne;
 
 import net.kyori.adventure.title.Title;
+import org.bukkit.*;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.tofu.pvpWorld.utils.textComponent;
 import org.tofu.pvpWorld.utils.titleMaker;
+import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
+import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
 
 public class SumoActivities {
     public static World world = Bukkit.getWorld("pvpWorld");
@@ -49,11 +49,17 @@ public class SumoActivities {
         Config.DoNotReceiveDamageList.addAll(SumoActivities.sumoQueueingList);
         Config.TeleportToLobbyList.addAll(SumoActivities.sumoQueueingList);
         SumoActivities.sumoQueueingList.remove(player.getName());
+        expUtils.playerSetExp(player, 4);
+        coinUtils.playerSetCoin(player, 3);
+        player.playSound(player.getLocation(), Sound.AMBIENT_BASALT_DELTAS_ADDITIONS, 1, 1);
         player.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>もう一度挑戦しよう!"), 0, 2000, 0));
         Player winner = Bukkit.getPlayer(SumoActivities.sumoQueueingList.getFirst());
         if (winner == null) return;
         SumoActivities.sumoQueueingList.remove(winner.getName());
-        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>すごい!!"),0, 3000, 0));
+        expUtils.playerSetExp(winner, 6);
+        coinUtils.playerSetCoin(winner, 5);
+        winner.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_CLUSTER_HIT, 1, 1);
+        winner.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!"),0, 3000, 0));
         OneVersusOneGames.gameCloseAction(plugin);
     }
 }

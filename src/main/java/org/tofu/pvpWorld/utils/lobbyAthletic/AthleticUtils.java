@@ -15,6 +15,8 @@ import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.tofu.pvpWorld.utils.yamlProperties.coinUtils;
+import org.tofu.pvpWorld.utils.yamlProperties.expUtils;
 import org.tofu.pvpWorld.utils.yamlProperties.systemConfig;
 
 import java.io.IOException;
@@ -54,9 +56,29 @@ public class AthleticUtils {
         AthleticTimer.stopTimer(player);
         player.sendMessage(textComponent.parse("<white>あなたの記録は<aqua>" + playerScore + "秒<white>でした!"));
         if (playerScoreInt <= 40 && playerScoreInt >= 36) {
-            if (systemConfig.getValueWithPlayerInfoBOOLEAN("reward.athletic.40", player)) return;
+            if (systemConfig.getValueWithPlayerInfoBOOLEAN("reward.athletic.40s", player)) return;
             systemConfig.setValueWithPlayerInfoLIST("reward.athletic.40s", player);
-            player.sendMessage(textComponent.parse("testだぜ"));
+            expUtils.playerSetExp(player, 20);
+            coinUtils.playerSetCoin(player, 25);
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            player.sendMessage(textComponent.parse("<gold>報酬を獲得しました!!"));
+            player.sendMessage(textComponent.parse("<gold>ロビーのアスレチックタイム: 40秒以内"));
+        } else if (playerScoreInt <= 35 && playerScoreInt >= 31) {
+            if (systemConfig.getValueWithPlayerInfoBOOLEAN("reward.athletic.35s", player)) return;
+            systemConfig.setValueWithPlayerInfoLIST("reward.athletic.35s", player);
+            expUtils.playerSetExp(player, 20);
+            coinUtils.playerSetCoin(player, 25);
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            player.sendMessage(textComponent.parse("<gold>報酬を獲得しました!!"));
+            player.sendMessage(textComponent.parse("<gold>ロビーのアスレチックタイム: 35秒以内"));
+        } else if (playerScoreInt <= 30) {
+            if (systemConfig.getValueWithPlayerInfoBOOLEAN("reward.athletic.30s", player)) return;
+            systemConfig.setValueWithPlayerInfoLIST("reward.athletic.30s", player);
+            expUtils.playerSetExp(player, 20);
+            coinUtils.playerSetCoin(player, 25);
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            player.sendMessage(textComponent.parse("<gold>報酬を獲得しました!!"));
+            player.sendMessage(textComponent.parse("<gold>ロビーのアスレチックタイム: 30秒以内"));
         }
         for (String playerName2 : athleticTimeUtils.playerLobbyAthleticTimeData.getKeys(false)) {
             int time = athleticTimeUtils.playerLobbyAthleticTimeData.getInt(playerName2);
