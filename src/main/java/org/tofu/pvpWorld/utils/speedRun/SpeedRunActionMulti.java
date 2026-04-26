@@ -56,6 +56,7 @@ public class SpeedRunActionMulti {
         } else {
             if (multiPlayingList.isEmpty()) {
                 player.teleport(startLocation);
+                player.playSound(player.getLocation(), Sound.ENTITY_ARMADILLO_BRUSH, 1, 1);
                 multiPlayingList.add(player.getName());
                 player.sendMessage("誰もプレイしていません");
                 player.sendMessage("プレイするには最低2人が必要です!");
@@ -64,6 +65,7 @@ public class SpeedRunActionMulti {
                 player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
             } else if (multiPlayingList.size() == 1) {
                 player.teleport(startLocation);
+                player.playSound(player.getLocation(), Sound.ENTITY_ARMADILLO_BRUSH, 1, 1);
                 noticeToPlayer();
                 multiPlayingList.add(player.getName());
                 centrifugalPlayer = player;
@@ -73,6 +75,7 @@ public class SpeedRunActionMulti {
                 player.getInventory().setItem(0, itemStackMaker.createItem(textComponent.parse("ロビーに戻る"), Material.RED_MUSHROOM, 1));
                 SpeedRunTimerMulti.startTimer(player, plugin);
             } else {
+                player.playSound(player.getLocation(), Sound.ENTITY_ARMADILLO_BRUSH, 1, 1);
                 player.teleport(startLocation);
                 multiPlayingList.add(player.getName());
                 player.sendMessage("参加しました");
@@ -122,6 +125,7 @@ public class SpeedRunActionMulti {
 
     public static void winAction(Player player, PvpWorld plugin) throws IOException {
         canPressButton = false;
+        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 2);
         player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!"), 0, 3000, 0));
         SpeedRunScheduledTimer.stopTimer(centrifugalPlayer);
         for (String PlayerName: multiPlayingList) {
@@ -144,12 +148,13 @@ public class SpeedRunActionMulti {
                     backToLobbyList.remove(pl.getName());
                 }
             }
-        }, 60L);
+        }, 100L);
     }
 
     public static void loseAction() throws IOException {
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+            pl.playSound(pl.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1, 1);
             pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次も頑張ろう!!"), 0, 3000, 0));
             expUtils.playerSetExp(pl, 10);
             coinUtils.playerSetCoin(pl, 13);
@@ -188,6 +193,7 @@ public class SpeedRunActionMulti {
         for (String PlayerName: multiPlayingList) {
             Player pl = Bukkit.getPlayer(PlayerName);
             if (pl != null) {
+                pl.playSound(pl.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
                 pl.showTitle(titleMaker.title(textComponent.parse("<aqua>スタート!"), textComponent.parse(""), 1000, 1000, 1000));
                 pl.setLevel(0);
             }
@@ -208,6 +214,7 @@ public class SpeedRunActionMulti {
     public static void promoteGames() {
         for (String PlayerName: Config.WorldAllPlayerList) {
             Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+            player.playSound(player.getLocation(), Sound.ENTITY_ARMADILLO_BRUSH, 1, 1);
             player.sendMessage(textComponent.parse("<gold>[SpeedRun Multi]<white>1人が対戦相手を募集中です!"));
         }
     }

@@ -94,7 +94,8 @@ public class WellUtilities {
                     player.showTitle(Title.title(textComponent.parse("<aqua>レア"), Component.empty(), titleTimes));
                     coinUtils.playerSetCoin(player, 20);
                 } else if (value <= 8100) {
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1, 1);
+                    player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE_FAR, 1, 1);
                     player.sendMessage(textComponent.parse("<gold>100Gold<white>を入手しました!!"));
                     player.showTitle(Title.title(textComponent.parse("<blue>ユニーク"), Component.empty(), titleTimes));
                     sendRareMessage(player, "<blue>[ユニーク]", "100");
@@ -106,13 +107,13 @@ public class WellUtilities {
                     sendRareMessage(player, "<dark_purple>[エピック]", "200");
                     coinUtils.playerSetCoin(player, 400);
                 } else if (value <= 8155) {
-                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                    player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1F, 1);
                     player.sendMessage(textComponent.parse("<gold>700Gold<white>を入手しました!!"));
                     player.showTitle(Title.title(textComponent.parse("<gold>レジェンダリー"), Component.empty(), titleTimes));
                     sendRareMessage(player, "<gold>[レジェンダリー]", "700");
                     coinUtils.playerSetCoin(player, 700);
                 } else if (value <= 8156) {
-                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                    player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1F, 0.5F);
                     player.sendMessage(textComponent.parse("<gold>1000Gold<white>を入手しました!!"));
                     player.showTitle(Title.title(textComponent.parse("<black>インセイン"), Component.empty(), titleTimes));
                     sendRareMessage(player, "<black>[インセイン]", "1000");

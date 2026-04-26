@@ -1,6 +1,7 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Sound;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.itemStackMaker;
@@ -76,6 +77,7 @@ public class SpeedRunAction {
             Block originalBlock = playerLocation.getBlock();
             Material material = originalBlock.getType();
             playerLocation.getBlock().setType(Material.COBWEB);
+            player.playSound(playerLocation, Sound.BLOCK_COBWEB_PLACE, 1, 1);
             player.sendMessage(textComponent.parse("<red>神からの天罰</red>"));
             player.sendMessage(textComponent.parse("<red>蜘蛛の巣に引っかかってしまった!</red>"));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -87,6 +89,7 @@ public class SpeedRunAction {
         } else if (ran == 2) { //プレイヤーにスピードを3秒間与える
             PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 60, 2);
             player.addPotionEffect(speed);
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             player.sendMessage(textComponent.parse("<green>天使からのささやかな贈り物</green>"));
             player.sendMessage(textComponent.parse("<green>3秒間歩くスピードが速くなった!</green>"));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -98,10 +101,12 @@ public class SpeedRunAction {
         } else if (ran == 3) { //プレイヤーにジャンプを3秒間与える
             PotionEffect jump = new PotionEffect(PotionEffectType.JUMP_BOOST, 60, 2);
             player.addPotionEffect(jump);
+            player.playSound(player.getLocation(), Sound.ENTITY_CAT_AMBIENT, 1, 1);
             player.sendMessage(textComponent.parse("<green>天使からのささやかな贈り物</green>"));
             player.sendMessage(textComponent.parse("<green>3秒間ジャンプしたときの高さが高くなった!</green>"));
         } else if (ran == 4) { //3秒間プレイヤーを動かなくする
             Config.NoWalkList.add(player.getName());
+            player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SHOOT,1 ,1);
             player.sendMessage(textComponent.parse("<red>宇宙人の攻撃</red>"));
             player.sendMessage(textComponent.parse("<red>3秒間動けなくなってしまった!</red>"));
             Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
@@ -111,15 +116,18 @@ public class SpeedRunAction {
                 }
             }, 60L);
         } else if (ran == 5) { //5秒間浮遊できるアイテムを渡す
+            player.playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1.6F);
             player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("浮遊する"), Material.FEATHER, 1));
             player.sendMessage(textComponent.parse("<green>空からの贈り物</green>"));
             player.sendMessage(textComponent.parse("<green>5秒間浮遊できるアイテムをゲットした!</green>"));
         } else if (ran == 6) { //5秒間盲目になる
             PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
             player.addPotionEffect(blindness);
+            player.playSound(player.getLocation(), Sound.ENTITY_MULE_DEATH, 1, 1);
             player.sendMessage(textComponent.parse("<red>地球の怒り</red>"));
             player.sendMessage(textComponent.parse("<red>5秒間盲目になってしまった!</red>"));
-        } else if (ran == 7) { //問題を出して、間違えたらリタイア、8秒をすぎてもリタイア
+        } else if (ran == 7) { //問題を出して間違えたら鈍足
+            player.playSound(player.getLocation(), Sound.ENTITY_WANDERING_TRADER_AMBIENT, 1, 1);
             player.sendMessage(textComponent.parse("<gold>神からの挑戦状</gold>"));
             Config.NoWalkList.add(player.getName());
             Config.setInt(player);
@@ -131,9 +139,11 @@ public class SpeedRunAction {
             Vector direction = new Vector(x, y, z);
             direction.normalize().multiply(1);
             player.setVelocity(direction);
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 1, 1);
             player.sendMessage(textComponent.parse("<yellow>知らない人からのちょっかい</yellow>"));
             player.sendMessage(textComponent.parse("<yellow>ノックバックを受けてしまった!</yellow>"));
         } else if (ran == 9) { //1/2ラッキーブロックをあげる
+            player.playSound(player.getLocation(), Sound.ENTITY_LLAMA_SWAG,1 ,1);
             player.getInventory().addItem(itemStackMaker.createItem(textComponent.parse("ラッキーブロック"), Material.GOLD_BLOCK, 1));
             player.sendMessage(textComponent.parse("<yellow>運試し</yellow>"));
             player.sendMessage(textComponent.parse("<yellow>1/2ラッキーブロックを入手した!</yellow>"));

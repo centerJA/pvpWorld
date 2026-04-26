@@ -1,6 +1,7 @@
 package org.tofu.pvpWorld.utils.speedRun;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -91,6 +92,7 @@ public class SpeedRunTimerMulti {
         for (String playerName : SpeedRunActionMulti.multiPlayingList) {
             Player p = Bukkit.getPlayerExact(playerName);
             if (p != null) {
+                p.playSound(p.getLocation(), Sound.BLOCK_CALCITE_PLACE, 1, 2);
                 p.sendMessage(textComponent.parse("<aqua>" + elapsedTime + "秒!"));
                 p.showTitle(titleMaker.title(textComponent.parse(String.valueOf(elapsedTime)), textComponent.parse(""), 0, 20 ,0));
             }

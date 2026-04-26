@@ -1,6 +1,7 @@
 package org.tofu.pvpWorld.utils.ffaGames;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Sound;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.itemStackMaker;
@@ -140,6 +141,7 @@ public class FfaGames {
         if (SpleefActivities.spleefQueueingList.contains(player.getName())) {
             for (String PlayerName: Config.WorldAllPlayerList) {
                 Player player2 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
+                player2.playSound(player.getLocation(), Sound.ENTITY_ARMADILLO_BRUSH, 1, 1);
                 player2.sendMessage(textComponent.parse("<yellow>[Spleef]</yellow><white>" + base));
             }
         }

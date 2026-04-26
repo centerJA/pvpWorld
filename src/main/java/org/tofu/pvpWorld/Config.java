@@ -124,6 +124,7 @@ public class Config extends JavaPlugin {
             player.sendMessage(textComponent.parse("<green>合格!"));
             NoWalkList.remove(player.getName());
         } else {
+            player.playSound(player.getLocation(), Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 1, 1);
             player.sendMessage(textComponent.parse("<red>間違えてしまった!"));
             player.sendMessage(Component.text(String.valueOf(result)));
             Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(1));
