@@ -126,7 +126,7 @@ public class SpeedRunActionMulti {
     public static void winAction(Player player, PvpWorld plugin) throws IOException {
         canPressButton = false;
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 2);
-        player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!"), 0, 3000, 0));
+        player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>おめでとう!!"), 0, 5000, 0));
         SpeedRunScheduledTimer.stopTimer(centrifugalPlayer);
         for (String PlayerName: multiPlayingList) {
             Player player1 = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
@@ -155,7 +155,7 @@ public class SpeedRunActionMulti {
         for (String PlayerName: multiPlayingList) {
             Player pl = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
             pl.playSound(pl.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1, 1);
-            pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次も頑張ろう!!"), 0, 3000, 0));
+            pl.showTitle(titleMaker.title(textComponent.parse("<red>敗北"), textComponent.parse("<yellow>次も頑張ろう!!"), 0, 5000, 0));
             expUtils.playerSetExp(pl, 10);
             coinUtils.playerSetCoin(pl, 13);
             gamePlaying = false;
@@ -236,7 +236,7 @@ public class SpeedRunActionMulti {
         }
     }
 
-    public static void checkSnowBallInfo(Location location, Player player, PvpWorld plugin) {
+    public static void checkArrowInfo(Location location, Player player, PvpWorld plugin) {
         boolean isTarget1 = (location.getBlockX() == targetBlock1.getBlockX() &&
                 location.getBlockY() == targetBlock1.getBlockY() &&
                 location.getBlockZ() == targetBlock1.getBlockZ());
@@ -245,7 +245,10 @@ public class SpeedRunActionMulti {
                 location.getBlockY() == targetBlock2.getBlockY() &&
                 location.getBlockZ() == targetBlock2.getBlockZ());
 
+
+        System.out.println("check");
         if (isTarget1 || isTarget2) {
+            System.out.println("passed");
             World world1 = location.getWorld();
             Location currentLocation = new Location(world1, appearBlock.getX(), appearBlock.getY(), appearBlock.getZ());
             currentLocation.getBlock().setType(Material.GOLD_BLOCK);

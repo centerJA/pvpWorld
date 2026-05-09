@@ -146,8 +146,10 @@ public class playerInteractEvent implements Listener {
                             AthleticUtils.sendClearAthleticTimeRequest(player);
                         }
                     } else if (Objects.equals(lines[1], "弓と矢をゲット")) {
-                        ItemStack snowBall = new ItemStack(Material.SNOWBALL, 1);
-                        player.getInventory().addItem(snowBall);
+                        ItemStack arrow = new ItemStack(Material.ARROW, 1);
+                        ItemStack bow = new ItemStack(Material.BOW, 1);
+                        player.getInventory().addItem(arrow);
+                        player.getInventory().addItem(bow);
                     }
                 }
             } else if (block.getType() == Material.END_PORTAL_FRAME) {

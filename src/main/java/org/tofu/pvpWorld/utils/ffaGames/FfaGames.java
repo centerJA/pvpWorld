@@ -66,7 +66,7 @@ public class FfaGames {
 //            ffaSuggestPlayerJoin(arrayList);
 //            ScoreBoardUtils.setFfaScoreBoard(player, 1000, false, arrayList);
         } else if (arrayList.size() == 1) {
-            for (String PlayerName: arrayList) {
+            for (String PlayerName: new ArrayList<>(arrayList)) {
                 if (PlayerName.equals(player.getName())) {
                     e.setCancelled(true);
                     player.closeInventory();
@@ -118,7 +118,7 @@ public class FfaGames {
     public static void playerQuitByLeaveWorldAction(ArrayList<String> arrayList, String playerName, PvpWorld plugin) {
         arrayList.remove(playerName);
         if (arrayList.size() == 1) {
-            for (String PlayerName: arrayList) {
+            for (String PlayerName: new ArrayList<>(arrayList)) {
                 Player player = Objects.requireNonNull(Bukkit.getPlayer(PlayerName));
                 player.showTitle(titleMaker.title(textComponent.parse("<green>勝利"), textComponent.parse("<yellow>対戦相手が放棄しました"), 0, 3000, 0));
                 arrayList.remove(PlayerName);

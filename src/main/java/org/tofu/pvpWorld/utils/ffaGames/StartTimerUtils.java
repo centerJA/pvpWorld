@@ -34,7 +34,7 @@ public class StartTimerUtils {
             public void run() {
                 int elapsedTime = playerTimes.get(player) - 1; //残り時間
                 if (elapsedTime == 0) { //cancel
-                    for (String PlayerName: arrayList) {
+                    for (String PlayerName: new ArrayList<>(arrayList)) {
                         if (arrayList.equals(SpleefActivities.spleefQueueingList)) {
                             SpleefActivities.spleefStartAction(player, plugin);
                         }

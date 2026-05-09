@@ -71,7 +71,7 @@ public class SpeedRunAction {
 
     public static void randomEvent(Player player, PvpWorld plugin) {
         Random random = new Random();
-        int ran = 1 + random.nextInt(10); //1~10
+        int ran = 1 + random.nextInt(11); //1~10
         if (ran == 1) { //プレイヤーの居場所の下に蜘蛛の巣を3秒間設置する
             Location playerLocation = player.getLocation();
             Block originalBlock = playerLocation.getBlock();
@@ -148,8 +148,24 @@ public class SpeedRunAction {
             player.sendMessage(textComponent.parse("<yellow>運試し</yellow>"));
             player.sendMessage(textComponent.parse("<yellow>1/2ラッキーブロックを入手した!</yellow>"));
             player.sendMessage(textComponent.parse("右クリックすると半分の確率で良いものを得られ、半分の確率で悪い効果を受けます"));
-        } else if (ran == 10) { //
-            player.sendMessage("エラー");
+        } else if (ran == 10) { //操作を反転する
+            //sound
+            player.sendMessage(textComponent.parse("<red>キーボードの逆襲"));
+            player.sendMessage(textComponent.parse("<red>7秒間操作が反転してしまっている!"));
+            player.setWalkSpeed(-0.2f);
+            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    player.sendMessage(textComponent.parse("操作が正常になった"));
+                    player.setWalkSpeed(0.2f);
+                }
+            }, 70L);
+        } else if (ran == 11) { //ジャンプ強
+            //sound
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 100, 50));
+            player.sendMessage("<yellow>ジャンプ力の王からの贈り物");
+            player.sendMessage("<yellow>5秒間ジャンプ力が極端に高くなってしまった!");
+
         }
     }
 

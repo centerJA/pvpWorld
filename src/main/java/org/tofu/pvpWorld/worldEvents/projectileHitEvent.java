@@ -1,5 +1,7 @@
 package org.tofu.pvpWorld.worldEvents;
 
+import org.bukkit.Tag;
+import org.bukkit.entity.Arrow;
 import org.tofu.pvpWorld.Config;
 import org.tofu.pvpWorld.PvpWorld;
 import org.tofu.pvpWorld.utils.ffaGames.SpleefActivities;
@@ -33,10 +35,11 @@ public class projectileHitEvent implements Listener {
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
         World hitWorld = e.getEntity().getWorld();
+        System.out.println("?");
         if (this.world != hitWorld) return;
-
+        System.out.println("aaaaaa");
         if (!(e.getEntity().getShooter() instanceof Player player)) return;
-
+        System.out.println("01001010");
         if (e.getEntity() instanceof Snowball) {
             if (Config.AdminBuildModeList.contains(player.getName())) return;
             if (SpleefActivities.spleefPlayingList.contains(player.getName())) {
@@ -49,14 +52,23 @@ public class projectileHitEvent implements Listener {
                         SpleefActivities.locationList.add(e.getHitBlock().getLocation());
                     }
                 }
-            } else if (SpeedRunActionMulti.multiPlayingList.contains(player.getName())) {
+            }
+        } else if (e.getEntity() instanceof Arrow) {
+            System.out.println("detected");
+            if (SpeedRunActionMulti.multiPlayingList.contains(player.getName())) {
+                System.out.println("contains");
                 Block hitBlock = e.getHitBlock();
-                if (hitBlock != null && hitBlock.getType() == Material.TARGET) {
+                if (hitBlock == null) System.out.println("nullll");
+                else {
+                    System.out.println("not null");
+                    System.out.println(hitBlock.getType());
+                }
+                if (hitBlock != null && hitBlock.getType().equals(Material.WHITE_WOOL)) {
+                    System.out.println("okay");
                     e.getEntity().remove();
-                    SpeedRunActionMulti.checkSnowBallInfo(e.getHitBlock().getLocation(), player, plugin);
+                    SpeedRunActionMulti.checkArrowInfo(e.getHitBlock().getLocation(), player, plugin);
                 }
             }
-            return;
         }
     }
 }
